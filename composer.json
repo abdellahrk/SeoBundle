@@ -1,0 +1,27 @@
+{
+    "name": "abdellahramadan/seo-bundle",
+    "description": "All in one Symfony SEO bundle",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Abdellahramadan\\SeoBundle\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Abdellah Ramadan",
+            "email": "ramadanabdel24@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "symfony/http-kernel": "^6.0 || ^7.0",
+        "symfony/config": "^6.0 || ^7.0",
+        "symfony/dependency-injection": "^6.0 || ^7.0",
+        "twig/twig": "^3.20"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1"
+    }
+}
