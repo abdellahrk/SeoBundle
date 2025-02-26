@@ -6,7 +6,6 @@ use Abdellahramadan\SeoBundle\Schema\Thing\CreativeWork;
 use Abdellahramadan\SeoBundle\Schema\Thing\Event;
 use AllowDynamicProperties;
 
-//#[AllowDynamicProperties]
 class BaseType
 {
      private array $properties = [];
