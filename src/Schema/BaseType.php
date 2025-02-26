@@ -4,10 +4,12 @@ namespace Abdellahramadan\SeoBundle\Schema;
 
 use Abdellahramadan\SeoBundle\Schema\Thing\CreativeWork;
 use Abdellahramadan\SeoBundle\Schema\Thing\Event;
+use AllowDynamicProperties;
 
+//#[AllowDynamicProperties]
 class BaseType
 {
-
+     private array $properties = [];
     public function __toString(): string
     {
         return get_class($this);
