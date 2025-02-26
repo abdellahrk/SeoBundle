@@ -3,6 +3,7 @@
     "description": "All in one Symfony SEO bundle",
     "type": "symfony-bundle",
     "license": "MIT",
+    "keywords": ["seo", "symfony", "schema", "structured data"],
     "autoload": {
         "psr-4": {
             "Abdellahramadan\\SeoBundle\\": "src/"
@@ -22,6 +23,7 @@
         "twig/twig": "^3.20"
     },
     "require-dev": {
-        "phpstan/phpstan": "^2.1"
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^12.0"
     }
 }

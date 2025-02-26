@@ -9,7 +9,6 @@ use Abdellahramadan\SeoBundle\Schema\Place\AdministrativeArea;
 use Abdellahramadan\SeoBundle\Schema\Thing\CreativeWork;
 use Abdellahramadan\SeoBundle\Schema\Thing\Event;
 use Abdellahramadan\SeoBundle\Schema\Thing\Person;
-use Abdellahramadan\SeoBundle\Schema\BaseType;
 
 class Schema implements SchemaInterface
 {

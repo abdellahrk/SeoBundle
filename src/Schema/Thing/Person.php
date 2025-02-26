@@ -3,7 +3,10 @@
 namespace Abdellahramadan\SeoBundle\Schema\Thing;
 
 use Abdellahramadan\SeoBundle\Schema\BaseType;
+use Abdellahramadan\SeoBundle\Schema\DataType\Text\Url;
+use Abdellahramadan\SeoBundle\Schema\Intangible\Brand;
 use Abdellahramadan\SeoBundle\Schema\Intangible\StructuredValue\ContactPoint\PostalAddress;
+use Abdellahramadan\SeoBundle\Schema\Place\CivicStructure\EducationalOrganization;
 
 class Person extends BaseType
 {
@@ -18,6 +21,12 @@ class Person extends BaseType
     public function award(string $award): static
     {
         $this->setProperty('award', $award);
+        return $this;
+    }
+
+    public function jobTitle(string $jobTitle): static
+    {
+        $this->setProperty('jobTitle', $jobTitle);
         return $this;
     }
 
@@ -68,4 +77,49 @@ class Person extends BaseType
         return $this;
     }
 
+    public function relatedTo(string|Person $relatedTo): static
+    {
+        if (is_string($relatedTo)) {
+            $this->setProperty('relatedTo', $relatedTo);
+            return $this;
+        }
+
+        $this->setProperty('relatedTo', $this->parseChild($relatedTo));
+        return $this;
+    }
+
+    public function alumniOf(EducationalOrganization|Organization $alumniOf): static
+    {
+        $this->setProperty('alumniOf', $this->parseChild($alumniOf));
+        return $this;
+    }
+
+    public function brand(Organization|Brand $brand): static
+    {
+        $this->setProperty('brand', $this->parseChild($brand));
+        return $this;
+    }
+
+    public function callSign(string $callSign): static
+    {
+        $this->setProperty('callSign', $callSign);
+        return $this;
+    }
+
+    public function children(array|Person $children): static
+    {
+        if (is_array($children)) {
+            $this->setProperty('children', $this->parseArray($children));
+            return $this;
+        }
+
+        $this->setProperty('children', $this->parseChild($children));
+        return $this;
+    }
+
+    public function colleague(Person|Url $colleague): static
+    {
+        $this->setProperty('colleage', $this->parseChild($colleague));
+        return $this;
+    }
 }

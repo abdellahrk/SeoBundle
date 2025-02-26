@@ -32,19 +32,19 @@ class BaseType
         return $this->properties[$name] ?? null;
     }
 
-    public function setName(string $value): static
+    public function name(string $value): static
     {
         $this->setProperty('name', $value);
         return $this;
     }
 
-    public function setAlternateName(string $value): static
+    public function alternateName(string $value): static
     {
         $this->setProperty('alternateName', $value);
         return $this;
     }
 
-    public function setUrl(string $value): BaseType
+    public function url(string $value): BaseType
     {
         $this->setProperty('url', $value);
         return $this;
@@ -77,12 +77,27 @@ class BaseType
         ;
     }
 
-    public function parseChild(BaseType $child): array
+    protected function parseChild(BaseType $child): array
     {
         $properties = get_class_vars($child);
         return [
                 "@type" =>  $child->getType(),]+
             $child->getProperties()
             ;
+    }
+
+    protected function parseArray(array $children): array
+    {
+        $properties = [];
+        foreach ($children as $key => $child) {
+            if ($child instanceof BaseType) {
+
+                $property[ "@type"] = $child->getType() ;
+                $property = $property+$child->getProperties();
+                $properties[$key] = $property;
+            }
+        }
+
+        return $properties;
     }
 }
