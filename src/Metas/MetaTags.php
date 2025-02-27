@@ -14,6 +14,12 @@ class MetaTags implements MetaTagsInterface, ResettableInterface
         $this->metaTags = [];
     }
 
+    public function setCharacterEncoding(string $charset = 'UTF-8'): static
+    {
+       $this->metaTags['charset'] = $charset;
+       return $this;
+    }
+
     public function setTitle(string $title): static
     {
         $this->metaTags['title'] = $title;
@@ -44,15 +50,37 @@ class MetaTags implements MetaTagsInterface, ResettableInterface
         return $this;
     }
 
-    public function setLanguage(string $language): static
-    {
-        $this->metaTags['language'] = $language;
-        return $this;
-    }
 
     public function setRobots(array $robots): static
     {
         $this->metaTags['robots'] = $robots;
         return $this;
     }
+
+    public function setViewPort(string $viewPort): static
+    {
+        $this->metaTags['viewport'] = $viewPort;
+        return $this;
+    }
+
+    /*
+     * @params
+     */
+    public function setCanonical(string $href): static
+    {
+       $canonical['rel'] = 'canonical';
+       $canonical['href'] = $href;
+       $this->metaTags['canonical'] = $canonical;
+       return $this;
+    }
+
+    public function setAlternate(string $href, string $media = ''): static
+    {
+        $canonical['rel'] = 'canonical';
+        $canonical['href'] = $href;
+        $canonical['media'] = $media;
+        $this->metaTags['rel'] = $canonical;
+        return $this;
+    }
+
 }
