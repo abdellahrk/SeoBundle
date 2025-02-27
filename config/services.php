@@ -14,9 +14,9 @@ return static function (ContainerConfigurator $container) {
         ->autowire()
         ->autoconfigure();
 
-    $services->set(Schema::class, Schema::class)->autowire();
-    $services->alias(SchemaInterface::class, Schema::class);
-    $services->set('seo.meta.tags', MetaTags::class)->autowire();
+    $services->set('seo.schema.tags', Schema::class);
+    $services->alias(SchemaInterface::class, 'seo.schema.tags');
+    $services->set('seo.meta.tags', MetaTags::class);
     $services->alias(MetaTagsInterface::class, 'seo.meta.tags');
     $services->set(SchemaOrgExtension::class, SchemaOrgExtension::class)
         ->autowire()

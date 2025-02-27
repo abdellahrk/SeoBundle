@@ -23,21 +23,6 @@ class SeoBundle extends AbstractBundle
 
     public function configure(DefinitionConfigurator $definition): void
     {
-        $definition->rootNode()
-            ->children()
-                ->arrayNode('schema')
-                    ->children()
-
-                    ->end()
-                ->end()
-                ->arrayNode('meta_tags')
-                    ->children()
-                        ->scalarNode('title')->end()
-                        ->scalarNode('description')->end()
-                        ->arrayNode('keywords')
-                            ->info('Meta keywords')->example('meta, keyword')
-                        ->end()
-                ->end()
-            ->end();
+        $definition->import('../config/definition.php');
     }
 }
