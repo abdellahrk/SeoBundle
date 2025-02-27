@@ -18,6 +18,7 @@ class SeoBundle extends AbstractBundle
     {
         $container->import('../config/services.php');
         $container->parameters()->set('schema', 'schema');
+        $container->parameters()->set('meta_tags', 'meta_tags');
     }
 
     public function configure(DefinitionConfigurator $definition): void
@@ -28,6 +29,14 @@ class SeoBundle extends AbstractBundle
                     ->children()
 
                     ->end()
+                ->end()
+                ->arrayNode('meta_tags')
+                    ->children()
+                        ->scalarNode('title')->end()
+                        ->scalarNode('description')->end()
+                        ->arrayNode('keywords')
+                            ->info('Meta keywords')->example('meta, keyword')
+                        ->end()
                 ->end()
             ->end();
     }
