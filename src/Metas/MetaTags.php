@@ -83,4 +83,44 @@ class MetaTags implements MetaTagsInterface, ResettableInterface
         return $this;
     }
 
+    public function setContentSecurityPolicy(string $contentSecurityPolicy): static
+    {
+        $tags['http-equiv'] = 'Content-Security-Policy';
+        $tags['value'] = $contentSecurityPolicy;
+        $this->metaTags['content-security-policy'] = $tags;
+        return $this;
+    }
+
+    public function setContentType(string $contentType): static
+    {
+        $tags['http-equiv'] = 'Content-Type';
+        $tags['value'] = $contentType;
+        $this->metaTags['content-type'] = $tags;
+        return $this;
+    }
+
+    public function setDefaultStyle(string $style): static
+    {
+        $tags['http-equiv'] = 'Default-Style';
+        $tags['value'] = $style;
+        $this->metaTags['default-style'] = $tags;
+        return $this;
+    }
+
+    public function setXUACompatible(): static
+    {
+        $tags['http-equiv'] = 'X-UA-Compatible';
+        $tags['value'] = "IE=edge";
+        $this->metaTags['x-ua-compatible'] = $tags;
+        return $this;
+    }
+
+    public function setPragmaRefresh(int $seconds, string $url = ''): static
+    {
+        $value = $seconds . $url ?? ';'.$url;
+        $tags['http-equiv'] = 'Refresh';
+        $tags['value'] = $value ;
+        $this->metaTags['default-style'] = $tags;
+        return $this;
+    }
 }
