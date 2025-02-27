@@ -47,6 +47,11 @@ class MetaTagsExtension extends AbstractExtension
                     continue;
                 }
 
+                if(is_array($value) && array_key_exists('http-equiv', $value)) {
+                    $metaTags .= sprintf('<meta http-equiv="%s" content="%s" />', $value['http-equiv'], $value['value']);
+                    continue;
+                }
+
                 if (is_array($value)) {
                     $metaTags .= sprintf('<meta name="%s" content="%s">', $tag, implode(', ', $value));
                     continue;

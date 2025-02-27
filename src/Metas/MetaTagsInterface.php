@@ -15,4 +15,10 @@ interface MetaTagsInterface
     public function setViewPort(string $viewPort): static;
     public function setCanonical(string $href): static;
     public function setAlternate(string $href, string $media = ''): static;
+
+    public function setContentSecurityPolicy(string $contentSecurityPolicy): static;
+    public function setContentType(string $contentType): static;
+    public function setDefaultStyle(string $style): static;
+    public function setXUACompatible(): static;
+    public function setPragmaRefresh(int $seconds, string $url): static;
 }
