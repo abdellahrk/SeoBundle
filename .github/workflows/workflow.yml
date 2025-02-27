@@ -29,7 +29,6 @@ jobs:
           - '8.3'
           - '8.4'
         symfony-version:
-          - '6.4.*'
           - '7.1.*'
           - '7.2.*'
 #        include:
