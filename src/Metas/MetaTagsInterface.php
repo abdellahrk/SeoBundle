@@ -10,7 +10,9 @@ interface MetaTagsInterface
 
     public function setSubject(string $keyword): static;
     public function setCopyright(string $copyright): static;
-    public function setLanguage(string $language): static;
     public function setRobots(array $robots): static;
-    public function setRevised(string $revised): static;
+    public function setCharacterEncoding(string $charset): static;
+    public function setViewPort(string $viewPort): static;
+    public function setCanonical(string $href): static;
+    public function setAlternate(string $href, string $media = ''): static;
 }
