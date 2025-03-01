@@ -7,12 +7,20 @@ use Abdellahramadan\SeoBundle\Schema\Intangible\Service;
 use Abdellahramadan\SeoBundle\Schema\Intangible\StructuredValue\ContactPoint\PostalAddress;
 use Abdellahramadan\SeoBundle\Schema\Place\AdministrativeArea;
 use Abdellahramadan\SeoBundle\Schema\Thing\CreativeWork;
+use Abdellahramadan\SeoBundle\Schema\Thing\CreativeWork\Blog;
+use Abdellahramadan\SeoBundle\Schema\Thing\CreativeWork\Course;
 use Abdellahramadan\SeoBundle\Schema\Thing\CreativeWork\EducationalOccupationalCredential;
+use Abdellahramadan\SeoBundle\Schema\Thing\CreativeWork\Thesis;
+use Abdellahramadan\SeoBundle\Schema\Thing\CreativeWork\Website;
 use Abdellahramadan\SeoBundle\Schema\Thing\Event;
 use Abdellahramadan\SeoBundle\Schema\Thing\Intangible\DefinedTerm;
 use Abdellahramadan\SeoBundle\Schema\Thing\Intangible\JobPosting;
 use Abdellahramadan\SeoBundle\Schema\Thing\Intangible\Occupation;
 use Abdellahramadan\SeoBundle\Schema\Thing\Intangible\StructuredValue\MonetaryAmount;
+use Abdellahramadan\SeoBundle\Schema\Thing\Organization\LocalBusiness;
+use Abdellahramadan\SeoBundle\Schema\Thing\Organization\LocalBusiness\Library;
+use Abdellahramadan\SeoBundle\Schema\Thing\Organization\LocalBusiness\RadioStation;
+use Abdellahramadan\SeoBundle\Schema\Thing\Organization\LocalBusiness\TravelAgency;
 use Abdellahramadan\SeoBundle\Schema\Thing\Person;
 use Abdellahramadan\SeoBundle\Schema\Thing\Place;
 use Abdellahramadan\SeoBundle\Schema\Thing\Place\AdministrativeArea\Country;
@@ -105,5 +113,44 @@ class Schema implements SchemaInterface
         return new Place();
     }
 
+    public function localBusiness(): LocalBusiness
+    {
+        return new LocalBusiness();
+    }
+
+    public function library(): Library
+    {
+        return new Library();
+    }
+
+    public function radioStation(): RadioStation
+    {
+        return new RadioStation();
+    }
+
+    public function travelAgency(): TravelAgency
+    {
+        return new TravelAgency();
+    }
+
+    public function blog(): Blog
+    {
+        return new Blog();
+    }
+
+    public function course(): Course
+    {
+        return new Course();
+    }
+
+    public function website(): Website
+    {
+        return new Website();
+    }
+
+    public function thesis(): Thesis
+    {
+        return new Thesis();
+    }
 
 }

@@ -28,8 +28,8 @@ class MetaTagsExtension extends AbstractExtension
     public function renderMetaTags(): string
     {
         $metaTags = '';
-       foreach ($this->metaTags->getMetaTags() as $metaTag) {
-            foreach ($metaTag as $tag => $value) {
+        dump($this->metaTags->getMetaTags());
+        foreach ($this->metaTags->getMetaTags() as $tag => $value) {
                 if ($tag === 'charset') {
                     $metaTags .= sprintf('<meta charset="%s" />', $value);
                     continue;
@@ -61,7 +61,6 @@ class MetaTagsExtension extends AbstractExtension
 
                 $metaTags .= sprintf('<meta name="%s" content="%s">', $tag, $value);
             }
-       }
        return $metaTags;
     }
 }
