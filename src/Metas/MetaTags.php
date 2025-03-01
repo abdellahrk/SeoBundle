@@ -2,12 +2,16 @@
 
 namespace Abdellahramadan\SeoBundle\Metas;
 
-use Abdellahramadan\SeoBundle\Metas\MetaTagsInterface;
 use Symfony\Component\Cache\ResettableInterface;
 
 class MetaTags implements MetaTagsInterface, ResettableInterface
 {
-    public array $metaTags = [];
+    private array $metaTags = [];
+
+    public function getMetaTags(): array
+    {
+        return $this->metaTags;
+    }
 
     public function reset(): void
     {
@@ -121,6 +125,12 @@ class MetaTags implements MetaTagsInterface, ResettableInterface
         $tags['http-equiv'] = 'Refresh';
         $tags['value'] = $value ;
         $this->metaTags['default-style'] = $tags;
+        return $this;
+    }
+
+    public function setCustomMetaTag(string $name, string $content): static
+    {
+        $this->metaTags[$name] = $content;
         return $this;
     }
 }

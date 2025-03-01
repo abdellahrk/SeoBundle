@@ -7,8 +7,15 @@ use Abdellahramadan\SeoBundle\Schema\Intangible\Service;
 use Abdellahramadan\SeoBundle\Schema\Intangible\StructuredValue\ContactPoint\PostalAddress;
 use Abdellahramadan\SeoBundle\Schema\Place\AdministrativeArea;
 use Abdellahramadan\SeoBundle\Schema\Thing\CreativeWork;
+use Abdellahramadan\SeoBundle\Schema\Thing\CreativeWork\EducationalOccupationalCredential;
 use Abdellahramadan\SeoBundle\Schema\Thing\Event;
+use Abdellahramadan\SeoBundle\Schema\Thing\Intangible\DefinedTerm;
+use Abdellahramadan\SeoBundle\Schema\Thing\Intangible\JobPosting;
+use Abdellahramadan\SeoBundle\Schema\Thing\Intangible\Occupation;
+use Abdellahramadan\SeoBundle\Schema\Thing\Intangible\StructuredValue\MonetaryAmount;
 use Abdellahramadan\SeoBundle\Schema\Thing\Person;
+use Abdellahramadan\SeoBundle\Schema\Thing\Place;
+use Abdellahramadan\SeoBundle\Schema\Thing\Place\AdministrativeArea\Country;
 
 class Schema implements SchemaInterface
 {
@@ -62,4 +69,41 @@ class Schema implements SchemaInterface
     {
         return new Audience();
     }
+
+    public function jobPosting(): JobPosting
+    {
+        return new JobPosting();
+    }
+
+    public function occupation(): Occupation
+    {
+        return new Occupation();
+    }
+
+    public function monetaryAmount(): MonetaryAmount
+    {
+        return new MonetaryAmount();
+    }
+
+    public function educationOccupationalCredential(): EducationalOccupationalCredential
+    {
+        return new EducationalOccupationalCredential();
+    }
+
+    public function definedTerm(): DefinedTerm
+    {
+        return new DefinedTerm();
+    }
+
+    public function country(): Country
+    {
+        return new Country();
+    }
+
+    public function place(): Place
+    {
+        return new Place();
+    }
+
+
 }

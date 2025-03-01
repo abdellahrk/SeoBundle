@@ -7,6 +7,7 @@ use Abdellahramadan\SeoBundle\Schema\DataType\Text\Url;
 use Abdellahramadan\SeoBundle\Schema\Intangible\Brand;
 use Abdellahramadan\SeoBundle\Schema\Intangible\StructuredValue\ContactPoint\PostalAddress;
 use Abdellahramadan\SeoBundle\Schema\Place\CivicStructure\EducationalOrganization;
+use Abdellahramadan\SeoBundle\Schema\Thing\Place\AdministrativeArea\Country;
 
 class Person extends BaseType
 {
@@ -120,6 +121,24 @@ class Person extends BaseType
     public function colleague(Person|Url $colleague): static
     {
         $this->setProperty('colleage', $this->parseChild($colleague));
+        return $this;
+    }
+
+    public function spouse(Person $person): static
+    {
+        $this->setProperty('spouse', $this->parseChild($person));
+        return $this;
+    }
+
+    public function worksFor(Organization $organization): static
+    {
+        $this->setProperty('worksFor', $this->parseChild($organization));
+        return $this;
+    }
+
+    public function nationality(Country $country): static
+    {
+        $this->setProperty('country', $this->parseChild($country));
         return $this;
     }
 }

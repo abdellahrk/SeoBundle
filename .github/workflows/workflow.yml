@@ -4,19 +4,6 @@ on:
   [push, pull_request]
 
 jobs:
-#  coding-style:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#      - uses: shivammathur/setup-php@v2
-#        with:
-#          php-version: '8.2'
-#          coverage: none
-#      - name: php-cs-fixer
-#        run: |
-#          wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v3.13.2/php-cs-fixer.phar -q
-#          php php-cs-fixer.phar fix --dry-run --diff
-
   phpunit:
     name: PHPUnit (PHP ${{ matrix.php-version }} - Symfony ${{ matrix.symfony-version }})
     runs-on: ubuntu-latest
@@ -29,13 +16,9 @@ jobs:
           - '8.3'
           - '8.4'
         symfony-version:
+          - '6.4.*'
           - '7.1.*'
           - '7.2.*'
-#        include:
-#          - php-version: '8.3'
-#            symfony-version: '6.4.*'
-#          - php-version: '8.3'
-#            symfony-version: '7.1.*'
 
     steps:
       - name: Checkout code
@@ -57,3 +40,23 @@ jobs:
 
       - name: Run PHPUnit
         run: vendor/bin/phpunit
+
+  phpstan:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+
+        - name: Setup PHP, with composer and extensions
+          uses: shivammathur/setup-php@v2
+          with:
+            php-version: 8.2
+            coverage: none
+
+        - name: Install dependencies
+          run: |
+            composer install
+            vendor/bin/simple-phpunit install
+
+        - name: "Run PHPStan analysis"
+          run: vendor/bin/phpstan analyse
+

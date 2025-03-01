@@ -65,14 +65,14 @@ class BaseType
     public function render(): string|null
     {
         return '<script type="application/ld+json">'.
-            '"'.json_encode($this->parse(), JSON_PRETTY_PRINT).'"'.
+            json_encode($this->parse(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT).
            '</script>';
     }
 
     private function parse(): array
     {
         return [
-            "@context" => "https://schema.org",
+            "@context" => stripslashes("https://schema.org"),
             "@type" =>  $this->getType(),]+
             $this->getProperties()
         ;

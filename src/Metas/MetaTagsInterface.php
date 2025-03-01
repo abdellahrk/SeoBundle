@@ -4,6 +4,7 @@ namespace Abdellahramadan\SeoBundle\Metas;
 
 interface MetaTagsInterface
 {
+    public function getMetaTags(): array;
     public function setTitle(string $title): static;
     public function setDescription(string $description): static;
     public function setKeywords(array $keywords): static;
@@ -21,4 +22,5 @@ interface MetaTagsInterface
     public function setDefaultStyle(string $style): static;
     public function setXUACompatible(): static;
     public function setPragmaRefresh(int $seconds, string $url): static;
+    public function setCustomMetaTag(string $name, string $content): static;
 }

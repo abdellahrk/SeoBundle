@@ -17,7 +17,7 @@ return static function (ContainerConfigurator $container) {
     $services->set('seo.schema.tags', Schema::class);
     $services->alias(SchemaInterface::class, 'seo.schema.tags');
     $services->set('seo.meta.tags', MetaTags::class);
-    $services->alias(MetaTagsInterface::class, 'seo.meta.tags');
+    $services->alias(MetaTagsInterface::class, 'seo.meta.tags')->public();
     $services->set(SchemaOrgExtension::class, SchemaOrgExtension::class)
         ->autowire()
         ->tag('twig.extension');
