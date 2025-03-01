@@ -3,6 +3,9 @@
 namespace Abdellahramadan\SeoBundle\Schema\Thing;
 
 use Abdellahramadan\SeoBundle\Schema\BaseType;
+use Abdellahramadan\SeoBundle\Schema\Intangible\StructuredValue\ContactPoint\PostalAddress;
+use Abdellahramadan\SeoBundle\Schema\Thing\Intangible\Audience;
+use Abdellahramadan\SeoBundle\Schema\Thing\Intangible\VirtualLocation;
 
 class Event extends BaseType
 {
@@ -17,6 +20,53 @@ class Event extends BaseType
     public function endDate(\DateTime $endDate): static
     {
         $this->setProperty('endDate', $endDate->format('Y-m-d H:i:s'));
+        return $this;
+    }
+
+    public function funder(Person|Organization $funder): static
+    {
+        $this->setProperty('funder', $this->parseChild($funder));
+        return $this;
+    }
+
+    public function location(Place|PostalAddress|VirtualLocation|string $location): static
+    {
+        if (is_string($location)) {
+            $this->setProperty('location', $location);
+        }
+
+        $this->setProperty('location', $this->parseChild($location));
+
+        return $this;
+    }
+
+    public function sponsor(Person|Organization $sponsor): static
+    {
+        $this->setProperty('sponsor', $this->parseChild($sponsor));
+        return $this;
+    }
+
+    public function director(Person $director): static
+    {
+        $this->setProperty('director', $this->parseChild($director));
+        return $this;
+    }
+
+    public function attendee(Person|Organization $attendee): static
+    {
+        $this->setProperty('attendee', $this->parseChild($attendee));
+        return $this;
+    }
+
+    public function composer(Person $composer): static
+    {
+        $this->setProperty('composer', $this->parseChild($composer));
+        return $this;
+    }
+
+    public function audience(Audience $audience):static
+    {
+        $this->setProperty('audience', $this->parseChild($audience));
         return $this;
     }
 }

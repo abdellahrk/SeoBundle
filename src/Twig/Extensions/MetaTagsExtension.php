@@ -8,7 +8,9 @@ use Twig\TwigFunction;
 
 class MetaTagsExtension extends AbstractExtension
 {
-    public function __construct(private readonly MetaTagsInterface $metaTags){}
+    public function __construct(
+        private readonly MetaTagsInterface $metaTags
+    ){}
 
     public function getFunctions(): array
     {
@@ -26,7 +28,7 @@ class MetaTagsExtension extends AbstractExtension
     public function renderMetaTags(): string
     {
         $metaTags = '';
-       foreach ($this->metaTags as $metaTag) {
+       foreach ($this->metaTags->getMetaTags() as $metaTag) {
             foreach ($metaTag as $tag => $value) {
                 if ($tag === 'charset') {
                     $metaTags .= sprintf('<meta charset="%s" />', $value);
