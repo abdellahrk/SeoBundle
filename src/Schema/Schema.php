@@ -17,6 +17,7 @@ use Abdellahramadan\SeoBundle\Schema\Thing\Intangible\DefinedTerm;
 use Abdellahramadan\SeoBundle\Schema\Thing\Intangible\JobPosting;
 use Abdellahramadan\SeoBundle\Schema\Thing\Intangible\Occupation;
 use Abdellahramadan\SeoBundle\Schema\Thing\Intangible\StructuredValue\MonetaryAmount;
+use Abdellahramadan\SeoBundle\Schema\Thing\Organization;
 use Abdellahramadan\SeoBundle\Schema\Thing\Organization\LocalBusiness;
 use Abdellahramadan\SeoBundle\Schema\Thing\Organization\LocalBusiness\Library;
 use Abdellahramadan\SeoBundle\Schema\Thing\Organization\LocalBusiness\RadioStation;
@@ -33,7 +34,11 @@ class Schema implements SchemaInterface
         return $this->baseType ?? null;
     }
 
-    public function setBaseType(BaseType $type): void
+    /**
+     * @param BaseType $type
+     * @return void
+     */
+    public function render(BaseType $type): void
     {
         $this->baseType = $type;
     }
@@ -151,6 +156,11 @@ class Schema implements SchemaInterface
     public function thesis(): Thesis
     {
         return new Thesis();
+    }
+
+    public function organization(): Organization
+    {
+        return new Organization();
     }
 
 }
