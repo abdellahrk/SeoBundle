@@ -12,7 +12,7 @@ use Abdellahramadan\SeoBundle\Schema\Thing\Person;
 
 interface SchemaInterface
 {
-    public function setBaseType(BaseType $type): void;
+    public function render(BaseType $type): void;
     public function thing(): Thing;
     public function service(): Service;
 
