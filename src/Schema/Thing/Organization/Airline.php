@@ -18,5 +18,6 @@ class Airline extends BaseType
     public function boardingPolicy(): static
     {
 
+        return $this;
     }
 }
