@@ -17,7 +17,6 @@ return static function (ContainerConfigurator $container) {
     $services->set('seo.schema.tags', Schema::class);
     $services->alias(SchemaInterface::class, 'seo.schema.tags');
     $services->set('seo.meta.tags', MetaTags::class);
-    $services->alias(MetaTagsInterface::class, 'seo.meta.tags')->public();
     $services->set(SchemaOrgExtension::class, SchemaOrgExtension::class)
         ->autowire()
         ->tag('twig.extension');
@@ -25,5 +24,6 @@ return static function (ContainerConfigurator $container) {
         ->autowire()
         ->tag('twig.extension');
     $services->set('open.graph', MetaTags::class)->tag('kernel.reset', ['method' => 'reset']);
+    $services->alias(MetaTagsInterface::class, 'open.graph');
 
 };
