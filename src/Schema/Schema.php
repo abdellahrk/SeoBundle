@@ -29,6 +29,10 @@ use Rami\SeoBundle\Schema\Thing\Place;
 class Schema implements SchemaInterface
 {
     private ?BaseType $baseType = null;
+
+    public function __construct() {
+        $this->baseType = new Thing();
+    }
     public function getType(): BaseType|null
     {
         return $this->baseType ?? null;
