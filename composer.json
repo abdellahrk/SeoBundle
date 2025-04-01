@@ -1,0 +1,28 @@
+{
+    "name": "rami/seo-bundle",
+    "description": "All in One Symfony Seo Bundle",
+    "type": "symfony-bundle",
+    "require": {
+        "php": "^8.0",
+        "symfony/dependency-injection": "^7.2",
+        "symfony/config": "^7.2",
+        "twig/twig": "^3.20",
+        "symfony/cache": "^7.2",
+        "symfony/http-kernel": "^7.2"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Rami\\SeoBundle\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Abdellah Ramadan",
+            "email": "ramadanabdel24@gmail.com"
+        }
+    ]
+}
