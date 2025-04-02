@@ -2,6 +2,7 @@
 
 namespace Rami\SeoBundle\Twig\Extensions;
 
+use Psr\Log\LoggerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 use Rami\SeoBundle\Schema\SchemaInterface;
@@ -9,8 +10,10 @@ use Rami\SeoBundle\Schema\SchemaInterface;
 class SchemaOrgExtension extends AbstractExtension
 {
     private SchemaInterface $schema;
+    private $router;
     public function __construct(
-         SchemaInterface $schema
+         SchemaInterface $schema,
+        private LoggerInterface $logger,
     ) {
         $this->schema = $schema;
     }

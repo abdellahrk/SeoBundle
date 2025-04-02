@@ -1,3 +1,10 @@
+This Bundle supports
+====================
+- [x] Meta Tags
+- [x] Open Graph
+- [x] Schema Org a[For Rich results]
+- [ ] Sitemap  
+
 Installation
 ============
 
