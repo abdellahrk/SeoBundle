@@ -8,6 +8,10 @@ use Attribute;
 class Sitemap
 {
     public function __construct(
-        public readonly ?string $routeName = null
+        public ?string $entityClass = null,
+        public ?array $fetchCriteria = [],
+        public ?array $urlGenerationAttributes = [],
+        public ?string $lastModifiedField = null,
+        public ?string $fileName = null,
     ) {}
 }
