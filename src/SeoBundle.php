@@ -19,6 +19,7 @@ class SeoBundle extends AbstractBundle
         $container->import('../config/services.php');
         $container->parameters()->set('schema', 'schema');
         $container->parameters()->set('meta_tags', 'meta_tags');
+        $container->parameters()->set('og', 'open_graph');
     }
 
     public function configure(DefinitionConfigurator $definition): void
