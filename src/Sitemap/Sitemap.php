@@ -90,7 +90,6 @@ class Sitemap implements SitemapInterface
             $attribute = $attribute->newInstance();
             if ($attribute instanceof Route || $attribute instanceof \Symfony\Component\Routing\Annotation\Route) {
                 $route = $attribute;
-                dump($attribute);
             }
 
             if ($attribute instanceof \Rami\SeoBundle\Sitemap\Attributes\Sitemap) {
