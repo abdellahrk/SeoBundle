@@ -5,8 +5,6 @@ use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 return static function (DefinitionConfigurator $definition) {
     $definition->rootNode()
         ->children()
-            ->arrayNode('seo')
-                ->children()
                     ->arrayNode('schema')
                         ->children()
 
@@ -30,7 +28,13 @@ return static function (DefinitionConfigurator $definition) {
                             ->scalarNode('url')->info('Default og URL')->end()
                         ->end()
                     ->end()
-                ->end()
-            ->end()
-        ->end();
+                    ->arrayNode('sitemap')
+                        ->children()
+                            ->scalarNode('frequency')
+                                ->info("Frequency at which the sitemap should be auto generated")
+                                ->example('daily')
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end();
 };

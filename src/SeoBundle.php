@@ -17,9 +17,10 @@ class SeoBundle extends AbstractBundle
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
         $container->import('../config/services.php');
-        $container->parameters()->set('schema', 'schema');
-        $container->parameters()->set('meta_tags', 'meta_tags');
-        $container->parameters()->set('og', 'open_graph');
+        $container->parameters()->set('seo.schema', $config['schema'] ?? null);
+        $container->parameters()->set('seo.meta_tags', $config['meta_tags'] ?? null);
+        $container->parameters()->set('seo.open_graph', $config['open_graph'] ?? null);
+        $container->parameters()->set('seo.sitemap', $config['sitemap'] ?? null);
     }
 
     public function configure(DefinitionConfigurator $definition): void

@@ -3,8 +3,11 @@
 namespace Rami\SeoBundle\Sitemap;
 
 use Doctrine\Persistence\ManagerRegistry;
+use Psr\Log\LoggerInterface;
 use Rami\SeoBundle\Utils\RouterService;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -17,10 +20,13 @@ class Sitemap implements SitemapInterface
         private UrlGeneratorInterface $urlGenerator,
         private RequestStack $requestStack,
         private ManagerRegistry $managerRegistry,
+        private ParameterBagInterface $parameterBag,
+        private LoggerInterface $logger
     ) {}
 
     public function generateSitemap(): void
     {
+        $this->logger->info('Generating sitemap');
 
         $handler = fopen(filename: $this->publicDir . 'sitemap.xml', mode: 'w+');
         fwrite($handler, sprintf('<?xml version="1.0" encoding="UTF-8"?>%s<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">%s'.PHP_EOL, PHP_EOL, PHP_EOL));
@@ -117,11 +123,9 @@ class Sitemap implements SitemapInterface
 
         $urlGenerationAttribute = [];
 
-
-
         fwrite($handler, sprintf('<?xml version="1.0" encoding="UTF-8"?>%s<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">%s'.PHP_EOL, PHP_EOL, PHP_EOL));
         foreach ($entities as $entity) {
-            foreach ($sitemap->urlGenerationAttributes as $key => $value) {
+            foreach ($sitemap->urlGenerationAttributes as $key) {
                 if (property_exists($entity, $key)) {
                     $method = 'get'.ucfirst($key);
                     if (method_exists($entity, $method)) {
@@ -156,6 +160,8 @@ class Sitemap implements SitemapInterface
         }
         file_put_contents($filename, '</urlset>', FILE_APPEND);
         fclose($handler);
+        
+//        $mainSitemapFile = fopen($this->publicDir, $mode)
     }
 
 }

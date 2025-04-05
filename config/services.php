@@ -1,11 +1,15 @@
 <?php
 
+use Rami\SeoBundle\Command\GenerateSitemapCommand;
 use Rami\SeoBundle\Metas\MetaTags;
 use Rami\SeoBundle\Metas\MetaTagsInterface;
 use Rami\SeoBundle\OpenGraph\OpenGraph;
 use Rami\SeoBundle\OpenGraph\OpenGraphInterface;
 use Rami\SeoBundle\Schema\Schema;
 use Rami\SeoBundle\Schema\SchemaInterface;
+use Rami\SeoBundle\Sitemap\EventHandler\UpdateSitemapEventListener;
+use Rami\SeoBundle\Sitemap\MessageHandler\GenerateSitemapMessageHandler;
+use Rami\SeoBundle\Sitemap\Scheduler\GenerateSitemapScheduler;
 use Rami\SeoBundle\Sitemap\Sitemap;
 use Rami\SeoBundle\Sitemap\SitemapInterface;
 use Rami\SeoBundle\Twig\Extensions\MetaTagsExtension;
@@ -41,4 +45,8 @@ return static function (ContainerConfigurator $container) {
     $services->set('open.graph.bundle.twig.extension', OpenGraphExtension::class)
         ->tag('twig.extension');
     $services->set('open.graph', OpenGraph::class)->tag('kernel.reset', ['method' => 'reset']);
+    $services->set('seo.generate.site.map', GenerateSitemapCommand::class)->tag('console.command');
+    $services->set('seo.generate.sitemap.message', GenerateSitemapMessageHandler::class)->tag('message.message_handler');
+//    $services->set(GenerateSitemapScheduler::class)->tag('scheduler.task');
+    $services->set('seo.update.sitemap.event', class: UpdateSitemapEventListener::class)->tag('kernel.event_listener');
 };
