@@ -47,6 +47,5 @@ return static function (ContainerConfigurator $container) {
     $services->set('open.graph', OpenGraph::class)->tag('kernel.reset', ['method' => 'reset']);
     $services->set('seo.generate.site.map', GenerateSitemapCommand::class)->tag('console.command');
     $services->set('seo.generate.sitemap.message', GenerateSitemapMessageHandler::class)->tag('message.message_handler');
-//    $services->set(GenerateSitemapScheduler::class)->tag('scheduler.task');
     $services->set('seo.update.sitemap.event', class: UpdateSitemapEventListener::class)->tag('kernel.event_listener');
 };
