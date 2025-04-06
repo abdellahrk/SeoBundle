@@ -10,7 +10,11 @@
         "symfony/cache": "^5.4 | ^6.0 | ^7.0",
         "symfony/http-kernel": "^5.4 | ^6.0 | ^7.0",
         "symfony/routing": "^5.4 | ^6.0 | ^7.0",
-        "doctrine/persistence": "^4.0"
+        "doctrine/persistence": "^4.0",
+        "symfony/messenger": "^7.2",
+        "symfony/scheduler": "^7.2",
+        "ext-dom": "*",
+        "symfony/console": "^7.2"
     },
     "require-dev": {
         "phpstan/phpstan": "^2.1"

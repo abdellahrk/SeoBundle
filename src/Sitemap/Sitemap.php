@@ -3,13 +3,18 @@
 namespace Rami\SeoBundle\Sitemap;
 
 use Doctrine\Persistence\ManagerRegistry;
+use DOMDocument;
+use DOMXPath;
+use Psr\Log\LoggerInterface;
 use Rami\SeoBundle\Utils\RouterService;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class Sitemap implements SitemapInterface
+final class Sitemap implements SitemapInterface
 {
     public function __construct(
         #[Autowire('%kernel.project_dir%/public/')] private string $publicDir,
@@ -17,17 +22,23 @@ class Sitemap implements SitemapInterface
         private UrlGeneratorInterface $urlGenerator,
         private RequestStack $requestStack,
         private ManagerRegistry $managerRegistry,
+        private ParameterBagInterface $parameterBag,
+        private LoggerInterface $logger,
     ) {}
+
+    const SITEMAP_XML = 'sitemap.xml';
 
     public function generateSitemap(): void
     {
-
-        $handler = fopen(filename: $this->publicDir . 'sitemap.xml', mode: 'w+');
-        fwrite($handler, sprintf('<?xml version="1.0" encoding="UTF-8"?>%s<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">%s'.PHP_EOL, PHP_EOL, PHP_EOL));
-        $routes = $this->routerService->getRoutes();
-        $metadata = stream_get_meta_data($handler);
-        $filename = $metadata['uri'];
+        $defaultSitemap = new \DomDocument('1.0', 'UTF-8');
+        $defaultSitemap->formatOutput = true;
         if (false === file_exists($this->publicDir . 'sitemaps')) mkdir($this->publicDir . 'sitemaps');
+
+//        $this->createSitemapFile($this->publicDir.'sitemaps/default', 'urlset');
+
+
+        $routes = $this->routerService->getRoutes();
+        $filename = $this->publicDir.'sitemaps/default.xml';
 
         $request = $this->requestStack->getCurrentRequest();
 
@@ -73,19 +84,28 @@ class Sitemap implements SitemapInterface
         }
 
         $allRoutes = array_unique($allRoutes, SORT_REGULAR);
+        $rootElement = $defaultSitemap->createElementNS('http://www.sitemaps.org/schemas/sitemap/0.9', 'urlset');
+        $defaultSitemap->appendChild($rootElement);
 
         foreach ($allRoutes as $route) {
-            file_put_contents($filename, sprintf('<url>%s<loc>%s</loc>%s</url>%s', PHP_EOL, $this->urlGenerator->generate($route->getName(), [], UrlGeneratorInterface::ABSOLUTE_URL), PHP_EOL, PHP_EOL), FILE_APPEND,);
+            $locationElement = $defaultSitemap->createElement('loc', $this->urlGenerator->generate($route->getName(), [], UrlGeneratorInterface::ABSOLUTE_URL));
+            $urlElement = $defaultSitemap->createElement('url');
+            $urlElement->appendChild($locationElement);
+            $rootElement->appendChild($urlElement);
+            $defaultSitemap->appendChild($rootElement);
         }
 
-        file_put_contents($filename, '</urlset>', FILE_APPEND);
-        fclose($handler);
+        $defaultSitemap->save($this->publicDir.'sitemaps/default.xml');
+        if (null !== $request) {
+            $this->addXmlToSitemap( $request->getSchemeAndHttpHost() .'/sitemaps/'.basename($filename));
+        }
     }
 
     public function generateDynamicSitemap(array $attributes): void
     {
         $route = null;
         $sitemap = null;
+        $request = $this->requestStack->getCurrentRequest();
         foreach ($attributes as $attribute) {
             $attribute = $attribute->newInstance();
             if ($attribute instanceof Route || $attribute instanceof \Symfony\Component\Routing\Annotation\Route) {
@@ -105,23 +125,26 @@ class Sitemap implements SitemapInterface
         }
 
         $defaultFilename = explode("\\", $sitemap->entityClass);
-        $fileName = $sitemap->fileName ? $sitemap->fileName . '.xml': strtolower(end($defaultFilename)) . '.xml';
-        $handler = fopen(filename: $this->publicDir . 'sitemaps/' .  $fileName, mode: 'w+');
-        $metadata = stream_get_meta_data($handler);
-        $filename = $metadata['uri'];
+        $fileName = $sitemap->fileName ?? strtolower(end($defaultFilename));
 
-        $entityManagerRegistery = $this->managerRegistry->getManagerForClass( $sitemap->entityClass);
+        $sitemapDom = new DOMDocument('1.0', 'UTF-8');
+        $sitemapDom->formatOutput = true;
+
+        $entityManagerRegistery = $this->managerRegistry->getManagerForClass($sitemap->entityClass);
+
+        if (!$entityManagerRegistery) {
+            return;
+        }
+
+        $rootElement = $sitemapDom->createElementNS('http://www.sitemaps.org/schemas/sitemap/0.9', 'urlset');
+        $sitemapDom->appendChild($rootElement);
         $repository = $entityManagerRegistery->getMetadataFactory();
 
-        $entities = $entityManagerRegistery->getRepository($sitemap->entityClass)->findBy($sitemap->fetchCriteria);
+        $entities = $entityManagerRegistery->getRepository($sitemap->entityClass)->findBy([]);
 
         $urlGenerationAttribute = [];
-
-
-
-        fwrite($handler, sprintf('<?xml version="1.0" encoding="UTF-8"?>%s<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">%s'.PHP_EOL, PHP_EOL, PHP_EOL));
         foreach ($entities as $entity) {
-            foreach ($sitemap->urlGenerationAttributes as $key => $value) {
+            foreach ($sitemap->urlGenerationAttributes as $key) {
                 if (property_exists($entity, $key)) {
                     $method = 'get'.ucfirst($key);
                     if (method_exists($entity, $method)) {
@@ -131,12 +154,14 @@ class Sitemap implements SitemapInterface
             }
 
             $modifiedDate = null;
-
+            $locationElement = $sitemapDom->createElement('loc', $this->urlGenerator->generate($route->getName(), $urlGenerationAttribute, UrlGeneratorInterface::ABSOLUTE_URL));
+            $urlElement = $sitemapDom->createElement('url');
+            $urlElement->appendChild($locationElement);
             if ($sitemap->lastModifiedField) {
                 if (property_exists($entity, $sitemap->lastModifiedField)) {
                     $method = 'get'.ucfirst($sitemap->lastModifiedField);
                     if (method_exists($entity, $method)) {
-                        $date = $entity->$method();
+                        $date = $entity->{$method}();
                         if ($date instanceof \DateTime) {
                             $modifiedDate = $date->format('Y-m-d');
                         }
@@ -145,17 +170,121 @@ class Sitemap implements SitemapInterface
                             $modifiedDate = $modifiedDate->format('Y-m-d');
                         }
                     }
-                    $modifiedDate = sprintf('<lastmod>%s</lastmod>', $modifiedDate);
+
+                    if ($modifiedDate) {
+                        $lastMod = $sitemapDom->createElement('lastmod', $modifiedDate);
+                        $urlElement->appendChild($lastMod);
+                    }
                 }
             }
 
-            file_put_contents($filename, sprintf('<url>%s <loc>%s</loc>%s %s %s</url>%s',
-                PHP_EOL,
-                $this->urlGenerator->generate($route->getName(), $urlGenerationAttribute, UrlGeneratorInterface::ABSOLUTE_URL),
-                PHP_EOL, $modifiedDate, PHP_EOL, PHP_EOL), FILE_APPEND);
+            $this->createSitemapFile($fileName, $urlElement->textContent);
+
+            $rootElement->appendChild($urlElement);
+
         }
-        file_put_contents($filename, '</urlset>', FILE_APPEND);
-        fclose($handler);
+        $sitemapDom->save($this->publicDir.'sitemaps/'.$fileName.'.xml');
+
+        if (null !== $request) {
+            $this->addXmlToSitemap($request->getSchemeAndHttpHost(). '/sitemaps/'.$fileName .'.xml');
+        }
     }
 
+    private function addXmlToSitemap(string $xmlPath): void
+    {
+        if (!file_exists($this->publicDir . 'sitemap.xml')) {
+            try {
+                $sitemap = new \DomDocument('1.0', 'UTF-8');
+                $sitemap->formatOutput = true;
+                $ns = $sitemap->createElementNS('http://www.sitemaps.org/schemas/sitemap/0.9', 'sitemapindex', ' ');
+                $sitemap->appendChild($ns);
+                $sitemap->save('sitemap.xml');
+            } catch (\Exception $exception) {
+//                $this->logger->error($exception->getMessage());
+            }
+        }
+
+        $sitemap = new DOMDocument();
+        $sitemap->formatOutput = true;
+
+        if (!file_exists($this->publicDir.'sitemap.xml')) {
+            $this->createIndexSitemapFile();
+        }
+
+        $sitemap->load($this->publicDir . 'sitemap.xml');
+
+        $root = $sitemap->getElementsByTagName('sitemapindex');
+
+        $xpath = new DOMXPath($sitemap);
+        $xpath->registerNamespace('sm', 'http://www.sitemaps.org/schemas/sitemap/0.9');
+        $nodes = $xpath->query("//sm:sitemap/sm:loc[text()='$xmlPath']");
+
+        $now = new \DateTimeImmutable();
+
+        if ($nodes->length === 0) {
+            $location = $sitemap->createElement(localName:  'loc', value: $xmlPath);
+            $sitemapRoot = $sitemap->createElement(localName:  'sitemap');
+            $root[0]->appendChild($sitemapRoot);
+            $lastMod = $sitemap->createElement('lastmod',$now->format('Y-m-d'));
+            $sitemapRoot->appendChild($location);
+            $sitemapRoot->appendChild($lastMod);
+        }
+
+        foreach ($nodes as $node) {
+            $sitemapNode = $node->parentNode;
+            $locNode = $node->nextSibling;
+            $lastmod = null;
+
+            foreach ($sitemapNode->childNodes as $child) {
+                if ($child->nodeType === XML_ELEMENT_NODE && $child->localName === 'lastmod') {
+                    $lastmod = $child;
+                    break;
+                }
+            }
+
+            if ($lastmod) {
+                $lastmod->nodeValue = $now->format('Y-m-d');
+            } else {
+                $lastmod = $sitemap->createElementNS('http://www.sitemaps.org/schemas/sitemap/0.9', 'lastmod', $now->format('Y-m-d'));
+                if ($locNode) {
+                    $sitemapNode->insertAfter($lastmod, $locNode);
+                } else {
+                    $sitemapNode->appendChild($lastmod);
+                }
+            }
+        }
+        
+        $sitemap->normalizeDocument();
+        $sitemap->save('sitemap.xml');
+    }
+
+    private function createSitemapFile(string $filename, ?string $name = null, ?string $child = null): void
+    {
+        if (!file_exists($this->publicDir . $filename)) {
+            try {
+                $sitemap = new \DomDocument('1.0', 'UTF-8');
+                $sitemap->formatOutput = true;
+                $ns = $sitemap->createElementNS('http://www.sitemaps.org/schemas/sitemap/0.9', $name, $child);
+                $sitemap->appendChild($ns);
+                $sitemap->save($filename.'.xml');
+            } catch (\Exception $exception) {
+                $this->logger->error($exception->getMessage());
+            }
+        }
+    }
+
+    private function createIndexSitemapFile(): void
+    {
+        if (!file_exists($this->publicDir . self::SITEMAP_XML)) {
+            try {
+                $sitemap = new \DomDocument('1.0', 'UTF-8');
+                $sitemap->formatOutput = true;
+                $ns = $sitemap->createElementNS('http://www.sitemaps.org/schemas/sitemap/0.9', 'sitemapindex');
+                $sitemap->appendChild($ns);
+                $sitemap->save($this->publicDir.self::SITEMAP_XML);
+            } catch (\Exception $exception) {
+                $this->logger->error($exception->getMessage());
+            }
+        }
+    }
 }

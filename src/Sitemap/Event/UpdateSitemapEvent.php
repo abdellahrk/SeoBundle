@@ -9,9 +9,9 @@
  * please view the LICENSE file that was distributed with this source code.
  */
 
-namespace Rami\SeoBundle\Sitemap;
+namespace Rami\SeoBundle\Sitemap\Event;
 
-interface SitemapInterface
+class UpdateSitemapEvent
 {
-    public function generateSitemap(): void;
+    public function __construct() {}
 }

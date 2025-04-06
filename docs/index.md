@@ -3,8 +3,8 @@
 ## Features
 -   [x] Meta Tags
 -   [x] OpenGraph (Twitter Cards, Facebook, LinkedIn, Instagram, Discord and more)
--   [x] Structured Data (Schema) [WIP]
--   [ ] Sitemap Generation
+-   [x] Structured Data (Schema) 
+-   [x] Sitemap Generation
 
 <br>
 

@@ -1,9 +1,9 @@
 This Bundle supports
 ====================
-- [x] Meta Tags
-- [x] Open Graph
-- [x] Schema Org a[For Rich results]
-- [ ] Sitemap  
+-   [x] Meta Tags
+-   [x] OpenGraph (Twitter Cards, Facebook, LinkedIn, Instagram, Discord and more)
+-   [x] Structured Data (Schema)
+-   [x] Sitemap Generation
 
 Installation
 ============
