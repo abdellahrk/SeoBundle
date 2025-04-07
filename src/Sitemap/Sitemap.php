@@ -140,7 +140,7 @@ final class Sitemap implements SitemapInterface
         $sitemapDom->appendChild($rootElement);
         $repository = $entityManagerRegistery->getMetadataFactory();
 
-        $entities = $entityManagerRegistery->getRepository($sitemap->entityClass)->findBy([]);
+        $entities = $entityManagerRegistery->getRepository($sitemap->entityClass)->findBy($sitemap->fetchCriteria);
 
         $urlGenerationAttribute = [];
         foreach ($entities as $entity) {
@@ -179,9 +179,7 @@ final class Sitemap implements SitemapInterface
             }
 
             $this->createSitemapFile($fileName, $urlElement->textContent);
-
             $rootElement->appendChild($urlElement);
-
         }
         $sitemapDom->save($this->publicDir.'sitemaps/'.$fileName.'.xml');
 
@@ -200,7 +198,7 @@ final class Sitemap implements SitemapInterface
                 $sitemap->appendChild($ns);
                 $sitemap->save('sitemap.xml');
             } catch (\Exception $exception) {
-//                $this->logger->error($exception->getMessage());
+                $this->logger->error($exception->getMessage());
             }
         }
 
