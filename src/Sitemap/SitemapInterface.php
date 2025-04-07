@@ -13,5 +13,15 @@ namespace Rami\SeoBundle\Sitemap;
 
 interface SitemapInterface
 {
+    /**
+     * @return void
+     */
     public function generateSitemap(): void;
+
+    /**
+     * @param array<mixed> $attributes
+     * @return void
+     * @throws \DOMException
+     */
+    public function generateDynamicSitemap(array $attributes): void;
 }

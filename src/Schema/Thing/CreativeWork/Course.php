@@ -24,23 +24,19 @@ class Course extends BaseType
 
     public function financialAidEligible(DefinedTerm|string $financialAidEligible): static
     {
-        if (is_string($financialAidEligible)) {
+        if ($financialAidEligible instanceof DefinedTerm) {
+            $this->setProperty('financialAidEligible', $this->parseChild($financialAidEligible));
+        } else  {
             $this->setProperty('financialAidEligible', $financialAidEligible);
             return $this;
         }
 
-        $this->setProperty('financialAidEligible', $this->parseChild($financialAidEligible));
         return $this;
     }
 
     public function availableLanguage(string $availableLanguage): static
     {
-        if (is_string($availableLanguage)) {
-            $this->setProperty('availableLanguage', $availableLanguage);
-            return $this;
-        }
-
-        $this->setProperty('availableLanguage', $this->parseChild($availableLanguage));
+        $this->setProperty('availableLanguage', $availableLanguage);
         return $this;
     }
 }

@@ -18,7 +18,7 @@ class BaseType
     {
         return (new \ReflectionClass($this))->getShortName();
     }
-    protected function setProperty(string $name, string|array|object $value): void
+    protected function setProperty(string $name, string|array|object|int|bool $value): void
     {
         $this->properties[$name] = $value;
     }

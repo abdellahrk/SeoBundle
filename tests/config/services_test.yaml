@@ -1,0 +1,7 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: true
+  Rami\SeoBundle\Sitemap\SitemapInterface:
+    public: true

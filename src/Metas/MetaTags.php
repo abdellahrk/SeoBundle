@@ -24,30 +24,50 @@ class MetaTags implements MetaTagsInterface, ResettableInterface
        return $this;
     }
 
+    /**
+     * @param string $title
+     * @return $this
+     */
     public function setTitle(string $title): static
     {
         $this->metaTags['title'] = $title;
         return $this;
     }
 
+    /**
+     * @param string $description
+     * @return $this
+     */
     public function setDescription(string $description): static
     {
         $this->metaTags['description'] = $description;
         return $this;
     }
 
+    /**
+     * @param array<string> $keywords
+     * @return $this
+     */
     public function setKeywords(array $keywords): static
     {
         $this->metaTags['keywords'] = $keywords;
         return $this;
     }
 
+    /**
+     * @param string $keyword
+     * @return $this
+     */
     public function setSubject(string $keyword): static
     {
        $this->metaTags['subject'] = $keyword;
        return $this;
     }
 
+    /**
+     * @param string $copyright
+     * @return $this
+     */
     public function setCopyright(string $copyright): static
     {
         $this->metaTags['copyright'] = $copyright;
@@ -55,20 +75,29 @@ class MetaTags implements MetaTagsInterface, ResettableInterface
     }
 
 
+    /**
+     * @param array<string> $robots
+     * @return $this
+     */
     public function setRobots(array $robots): static
     {
         $this->metaTags['robots'] = $robots;
         return $this;
     }
 
+    /**
+     * @param string $viewPort
+     * @return $this
+     */
     public function setViewPort(string $viewPort): static
     {
         $this->metaTags['viewport'] = $viewPort;
         return $this;
     }
 
-    /*
-     * @params
+    /**
+     * @param string $href
+     * @return $this
      */
     public function setCanonical(string $href): static
     {
@@ -121,7 +150,8 @@ class MetaTags implements MetaTagsInterface, ResettableInterface
 
     public function setPragmaRefresh(int $seconds, string $url = ''): static
     {
-        $value = $seconds . $url ?? ';'.$url;
+//        $value = $seconds . $url ?? ';'.$url; // TODO review
+        $value = $seconds;
         $tags['http-equiv'] = 'Refresh';
         $tags['value'] = $value ;
         $this->metaTags['default-style'] = $tags;
