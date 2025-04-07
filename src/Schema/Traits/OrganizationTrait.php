@@ -75,7 +75,7 @@ trait OrganizationTrait
     }
 
     /**
-     * @param $alumni Person[]
+     * @param array<string, Person> $alumni Person[]
      * @return $this
      */
     public function alumni(array $alumni): static
@@ -85,7 +85,7 @@ trait OrganizationTrait
     }
 
     /**
-     * @param array $employee Person[]
+     * @param array<string, Person> $employee Person[]
      * @return $this
      */
     public function employee(array $employee): static
@@ -95,7 +95,7 @@ trait OrganizationTrait
     }
 
     /**
-     * @param array $member Person[]
+     * @param array<string, Person> $member Person[]
      * @return $this
      */
     public function member(array $member): static
@@ -111,7 +111,7 @@ trait OrganizationTrait
     }
 
     /**
-     * @param array $founder Person[] | Organization[]
+     * @param array<string, Person|Organization> $founder Person[] | Organization[]
      * @return $this
      */
     public function founders(array $founder): static

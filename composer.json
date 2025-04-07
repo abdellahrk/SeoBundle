@@ -2,6 +2,7 @@
     "name": "rami/seo-bundle",
     "description": "All in One Symfony Seo Bundle",
     "type": "symfony-bundle",
+    "keywords": ["seo", "symfony seo", "symfony bundle"],
     "authors": [
         {
             "name": "Abdellah Ramadan",
@@ -22,12 +23,21 @@
         "symfony/console": "^5.4 | ^6.0 | ^7.0"
     },
     "require-dev": {
-        "phpstan/phpstan": "^2.1"
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^12.1",
+        "symfony/test-pack": "^1.0",
+        "symfony/framework-bundle": "^5.4 || ^6.0 || ^7.0",
+        "symfony/yaml": "^7.2"
     },
     "license": "MIT",
     "autoload": {
         "psr-4": {
             "Rami\\SeoBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Rami\\SeoBundle\\Test\\": "tests/"
         }
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use Doctrine\Persistence\ManagerRegistry;
 use Rami\SeoBundle\Command\GenerateSitemapCommand;
 use Rami\SeoBundle\Metas\MetaTags;
 use Rami\SeoBundle\Metas\MetaTagsInterface;
@@ -19,6 +20,8 @@ use Rami\SeoBundle\Utils\RouterService;
 use Rami\SeoBundle\Utils\RouterServiceInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 return static function (ContainerConfigurator $container) {
     $services = $container->services()
@@ -36,12 +39,14 @@ return static function (ContainerConfigurator $container) {
     $services->set(MetaTagsExtension::class, MetaTagsExtension::class)
         ->autowire()
         ->tag('twig.extension');
-    $services->set('seo.router.service', RouterService::class)->autowire()->arg('$router', new Reference('router'))->autowire()->autoconfigure();
-    $services->alias(RouterServiceInterface::class, 'seo.router.service');
-    $services->set('seo.sitemap', Sitemap::class)->args(['$publicDir' => '%kernel.project_dir%/public/', '$routerService' => new Reference('seo.router.service')]);
-    $services->alias(SitemapInterface::class, 'seo.sitemap');
+    $services->set('seo.sitemap', Sitemap::class);
+//        ->args([
+//            '$urlGenerator' => UrlGeneratorInterface::class, '$managerRegistry' => ManagerRegistry::class,
+//            '$router' => RouterInterface::class
+//        ]);
+    $services->alias(SitemapInterface::class, 'seo.sitemap')->public();
     $services->set('open.graph.bundle', OpenGraph::class);
-    $services->alias(OpenGraphInterface::class, 'open.graph.bundle');
+    $services->alias(OpenGraphInterface::class, 'open.graph.bundle')->public();
     $services->set('open.graph.bundle.twig.extension', OpenGraphExtension::class)
         ->tag('twig.extension');
     $services->set('open.graph', OpenGraph::class)->tag('kernel.reset', ['method' => 'reset']);

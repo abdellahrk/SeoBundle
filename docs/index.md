@@ -10,3 +10,5 @@
 
 - [Meta Tags Documentation](meta_tags.md)
 - [Open Graph Documentation](open_graph.md)
+- [SchemaOrg](schema.md)
+- [Sitemap](sitemap.md)

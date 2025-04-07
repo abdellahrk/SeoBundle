@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+        bootstrap="vendor/autoload.php"
+        colors="true"
+        verbose="true">
+
+    <php>
+        <env name="APP_ENV" value="test"/>
+        <env name="APP_DEBUG" value="1"/>
+        <env name="KERNEL_CLASS" value="Rami\SeoBundle\Test\Integration\TestApp"/> <!-- Add your Kernel class here -->
+        <server name="KERNEL_CLASS" value="Rami\SeoBundle\Tests\Integration\TestApp" />
+        <env name="DATABASE_URL" value="sqlite:///%kernel.project_dir%/var/test.db"/>
+    </php>
+
+    <testsuites>
+        <testsuite name="SEOBundle Test Suite">
+            <directory>./tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <listeners>
+        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
+    </listeners>
+
+    <filter>
+        <whitelist>
+            <directory suffix=".php">../src/</directory>
+        </whitelist>
+    </filter>
+</phpunit>

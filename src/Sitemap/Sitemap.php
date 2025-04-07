@@ -6,28 +6,32 @@ use Doctrine\Persistence\ManagerRegistry;
 use DOMDocument;
 use DOMXPath;
 use Psr\Log\LoggerInterface;
-use Rami\SeoBundle\Utils\RouterService;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 final class Sitemap implements SitemapInterface
 {
     public function __construct(
         #[Autowire('%kernel.project_dir%/public/')] private string $publicDir,
-        private RouterService $routerService,
         private UrlGeneratorInterface $urlGenerator,
         private RequestStack $requestStack,
         private ManagerRegistry $managerRegistry,
         private ParameterBagInterface $parameterBag,
         private LoggerInterface $logger,
+        private RouterInterface $router,
     ) {}
 
     const SITEMAP_XML = 'sitemap.xml';
 
+    /**
+     * @return void
+     * @throws \DOMException
+     * @throws \ReflectionException
+     */
     public function generateSitemap(): void
     {
         $defaultSitemap = new \DomDocument('1.0', 'UTF-8');
@@ -37,7 +41,7 @@ final class Sitemap implements SitemapInterface
 //        $this->createSitemapFile($this->publicDir.'sitemaps/default', 'urlset');
 
 
-        $routes = $this->routerService->getRoutes();
+        $routes = $this->router->getRouteCollection();
         $filename = $this->publicDir.'sitemaps/default.xml';
 
         $request = $this->requestStack->getCurrentRequest();
@@ -68,7 +72,7 @@ final class Sitemap implements SitemapInterface
                                 break 1;
                             }
                         }
-                        if ($instance instanceof Route || $instance instanceof \Symfony\Component\Routing\Annotation\Route) {
+                        if ($instance instanceof Route) {
                             $routerExists = true;
                             $currentRoute = $instance;
                         }
@@ -101,6 +105,12 @@ final class Sitemap implements SitemapInterface
         }
     }
 
+
+    /**
+     * @param array<mixed> $attributes
+     * @return void
+     * @throws \DOMException
+     */
     public function generateDynamicSitemap(array $attributes): void
     {
         $route = null;
@@ -245,7 +255,7 @@ final class Sitemap implements SitemapInterface
             } else {
                 $lastmod = $sitemap->createElementNS('http://www.sitemaps.org/schemas/sitemap/0.9', 'lastmod', $now->format('Y-m-d'));
                 if ($locNode) {
-                    $sitemapNode->insertAfter($lastmod, $locNode);
+                    $sitemapNode->appendChild($lastmod);
                 } else {
                     $sitemapNode->appendChild($lastmod);
                 }

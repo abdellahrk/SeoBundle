@@ -10,10 +10,8 @@ use Rami\SeoBundle\Schema\SchemaInterface;
 class SchemaOrgExtension extends AbstractExtension
 {
     private SchemaInterface $schema;
-    private $router;
     public function __construct(
          SchemaInterface $schema,
-        private LoggerInterface $logger,
     ) {
         $this->schema = $schema;
     }
