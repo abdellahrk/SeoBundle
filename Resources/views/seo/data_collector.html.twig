@@ -1,0 +1,53 @@
+{# templates/data_collector/template.html.twig #}
+{% extends '@WebProfiler/Profiler/layout.html.twig' %}
+
+{% block toolbar %}
+    {% set icon %}
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-seo"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 8h-3a1 1 0 0 0 -1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-3"/><path d="M14 16h-4v-8h4"/><path d="M11 12h2"/><path d="M17 8m0 1a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z"/></svg>
+    {% endset %}
+
+    {% set text %}
+        <div class="sf-toolbar-info-piece">
+            <h4>SEO BUNDLE</h4>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>ABOUT</b>
+            <span>All in One Symfony SEO bundle</span>
+        </div>
+    {% endset %}
+
+    {{ include('@WebProfiler/Profiler/toolbar_item.html.twig', { 'link': true }) }}
+{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block menu %}
+    {# This left-hand menu appears when using the full-screen profiler. #}
+    <span class="label">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-seo"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 8h-3a1 1 0 0 0 -1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-3"/><path d="M14 16h-4v-8h4"/><path d="M11 12h2"/><path d="M17 8m0 1a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z"/></svg>
+        <strong>SEO Bundle</strong>
+    </span>
+{% endblock %}
+
+{% block panel %}
+    {# Optional, for showing the most details. #}
+    <h2>All in One Symfony SEO Bundle</h2>
+    <table>
+        <tr>
+
+        </tr>
+
+{#        {% for type in collector.acceptableContentTypes %}#}
+{#            <tr>#}
+{#                <td>{{ type }}</td>#}
+{#            </tr>#}
+{#        {% endfor %}#}
+
+{#        #}{# use the profiler_dump() function to render the contents of dumped objects #}
+{#        <tr>#}
+{#            {{ profiler_dump(collector.someObject) }}#}
+{#        </tr>#}
+    </table>
+{% endblock %}

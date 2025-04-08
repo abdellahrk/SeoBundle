@@ -1,0 +1,33 @@
+<?php
+/*
+ * Copyright (c) 2025.
+ *
+ * This file is part of the SEO Bundle project
+ * @author Abdellah Ramadan <ramadanabdel24@gmail.com>
+ *
+ * For the full copyright and license information,
+ * please view the LICENSE file that was distributed with this source code.
+ */
+
+namespace Rami\SeoBundle\DataCollector;
+
+use Symfony\Bundle\FrameworkBundle\DataCollector\AbstractDataCollector;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use const _PHPStan_f2f2ddf44\__;
+
+class SeoCollector extends AbstractDataCollector
+{
+
+    public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
+    {
+        $this->data['method'] = $request->getMethod();
+    }
+
+
+    public function reset(): void
+    {
+        $this->data = [];
+    }
+
+}

@@ -49,17 +49,6 @@ This will render
 ```php
 $openGraph->addStructuredProperty('image', 'secure_url', 'https://mysite.com/test.jpg')
 ```
-this will render 
-```html
-<meta property="og:title" content="My website">
-<meta property="og:description" content="Some descriptions ...">
-<meta property="og:site_name" content="My Blog">
-```
-
-#### You can add structured data
-```php
-$openGraph->addStructuredProperty('image', 'secure_url', 'https://mysite.com/test.jpg')
-```
 this will render
 
 ```html
