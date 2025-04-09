@@ -82,7 +82,7 @@ final class Sitemap implements SitemapInterface
     }
 
     /**
-     * @param array<string, string> $routes
+     * @param array<Route> $routes
      * @param string|null $baseUrl
      * @return void
      * @throws \DOMException
@@ -96,6 +96,9 @@ final class Sitemap implements SitemapInterface
         $rootElement = $defaultSitemap->createElementNS('http://www.sitemaps.org/schemas/sitemap/0.9', 'urlset');
         $defaultSitemap->appendChild($rootElement);
         foreach ($routes as $route) {
+            if (!$route instanceof Route) {
+                return;
+            }
             $locationElement = $defaultSitemap->createElement('loc', $this->urlGenerator->generate($route->getName(), [], UrlGeneratorInterface::ABSOLUTE_URL));
             $urlElement = $defaultSitemap->createElement('url');
             $urlElement->appendChild($locationElement);
