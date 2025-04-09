@@ -122,7 +122,9 @@ $eventDispatcher->dispatch(new UpdateSitemapEvent());
 ```
 
 ### Command
-There is a command available to generate sitemap. This command does not dump the sitemaps into the `sitemap.xml` since `Request` is not available in the command space
+There is a command available to generate sitemap. This command does not dump the sitemaps into the `sitemap.xml` since `Request` is not available in the command space 
+
+**NB** WIP
 ```makefile
 seo:generate:sitemap
 ```

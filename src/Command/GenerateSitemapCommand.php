@@ -17,6 +17,7 @@ use Psr\Log\LoggerInterface;
 use Rami\SeoBundle\Sitemap\Message\GenerateSitemapMessage;
 use Rami\SeoBundle\Sitemap\SitemapInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -36,9 +37,14 @@ class GenerateSitemapCommand extends Command
         parent::__construct();
     }
 
+    protected function configure(): void
+    {
+        $this->addArgument('baseUrl', InputArgument::OPTIONAL, 'The base url to generate sitemap');
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->messageBus->dispatch(new GenerateSitemapMessage());
+        $this->messageBus->dispatch(new GenerateSitemapMessage($input->getArgument('baseUrl')));
         $output->writeln("<info>Generating Sitemap</info>");
         return Command::SUCCESS;
     }

@@ -11,14 +11,14 @@
 
 namespace Rami\SeoBundle\Twig\Extensions;
 
-use Rami\SeoBundle\Metas\MetaTagsInterface;
+use Rami\SeoBundle\Metas\MetaTagsManagerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class MetaTagsExtension extends AbstractExtension
 {
     public function __construct(
-        private readonly MetaTagsInterface $metaTags
+        private MetaTagsManagerInterface $metaTags
     ){}
 
     public function getFunctions(): array
@@ -37,38 +37,48 @@ class MetaTagsExtension extends AbstractExtension
     public function renderMetaTags(): string
     {
         $metaTags = '';
-        foreach ($this->metaTags->getMetaTags() as $tag => $value) {
-                if ($tag === 'charset') {
-                    $metaTags .= sprintf('<meta charset="%s" />', $value);
-                    continue;
-                }
-                if ($tag === 'title') {
-                    $metaTags .= sprintf('<title>%s</title>', $value);
-                    continue;
-                }
+        $seoMeta = $this->metaTags->seoMeta;
 
-                if (is_array($value) && array_key_exists('rel', $value)) {
-                    if (array_key_exists('media', $value)) {
-                        $metaTags .= sprintf('<link rel="%s" href="%s"  media="%s"/>', $value['rel'], $value['href'], $value['media']);
-                        continue;
-                    }
+        if (null !== $seoMeta->getTitle()) {
+            $metaTags .= sprintf('<title>%s</title>', $seoMeta->getTitle());
+        }
 
-                    $metaTags .= sprintf('<link rel="%s" href="%s"  />', $value['rel'], $value['href']);
-                    continue;
-                }
+        if (null !== $seoMeta->getDescription()) {
+            $metaTags .= sprintf('<meta name="description" content="%s" />', $seoMeta->getDescription());
+        }
 
-                if(is_array($value) && array_key_exists('http-equiv', $value)) {
-                    $metaTags .= sprintf('<meta http-equiv="%s" content="%s" />', $value['http-equiv'], $value['value']);
-                    continue;
-                }
+        if (null !== $seoMeta->getKeywords()) {
+            $metaTags .= sprintf('<meta name="keywords" content="%s" />', implode(', ', $seoMeta->getKeywords()));
+        }
 
-                if (is_array($value)) {
-                    $metaTags .= sprintf('<meta name="%s" content="%s">', $tag, implode(', ', $value));
-                    continue;
-                }
+        if (!empty($seoMeta->getCanonical())) {
+            $metaTags .= sprintf('<link rel="canonical" href="%s" />', $seoMeta->getCanonical());
+        }
 
-                $metaTags .= sprintf('<meta name="%s" content="%s">', $tag, $value);
-            }
+        if (null !== $seoMeta->getAuthor()) {
+            $metaTags .= sprintf('<meta name="author" content="%s" />', $seoMeta->getAuthor());
+        }
+
+        if (null !== $seoMeta->getCharset()) {
+            $metaTags .= sprintf('<meta charset="%s" />', $seoMeta->getCharset());
+        }
+
+        if (!empty($seoMeta->getRobots())) {
+            $metaTags .= sprintf('<meta name="robots" content="%s" />', implode(', ', $seoMeta->getRobots()));
+        }
+
+        if (null !== $seoMeta->getViewport()) {
+            $metaTags .= sprintf('<meta name="viewport" content="%s" />', $seoMeta->getViewport());
+        }
+
+        if (null !== $seoMeta->getContentSecurityPolicy()) {
+            $metaTags .= sprintf('<meta name="Content-Security-Policy" content="%s" />', $seoMeta->getContentSecurityPolicy());
+        }
+
+        if (null !== $seoMeta->getContentType()) {
+            $metaTags .= sprintf('<meta name="Content-Type" content="%s" />', $seoMeta->getContentType());
+        }
+
        return $metaTags;
     }
 }
