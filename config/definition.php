@@ -25,15 +25,12 @@ return static function (DefinitionConfigurator $definition) {
                             ->scalarNode('type')->info('Default og type')->end()
                             ->scalarNode('title')->info('Default og title')->end()
                             ->scalarNode('description')->info('Default og description')->end()
-                            ->scalarNode('url')->info('Default og URL')->end()
+                            ->scalarNode('url')->info('Default og URL')->end()s
                         ->end()
                     ->end()
                     ->arrayNode('sitemap')
                         ->children()
-                            ->scalarNode('frequency')
-                                ->info("Frequency at which the sitemap should be auto generated")
-                                ->example('daily')
-                            ->end()
+
                         ->end()
                     ->end()
                 ->end();
