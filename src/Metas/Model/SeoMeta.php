@@ -183,7 +183,7 @@ class SeoMeta
     }
 
     /**
-     * @return array|null
+     * @return string|null
      */
     public function getCanonical(): ?string
     {
@@ -227,8 +227,9 @@ class SeoMeta
     }
 
     /**
-     * @param string|null $viewport
-     * @return SeoMeta
+     * @param string|null $width
+     * @param string $scale
+     * @return $this
      */
     public function setViewport(?string $width, string $scale): SeoMeta
     {

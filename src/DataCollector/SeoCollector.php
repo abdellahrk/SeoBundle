@@ -14,7 +14,6 @@ namespace Rami\SeoBundle\DataCollector;
 use Symfony\Bundle\FrameworkBundle\DataCollector\AbstractDataCollector;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use const _PHPStan_f2f2ddf44\__;
 
 class SeoCollector extends AbstractDataCollector
 {

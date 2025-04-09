@@ -90,7 +90,8 @@ class MetaTagsManager implements MetaTagsManagerInterface, ResettableInterface
     }
 
     /**
-     * @param string $viewPort
+     * @param string $width
+     * @param string $scale
      * @return $this
      */
     public function setViewPort(string $width, string $scale): static
