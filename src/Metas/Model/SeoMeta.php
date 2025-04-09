@@ -44,8 +44,8 @@ class SeoMeta
     }
 
     /**
-     * @param string|null $contentType
-     * @return SeoMeta
+     * @param string $contentType
+     * @return $this
      */
     public function setContentType(string $contentType): SeoMeta
     {

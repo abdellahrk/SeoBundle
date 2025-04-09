@@ -25,7 +25,7 @@ return static function (DefinitionConfigurator $definition) {
                             ->scalarNode('type')->info('Default og type')->end()
                             ->scalarNode('title')->info('Default og title')->end()
                             ->scalarNode('description')->info('Default og description')->end()
-                            ->scalarNode('url')->info('Default og URL')->end()s
+                            ->scalarNode('url')->info('Default og URL')->end()
                         ->end()
                     ->end()
                     ->arrayNode('sitemap')
