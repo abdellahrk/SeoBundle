@@ -9,11 +9,11 @@ You can define some defaults values in the `config/packages/open_graph.yaml` lik
 ```yaml
 seo:
     open_graph:
-      defaults:
-          og_description: Default description for all pages
-          og_title: Default title
-          og_url: https://my-og.com
-          og_sitename: Default website name
+          description: Default description for all pages
+          title: Default title
+          url: https://my-og.com
+          sitename: Default website name
+          type: Default type
 ```
 
 ### Add meta inforation

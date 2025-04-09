@@ -39,7 +39,7 @@ class GenerateSitemapCommand extends Command
 
     protected function configure(): void
     {
-        $this->addArgument('baseUrl', InputArgument::OPTIONAL, 'The base url to generate sitemap');
+        $this->addArgument('baseUrl', InputArgument::REQUIRED, 'The base url to generate sitemap');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

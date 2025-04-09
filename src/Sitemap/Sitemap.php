@@ -7,7 +7,7 @@ use DOMDocument;
 use DOMXPath;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -35,6 +35,10 @@ final class Sitemap implements SitemapInterface
     public function generateSitemap(?string $baseUrl = null): void
     {
         if (false === file_exists($this->publicDir . 'sitemaps')) mkdir($this->publicDir . 'sitemaps');
+
+        if (!file_exists($this->publicDir.'sitemap.xml')) {
+            $this->createIndexSitemapFile();
+        }
 
         $routes = $this->router->getRouteCollection();
         $allRoutes = [];
@@ -97,7 +101,7 @@ final class Sitemap implements SitemapInterface
         $defaultSitemap->appendChild($rootElement);
         foreach ($routes as $route) {
             if (!$route instanceof Route) {
-                return;
+                continue;
             }
             $locationElement = $defaultSitemap->createElement('loc', $this->urlGenerator->generate($route->getName(), [], UrlGeneratorInterface::ABSOLUTE_URL));
             $urlElement = $defaultSitemap->createElement('url');
@@ -109,16 +113,14 @@ final class Sitemap implements SitemapInterface
         $defaultSitemap->save($this->publicDir.'sitemaps/default.xml');
         if (null !== $request) {
             $this->addXmlToSitemap( $request->getSchemeAndHttpHost() .'/sitemaps/'.basename($filename));
-        }
-
-        if (null !== $baseUrl && null === $request) {
-            $this->logger->warning('baseurl is : ', [$baseUrl."/sitemaps/".basename($filename)]);
-            $this->addXmlToSitemap(sprintf('%s/sitemaps/%s.xml', $baseUrl, $filename));
+        } else {
+            $this->addXmlToSitemap($baseUrl.'/sitemaps/'.basename($filename));
         }
     }
 
     /**
-     * @param array<mixed> $attributes
+     * @param array $attributes
+     * @param string|null $baseUrl
      * @return void
      * @throws \DOMException
      */
@@ -205,19 +207,13 @@ final class Sitemap implements SitemapInterface
 
         if (null !== $request) {
             $this->addXmlToSitemap($request->getSchemeAndHttpHost(). '/sitemaps/'.$fileName .'.xml');
-        }
-
-        if (null !== $baseUrl && null === $request) {
-            $this->addXmlToSitemap(sprintf('%s/sitemaps/%s.xml', $baseUrl, $fileName));
+        } else {
+            $this->addXmlToSitemap($baseUrl."/sitemaps/$fileName.xml");
         }
     }
 
     private function addXmlToSitemap(string $xmlPath): void
     {
-        if (!file_exists($this->publicDir.'sitemap.xml')) {
-            $this->createIndexSitemapFile();
-        }
-
         $sitemap = new DOMDocument();
         $sitemap->formatOutput = true;
 
@@ -234,10 +230,11 @@ final class Sitemap implements SitemapInterface
         if ($nodes->length === 0) {
             $location = $sitemap->createElement(localName:  'loc', value: $xmlPath);
             $sitemapRoot = $sitemap->createElement(localName:  'sitemap');
-            $root[0]->appendChild($sitemapRoot);
+            $root->item(0)->appendChild($sitemapRoot);
             $lastMod = $sitemap->createElement('lastmod',$now->format('Y-m-d'));
             $sitemapRoot->appendChild($location);
             $sitemapRoot->appendChild($lastMod);
+            $nodes = $xpath->query("//sm:sitemap/sm:loc[text()='$xmlPath']");
         }
 
         foreach ($nodes as $node) {
@@ -264,7 +261,7 @@ final class Sitemap implements SitemapInterface
             }
         }
         
-        $sitemap->save('sitemap.xml');
+        $sitemap->save($this->publicDir.'sitemap.xml');
     }
 
     private function createSitemapFile(string $filename, ?string $name = null, ?string $child = null): void
@@ -273,7 +270,7 @@ final class Sitemap implements SitemapInterface
             try {
                 $sitemap = new \DomDocument('1.0', 'UTF-8');
                 $sitemap->formatOutput = true;
-                $ns = $sitemap->createElementNS('http://www.sitemaps.org/schemas/sitemap/0.9', $name, $child);
+                $ns = $sitemap->createElementNS('http://www.sitemaps.org/schemas/sitemap/0.9', $name);
                 $sitemap->appendChild($ns);
                 $sitemap->save($filename.'.xml');
             } catch (\Exception $exception) {
