@@ -39,10 +39,10 @@ return [
 Type hint the `MetaTagsInterface` into a controller
 
 ```php
-use Abdellahramadan\SeoBundle\Metas\MetaTagsInterface;
+use Abdellahramadan\SeoBundle\Metas\MetaTagsManagerInterface;
 
 
-public function myController(MetaTagsInterface $metaTags): Response 
+public function myController(MetaTagsManagerInterface $metaTags): Response 
 {
     $metaTags->setTitle('My Title')
         ->setDescription('This is the description of the page')

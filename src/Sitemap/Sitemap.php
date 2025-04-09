@@ -20,7 +20,6 @@ final class Sitemap implements SitemapInterface
         private UrlGeneratorInterface $urlGenerator,
         private RequestStack $requestStack,
         private ManagerRegistry $managerRegistry,
-        private ParameterBagInterface $parameterBag,
         private LoggerInterface $logger,
         private RouterInterface $router,
     ) {}
@@ -28,29 +27,21 @@ final class Sitemap implements SitemapInterface
     const SITEMAP_XML = 'sitemap.xml';
 
     /**
+     * @param string $baseUrl
      * @return void
      * @throws \DOMException
      * @throws \ReflectionException
      */
-    public function generateSitemap(): void
+    public function generateSitemap(?string $baseUrl = null): void
     {
-        $defaultSitemap = new \DomDocument('1.0', 'UTF-8');
-        $defaultSitemap->formatOutput = true;
         if (false === file_exists($this->publicDir . 'sitemaps')) mkdir($this->publicDir . 'sitemaps');
 
-//        $this->createSitemapFile($this->publicDir.'sitemaps/default', 'urlset');
-
-
         $routes = $this->router->getRouteCollection();
-        $filename = $this->publicDir.'sitemaps/default.xml';
-
-        $request = $this->requestStack->getCurrentRequest();
-
         $allRoutes = [];
 
         foreach ($routes as $name => $route) {
 
-            if (str_starts_with($name, '_profiler') || str_starts_with($name, 'app_show_blog') || str_starts_with($name, 'app_edit_blog') || str_starts_with($name, '_preview_error') || str_starts_with($name, '_wdt') || str_starts_with($name, '_debug')) {
+            if (str_starts_with($name, '_profiler') || str_starts_with($name, '_preview_error') || str_starts_with($name, '_wdt') || str_starts_with($name, '_debug')) {
                 continue;
             }
 
@@ -68,7 +59,7 @@ final class Sitemap implements SitemapInterface
                         if ($instance instanceof \Rami\SeoBundle\Sitemap\Attributes\Sitemap) {
                             $sitemapAttribute = true;
                             if (null !== $instance->entityClass) {
-                                $this->generateDynamicSitemap($attributes);
+                                $this->generateDynamicSitemap($attributes, $baseUrl);
                                 break 1;
                             }
                         }
@@ -82,16 +73,29 @@ final class Sitemap implements SitemapInterface
                         continue;
                     }
                     $allRoutes[] = $currentRoute;
-
                 }
             }
         }
 
         $allRoutes = array_unique($allRoutes, SORT_REGULAR);
+        $this->addRoutesToXml($allRoutes, $baseUrl);
+    }
+
+    /**
+     * @param array<string, string> $routes
+     * @param string|null $baseUrl
+     * @return void
+     * @throws \DOMException
+     */
+    private function addRoutesToXml(array $routes, ?string $baseUrl = null): void
+    {
+        $filename = $this->publicDir.'sitemaps/default.xml';
+        $request = $this->requestStack->getCurrentRequest();
+        $defaultSitemap = new \DomDocument('1.0', 'UTF-8');
+        $defaultSitemap->formatOutput = true;
         $rootElement = $defaultSitemap->createElementNS('http://www.sitemaps.org/schemas/sitemap/0.9', 'urlset');
         $defaultSitemap->appendChild($rootElement);
-
-        foreach ($allRoutes as $route) {
+        foreach ($routes as $route) {
             $locationElement = $defaultSitemap->createElement('loc', $this->urlGenerator->generate($route->getName(), [], UrlGeneratorInterface::ABSOLUTE_URL));
             $urlElement = $defaultSitemap->createElement('url');
             $urlElement->appendChild($locationElement);
@@ -103,15 +107,19 @@ final class Sitemap implements SitemapInterface
         if (null !== $request) {
             $this->addXmlToSitemap( $request->getSchemeAndHttpHost() .'/sitemaps/'.basename($filename));
         }
-    }
 
+        if (null !== $baseUrl && null === $request) {
+            $this->logger->warning('baseurl is : ', [$baseUrl."/sitemaps/".basename($filename)]);
+            $this->addXmlToSitemap(sprintf('%s/sitemaps/%s.xml', $baseUrl, $filename));
+        }
+    }
 
     /**
      * @param array<mixed> $attributes
      * @return void
      * @throws \DOMException
      */
-    public function generateDynamicSitemap(array $attributes): void
+    public function generateDynamicSitemap(array $attributes, ?string $baseUrl = null): void
     {
         $route = null;
         $sitemap = null;
@@ -148,7 +156,6 @@ final class Sitemap implements SitemapInterface
 
         $rootElement = $sitemapDom->createElementNS('http://www.sitemaps.org/schemas/sitemap/0.9', 'urlset');
         $sitemapDom->appendChild($rootElement);
-        $repository = $entityManagerRegistery->getMetadataFactory();
 
         $entities = $entityManagerRegistery->getRepository($sitemap->entityClass)->findBy($sitemap->fetchCriteria);
 
@@ -188,7 +195,7 @@ final class Sitemap implements SitemapInterface
                 }
             }
 
-            $this->createSitemapFile($fileName, $urlElement->textContent);
+            $this->createSitemapFile($fileName, $urlElement->textContent, '');
             $rootElement->appendChild($urlElement);
         }
         $sitemapDom->save($this->publicDir.'sitemaps/'.$fileName.'.xml');
@@ -196,28 +203,20 @@ final class Sitemap implements SitemapInterface
         if (null !== $request) {
             $this->addXmlToSitemap($request->getSchemeAndHttpHost(). '/sitemaps/'.$fileName .'.xml');
         }
+
+        if (null !== $baseUrl && null === $request) {
+            $this->addXmlToSitemap(sprintf('%s/sitemaps/%s.xml', $baseUrl, $fileName));
+        }
     }
 
     private function addXmlToSitemap(string $xmlPath): void
     {
-        if (!file_exists($this->publicDir . 'sitemap.xml')) {
-            try {
-                $sitemap = new \DomDocument('1.0', 'UTF-8');
-                $sitemap->formatOutput = true;
-                $ns = $sitemap->createElementNS('http://www.sitemaps.org/schemas/sitemap/0.9', 'sitemapindex', ' ');
-                $sitemap->appendChild($ns);
-                $sitemap->save('sitemap.xml');
-            } catch (\Exception $exception) {
-                $this->logger->error($exception->getMessage());
-            }
+        if (!file_exists($this->publicDir.'sitemap.xml')) {
+            $this->createIndexSitemapFile();
         }
 
         $sitemap = new DOMDocument();
         $sitemap->formatOutput = true;
-
-        if (!file_exists($this->publicDir.'sitemap.xml')) {
-            $this->createIndexSitemapFile();
-        }
 
         $sitemap->load($this->publicDir . 'sitemap.xml');
 
@@ -262,7 +261,6 @@ final class Sitemap implements SitemapInterface
             }
         }
         
-        $sitemap->normalizeDocument();
         $sitemap->save('sitemap.xml');
     }
 

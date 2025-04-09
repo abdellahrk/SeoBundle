@@ -26,6 +26,6 @@ final class GenerateSitemapMessageHandler
 
     public function __invoke(GenerateSitemapMessage $message): void
     {
-        $this->sitemap->generateSitemap();
+        $this->sitemap->generateSitemap($message->getBaseUrl());
     }
 }

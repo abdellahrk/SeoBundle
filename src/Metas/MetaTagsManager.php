@@ -2,10 +2,15 @@
 
 namespace Rami\SeoBundle\Metas;
 
+use Rami\SeoBundle\Metas\Model\SeoMeta;
 use Symfony\Component\Cache\ResettableInterface;
 
-class MetaTags implements MetaTagsInterface, ResettableInterface
+class MetaTagsManager implements MetaTagsManagerInterface, ResettableInterface
 {
+    public SeoMeta $seoMeta;
+    public function __construct() {
+        $this->seoMeta = new SeoMeta();
+    }
     private array $metaTags = [];
 
     public function getMetaTags(): array
@@ -13,9 +18,9 @@ class MetaTags implements MetaTagsInterface, ResettableInterface
         return $this->metaTags;
     }
 
-    public function reset(): void
+    public function getSeoMeta(): SeoMeta
     {
-        $this->metaTags = [];
+        return $this->seoMeta;
     }
 
     public function setCharacterEncoding(string $charset = 'UTF-8'): static
@@ -30,7 +35,7 @@ class MetaTags implements MetaTagsInterface, ResettableInterface
      */
     public function setTitle(string $title): static
     {
-        $this->metaTags['title'] = $title;
+        $this->seoMeta->setTitle($title);
         return $this;
     }
 
@@ -40,7 +45,7 @@ class MetaTags implements MetaTagsInterface, ResettableInterface
      */
     public function setDescription(string $description): static
     {
-        $this->metaTags['description'] = $description;
+        $this->seoMeta->setDescription($description);
         return $this;
     }
 
@@ -50,7 +55,7 @@ class MetaTags implements MetaTagsInterface, ResettableInterface
      */
     public function setKeywords(array $keywords): static
     {
-        $this->metaTags['keywords'] = $keywords;
+        $this->seoMeta->setKeywords($keywords);
         return $this;
     }
 
@@ -60,7 +65,7 @@ class MetaTags implements MetaTagsInterface, ResettableInterface
      */
     public function setSubject(string $keyword): static
     {
-       $this->metaTags['subject'] = $keyword;
+       $this->seoMeta->setSubject($keyword);
        return $this;
     }
 
@@ -70,10 +75,9 @@ class MetaTags implements MetaTagsInterface, ResettableInterface
      */
     public function setCopyright(string $copyright): static
     {
-        $this->metaTags['copyright'] = $copyright;
+        $this->seoMeta->setCopyright($copyright);
         return $this;
     }
-
 
     /**
      * @param array<string> $robots
@@ -81,7 +85,7 @@ class MetaTags implements MetaTagsInterface, ResettableInterface
      */
     public function setRobots(array $robots): static
     {
-        $this->metaTags['robots'] = $robots;
+        $this->seoMeta->setRobots($robots);
         return $this;
     }
 
@@ -89,9 +93,9 @@ class MetaTags implements MetaTagsInterface, ResettableInterface
      * @param string $viewPort
      * @return $this
      */
-    public function setViewPort(string $viewPort): static
+    public function setViewPort(string $width, string $scale): static
     {
-        $this->metaTags['viewport'] = $viewPort;
+        $this->seoMeta->setViewPort($width, $scale);
         return $this;
     }
 
@@ -101,9 +105,7 @@ class MetaTags implements MetaTagsInterface, ResettableInterface
      */
     public function setCanonical(string $href): static
     {
-       $canonical['rel'] = 'canonical';
-       $canonical['href'] = $href;
-       $this->metaTags['canonical'] = $canonical;
+       $this->seoMeta->setCanonical($href);
        return $this;
     }
 
@@ -118,17 +120,13 @@ class MetaTags implements MetaTagsInterface, ResettableInterface
 
     public function setContentSecurityPolicy(string $contentSecurityPolicy): static
     {
-        $tags['http-equiv'] = 'Content-Security-Policy';
-        $tags['value'] = $contentSecurityPolicy;
-        $this->metaTags['content-security-policy'] = $tags;
+        $this->seoMeta->setContentSecurityPolicy($contentSecurityPolicy);
         return $this;
     }
 
     public function setContentType(string $contentType): static
     {
-        $tags['http-equiv'] = 'Content-Type';
-        $tags['value'] = $contentType;
-        $this->metaTags['content-type'] = $tags;
+        $this->seoMeta->setContentType($contentType);
         return $this;
     }
 
@@ -148,19 +146,22 @@ class MetaTags implements MetaTagsInterface, ResettableInterface
         return $this;
     }
 
-    public function setPragmaRefresh(int $seconds, string $url = ''): static
-    {
-//        $value = $seconds . $url ?? ';'.$url; // TODO review
-        $value = $seconds;
-        $tags['http-equiv'] = 'Refresh';
-        $tags['value'] = $value ;
-        $this->metaTags['default-style'] = $tags;
-        return $this;
-    }
 
     public function setCustomMetaTag(string $name, string $content): static
     {
         $this->metaTags[$name] = $content;
+        return $this;
+    }
+
+    public function reset(): void
+    {
+        $this->metaTags = [];
+        $this->seoMeta = new SeoMeta();
+    }
+
+    public function setAuthor(string $author): static
+    {
+        $this->seoMeta->setAuthor($author);
         return $this;
     }
 }

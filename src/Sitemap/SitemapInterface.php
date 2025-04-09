@@ -16,12 +16,12 @@ interface SitemapInterface
     /**
      * @return void
      */
-    public function generateSitemap(): void;
+    public function generateSitemap(?string $baseUrl = null): void;
 
     /**
      * @param array<mixed> $attributes
      * @return void
      * @throws \DOMException
      */
-    public function generateDynamicSitemap(array $attributes): void;
+    public function generateDynamicSitemap(array $attributes, ?string $baseUrl = null): void;
 }

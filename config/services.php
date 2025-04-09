@@ -2,8 +2,8 @@
 
 use Rami\SeoBundle\Command\GenerateSitemapCommand;
 use Rami\SeoBundle\DataCollector\SeoCollector;
-use Rami\SeoBundle\Metas\MetaTags;
-use Rami\SeoBundle\Metas\MetaTagsInterface;
+use Rami\SeoBundle\Metas\MetaTagsManager;
+use Rami\SeoBundle\Metas\MetaTagsManagerInterface;
 use Rami\SeoBundle\OpenGraph\OpenGraph;
 use Rami\SeoBundle\OpenGraph\OpenGraphInterface;
 use Rami\SeoBundle\Schema\Schema;
@@ -28,8 +28,8 @@ return static function (ContainerConfigurator $container) {
     $services->set(SchemaOrgExtension::class, SchemaOrgExtension::class)
         ->autowire()
         ->tag('twig.extension');
-    $services->set('seo.meta.tags', MetaTags::class)->tag('kernel.reset', ['method' => 'reset']);
-    $services->alias(MetaTagsInterface::class, 'seo.meta.tags');
+    $services->set('seo.meta.tags', MetaTagsManager::class)->tag('kernel.reset', ['method' => 'reset']);
+    $services->alias(MetaTagsManagerInterface::class, 'seo.meta.tags');
     $services->set(MetaTagsExtension::class, MetaTagsExtension::class)
         ->autowire()
         ->tag('twig.extension');
