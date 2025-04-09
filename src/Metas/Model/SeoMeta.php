@@ -13,27 +13,27 @@ namespace Rami\SeoBundle\Metas\Model;
 
 class SeoMeta
 {
-    protected ?string $title = null;
+    protected string $title = '';
 
-    protected ?string $description = null;
+    protected string $description = '';
 
     protected ?array $keywords = [];
 
-    protected ?string $subject = null;
+    protected string $subject = '';
 
     protected ?array $robots = [];
 
-    protected ?string $canonical = null;
+    protected string $canonical = '';
 
-    protected ?string $copyright = null;
+    protected string $copyright = '';
 
-    protected ?string $viewport = null;
+    protected string $viewport = '';
 
-    protected ?string $author = null;
+    protected string $author = '';
 
-    protected ?string $charset = null;
+    protected string $charset = '';
 
-    protected ?string $contentType = null;
+    protected string $contentType = '';
 
     /**
      * @return string|null
@@ -47,7 +47,7 @@ class SeoMeta
      * @param string|null $contentType
      * @return SeoMeta
      */
-    public function setContentType(?string $contentType): SeoMeta
+    public function setContentType(string $contentType): SeoMeta
     {
         $this->contentType = $contentType;
         return $this;

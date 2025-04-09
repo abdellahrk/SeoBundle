@@ -17,6 +17,16 @@ public function myController(MetaTagsManagerInterface $metaTags): Response
 }
 ```
 
+or directly in your Twig template
+
+```php
+{{ meta_tags(title: 'My title', keywords: ['meta', 'keywords', 'here']) }}
+```
+
+Adding meta information in twig overwrites the meta from controller. And adding some
+information in the controller and complimenting with some in Twig still works or leaving 
+out the controller entirely.
+
 Add this `{{ meta_tags }}` to the head your Twig file (preferably the base template)
 ```php
 <head>
@@ -34,3 +44,5 @@ This will render in the head the following
     <link rel="canonical" href="https://canonical.com">
 </head>
 ```
+
+

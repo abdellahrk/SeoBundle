@@ -122,9 +122,15 @@ $eventDispatcher->dispatch(new UpdateSitemapEvent());
 ```
 
 ### Command
-There is a command available to generate sitemap. This command does not dump the sitemaps into the `sitemap.xml` since `Request` is not available in the command space 
+There is a command available to generate sitemap. Since `Request` is not available in the command space, you'll have to configure the `default_uri` as seen at
+[Generating URLs in Command](https://symfony.com/doc/current/routing.html#generating-urls-in-commands) by setting 
+```yaml
+framework:
+    router:
+        # ...
+        default_uri: 'https://example.org/my/path/' <--- Make sure to add this
+```
 
-**NB** WIP
 ```makefile
-seo:generate:sitemap
+seo:generate:sitemap base-url
 ```

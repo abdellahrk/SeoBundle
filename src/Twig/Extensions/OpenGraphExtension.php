@@ -1,4 +1,13 @@
 <?php
+/*
+ * Copyright (c) 2025.
+ *
+ * This file is part of the SEO Bundle project
+ * @author Abdellah Ramadan <ramadanabdel24@gmail.com>
+ *
+ * For the full copyright and license information,
+ * please view the LICENSE file that was distributed with this source code.
+ */
 
 namespace Rami\SeoBundle\Twig\Extensions;
 
@@ -10,7 +19,7 @@ use Twig\TwigFunction;
 final class OpenGraphExtension extends AbstractExtension
 {
     
-    public function __construct(private readonly OpenGraphInterface $openGraph, private readonly ParameterBagInterface $parameterBag) {}
+    public function __construct(private OpenGraphInterface $openGraph, private ParameterBagInterface $parameterBag) {}
     public function getFunctions(): array
     {
         return [
@@ -23,12 +32,13 @@ final class OpenGraphExtension extends AbstractExtension
         $openGraphString = '';
         $hasDefaultConfig = false;
 
-        if ($this->parameterBag->has('open_graph')) {
+        if ($this->parameterBag->has('seo.open_graph')) {
             $hasDefaultConfig = true;
         }
 
+
         if ($hasDefaultConfig) {
-            $defaults = $this->parameterBag->get('open_graph');
+            $defaults = $this->parameterBag->get('seo.open_graph');
             if ($this->openGraph->getTitle() === '' && array_key_exists('title', $defaults)) {
                 $this->openGraph->setTitle($defaults['title']);
             }

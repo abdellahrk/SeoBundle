@@ -29,25 +29,79 @@ class MetaTagsExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * @param string $lang
+     * @return string
+     */
     public function renderHeadLang(string $lang): string
     {
         return 'lang="'.$lang.'"';
     }
 
-    public function renderMetaTags(): string
+
+    /**
+     * @param string|null $title
+     * @param string|null $description
+     * @param array|null $keywords
+     * @param string|null $subject
+     * @param string|null $charset
+     * @param array|null $robots
+     * @param string|null $canonical
+     * @param string|null $copyright
+     * @param array|null $viewport
+     * @param string|null $author
+     * @param string|null $contentType
+     * @return string
+     */
+    public function renderMetaTags(
+        ?string $title = '',
+        ?string $description = '',
+        ?array $keywords = [],
+        ?string $subject = '',
+        ?string $charset = 'utf-8',
+        ?array $robots = [],
+        ?string $canonical = '',
+        ?string $copyright = '',
+        ?array $viewport = [],
+        ?string $author = '',
+        ?string $contentType = ''
+    ): string
+    {
+        $seo = $this->metaTags->seoMeta;
+        $this->metaTags->setTitle( $title ?: $seo->getTitle())
+            ->setDescription($description ?: $seo->getDescription())
+            ->setKeywords($keywords ?: $seo->getKeywords())
+            ->setSubject($subject ?: $seo->getSubject())
+            ->setCharacterEncoding($charset ?: $seo->getCharset())
+            ->setRobots($robots ?: $seo->getRobots())
+            ->setCanonical($canonical ?: $seo->getCanonical())
+            ->setCopyright($copyright ?: $seo->getCopyright())
+            ->setViewport(...$viewport ?: $seo->getViewport())
+            ->setAuthor($author ?: $seo->getAuthor())
+            ->setContentType($contentType ?: $seo->getContentType())
+        ;
+
+        return $this->renderTags();
+    }
+
+    /**
+     * @return string
+     */
+    private function renderTags(): string
     {
         $metaTags = '';
+
         $seoMeta = $this->metaTags->seoMeta;
 
-        if (null !== $seoMeta->getTitle()) {
+        if (!empty($seoMeta->getTitle())) {
             $metaTags .= sprintf('<title>%s</title>', $seoMeta->getTitle());
         }
 
-        if (null !== $seoMeta->getDescription()) {
+        if (!empty($seoMeta->getDescription())) {
             $metaTags .= sprintf('<meta name="description" content="%s" />', $seoMeta->getDescription());
         }
 
-        if (null !== $seoMeta->getKeywords()) {
+        if (!empty($seoMeta->getKeywords())) {
             $metaTags .= sprintf('<meta name="keywords" content="%s" />', implode(', ', $seoMeta->getKeywords()));
         }
 
@@ -55,11 +109,11 @@ class MetaTagsExtension extends AbstractExtension
             $metaTags .= sprintf('<link rel="canonical" href="%s" />', $seoMeta->getCanonical());
         }
 
-        if (null !== $seoMeta->getAuthor()) {
+        if (!empty($seoMeta->getAuthor())) {
             $metaTags .= sprintf('<meta name="author" content="%s" />', $seoMeta->getAuthor());
         }
 
-        if (null !== $seoMeta->getCharset()) {
+        if (!empty($seoMeta->getCharset())) {
             $metaTags .= sprintf('<meta charset="%s" />', $seoMeta->getCharset());
         }
 
@@ -67,18 +121,18 @@ class MetaTagsExtension extends AbstractExtension
             $metaTags .= sprintf('<meta name="robots" content="%s" />', implode(', ', $seoMeta->getRobots()));
         }
 
-        if (null !== $seoMeta->getViewport()) {
+        if (!empty($seoMeta->getViewport())) {
             $metaTags .= sprintf('<meta name="viewport" content="%s" />', $seoMeta->getViewport());
         }
 
-        if (null !== $seoMeta->getContentSecurityPolicy()) {
+        if (!empty($seoMeta->getContentSecurityPolicy())) {
             $metaTags .= sprintf('<meta name="Content-Security-Policy" content="%s" />', $seoMeta->getContentSecurityPolicy());
         }
 
-        if (null !== $seoMeta->getContentType()) {
+        if (!empty($seoMeta->getContentType())) {
             $metaTags .= sprintf('<meta name="Content-Type" content="%s" />', $seoMeta->getContentType());
         }
 
-       return $metaTags;
+        return $metaTags;
     }
 }
