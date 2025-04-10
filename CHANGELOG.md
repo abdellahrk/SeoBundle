@@ -1,4 +1,9 @@
 # Changelog
+
+[1.0.6] - 2025-05-10
+### Fixed
+- Remove unpack variable causing a bug at viewport assignment
+
 [1.0.5] - 2025-05-09
 
 ### Added 

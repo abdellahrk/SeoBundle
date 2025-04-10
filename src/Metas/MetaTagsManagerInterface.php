@@ -20,7 +20,7 @@ interface MetaTagsManagerInterface
 
     public function setCharacterEncoding(string $charset): static;
 
-    public function setViewPort(string $width, string $scale): static;
+    public function setViewPort(string $viewport): static;
 
     public function setCanonical(string $href): static;
 
