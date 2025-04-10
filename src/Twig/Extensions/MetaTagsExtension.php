@@ -48,7 +48,7 @@ class MetaTagsExtension extends AbstractExtension
      * @param array|null $robots
      * @param string|null $canonical
      * @param string|null $copyright
-     * @param array|null $viewport
+     * @param string|null $viewport
      * @param string|null $author
      * @param string|null $contentType
      * @return string
@@ -62,7 +62,7 @@ class MetaTagsExtension extends AbstractExtension
         ?array $robots = [],
         ?string $canonical = '',
         ?string $copyright = '',
-        ?array $viewport = [],
+        ?string $viewport = "",
         ?string $author = '',
         ?string $contentType = ''
     ): string
@@ -76,7 +76,7 @@ class MetaTagsExtension extends AbstractExtension
             ->setRobots($robots ?: $seo->getRobots())
             ->setCanonical($canonical ?: $seo->getCanonical())
             ->setCopyright($copyright ?: $seo->getCopyright())
-            ->setViewport(...$viewport ?: $seo->getViewport())
+            ->setViewport($viewport ?: $seo->getViewport())
             ->setAuthor($author ?: $seo->getAuthor())
             ->setContentType($contentType ?: $seo->getContentType())
         ;

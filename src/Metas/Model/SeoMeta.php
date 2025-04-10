@@ -101,10 +101,10 @@ class SeoMeta
     }
 
     /**
-     * @param string|null $title
+     * @param string $title
      * @return SeoMeta
      */
-    public function setTitle(?string $title): SeoMeta
+    public function setTitle(string $title): SeoMeta
     {
         $this->title = $title;
         return $this;
@@ -119,10 +119,10 @@ class SeoMeta
     }
 
     /**
-     * @param string|null $description
+     * @param string $description
      * @return SeoMeta
      */
-    public function setDescription(?string $description): SeoMeta
+    public function setDescription(string $description): SeoMeta
     {
         $this->description = $description;
         return $this;
@@ -137,10 +137,10 @@ class SeoMeta
     }
 
     /**
-     * @param array|null $keywords
+     * @param array $keywords
      * @return SeoMeta
      */
-    public function setKeywords(?array $keywords): SeoMeta
+    public function setKeywords(array $keywords): SeoMeta
     {
         $this->keywords = $keywords;
         return $this;
@@ -155,10 +155,10 @@ class SeoMeta
     }
 
     /**
-     * @param string|null $subject
+     * @param string $subject
      * @return SeoMeta
      */
-    public function setSubject(?string $subject): SeoMeta
+    public function setSubject(string $subject): SeoMeta
     {
         $this->subject = $subject;
         return $this;
@@ -227,13 +227,12 @@ class SeoMeta
     }
 
     /**
-     * @param string|null $width
-     * @param string $scale
+     * @param string $viewport
      * @return $this
      */
-    public function setViewport(?string $width, string $scale): SeoMeta
+    public function setViewport(string $viewport): SeoMeta
     {
-        $this->viewport = $width. ', ' . $scale;
+        $this->viewport = $viewport;
         return $this;
     }
 

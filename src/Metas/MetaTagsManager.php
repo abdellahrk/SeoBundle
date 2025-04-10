@@ -90,13 +90,12 @@ class MetaTagsManager implements MetaTagsManagerInterface, ResettableInterface
     }
 
     /**
-     * @param string $width
-     * @param string $scale
+     * @param string $viewport
      * @return $this
      */
-    public function setViewPort(string $width, string $scale): static
+    public function setViewPort(string $viewport): static
     {
-        $this->seoMeta->setViewPort($width, $scale);
+        $this->seoMeta->setViewPort($viewport);
         return $this;
     }
 
