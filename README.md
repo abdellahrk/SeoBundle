@@ -36,7 +36,9 @@ return [
 # Meta Tags
 
 ##### Example
-Type hint the `MetaTagsInterface` into a controller
+Define Meta Tags in Two ways:
+
+1.  Type hint the `MetaTagsInterface` into a controller
 
 ```php
 use Abdellahramadan\SeoBundle\Metas\MetaTagsManagerInterface;
@@ -52,7 +54,12 @@ public function myController(MetaTagsManagerInterface $metaTags): Response
 }
 ```
 
-Add this `{{ meta_tags }}` to the head your Twig file (preferably the base template)
+2.  Directly in twig 
+```php
+{{ meta_tags(title: 'My Title', description: 'This is the description of the page' ...)}
+```
+
+Make sure you add this `{{ meta_tags }}` to the head your Twig file (preferably the base template)
 ```php
 <head>
     {{ meta_tags() }}
@@ -105,6 +112,10 @@ This will render
 <meta property="og:title" content="My website">
 <meta property="og:description" content="Some descriptions ...">
 <meta property="og:site_name" content="My Blog">
+```
+You can also leave out setting the properties in the controller and set directly in Twi
+```php
+{{ meta_tags(title: 'My website', siteName: 'My Blog') }}
 ```
 
 full document at [Open Graph Docs](docs/open_graph.md)

@@ -119,3 +119,12 @@ renders
 <meta property="og:image:type" content="image/jpeg" />
 <meta property="og:image:alt" content="some image" />
 ```
+
+### Video
+
+
+### Audio
+
+### Article
+
+All follows the same format as Image.
