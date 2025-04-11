@@ -1,4 +1,12 @@
 # Changelog
+[1.0.7] - 2023-05-
+### Added 
+-   OG Image OpenGraph Structure Property
+-   OpenGraphManager and OGImageManager
+
+### Changed
+- OpenGraph to OpenGraphManager
+- Refactored base opengraph to use an Object with typed properties
 
 [1.0.6] - 2025-05-10
 ### Fixed

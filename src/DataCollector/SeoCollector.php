@@ -11,16 +11,29 @@
 
 namespace Rami\SeoBundle\DataCollector;
 
+use Rami\SeoBundle\Metas\MetaTagsManagerInterface;
+use Rami\SeoBundle\Metas\Model\SeoMeta;
 use Symfony\Bundle\FrameworkBundle\DataCollector\AbstractDataCollector;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class SeoCollector extends AbstractDataCollector
 {
+    public function __construct(
+        private MetaTagsManagerInterface $metaTagsManager,
+    )
+    {
+
+    }
 
     public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
     {
-        $this->data['method'] = $request->getMethod();
+        $this->data['seoMeta'] = $this->metaTagsManager->getSeoMeta();
+    }
+
+    public function getSeoMeta(): SeoMeta
+    {
+        return $this->data['seoMeta'];
     }
 
 

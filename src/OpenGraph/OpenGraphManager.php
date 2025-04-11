@@ -2,39 +2,27 @@
 
 namespace Rami\SeoBundle\OpenGraph;
 
+use Rami\SeoBundle\OpenGraph\Model\OpenGraph;
 use Symfony\Component\Cache\ResettableInterface;
 
-class OpenGraph implements OpenGraphInterface, ResettableInterface
+class OpenGraphManager implements OpenGraphManagerInterface, ResettableInterface
 {
-    private string $title='';
-    private string $description='';
-    private string $imageUrl='';
-    private string $url='';
-    private string $type='';
-    private string $locale = '';
+    public OpenGraph $openGraph;
+    public function __construct() {
+        $this->openGraph = new OpenGraph();
+    }
 
-    private string $alternateLocale = '';
-    private string $siteName='';
-
-    private array $structuredProperty = [
-        'type' => null,
-        'property' => null,
-        'content' => null,
-    ];
-
-    private array $structuredProperties = [];
-
-    private array $musicProperties = [];
-
-    private array $twitterCardProperties = [];
-
+    public function getOpenGraph(): OpenGraph
+    {
+        return $this->openGraph;
+    }
 
     /**
      * @return string
      */
     public function getLocale(): string
     {
-        return $this->locale;
+        return $this->openGraph->getLocale();
     }
 
     /*
@@ -43,13 +31,13 @@ class OpenGraph implements OpenGraphInterface, ResettableInterface
      */
     public function setLocale(string $locale): static
     {
-        $this->locale = $locale;
+        $this->openGraph->setLocale($locale);
         return $this;
     }
 
     public function getAlternateLocale(): string
     {
-        return $this->alternateLocale;
+        return $this->openGraph->getAlternateLocale();
     }
 
     /**
@@ -58,13 +46,13 @@ class OpenGraph implements OpenGraphInterface, ResettableInterface
      */
     public function setAlternateLocale(string $alternateLocale): static
     {
-        $this->alternateLocale = $alternateLocale;
+        $this->openGraph->setAlternateLocale($alternateLocale);
         return $this;
     }
 
     public function getSiteName(): string
     {
-        return $this->siteName;
+        return $this->openGraph->getSiteName();
     }
 
     /**
@@ -73,7 +61,7 @@ class OpenGraph implements OpenGraphInterface, ResettableInterface
      */
     public function setSiteName(string $siteName): static
     {
-        $this->siteName = $siteName;
+        $this->openGraph->setSiteName($siteName);
         return $this;
     }
 
@@ -83,18 +71,18 @@ class OpenGraph implements OpenGraphInterface, ResettableInterface
      */
     public function setTitle(string $title): static
     {
-        $this->title = $title;
+        $this->openGraph->setTitle($title);
         return $this;
     }
 
     public function getTitle(): string
     {
-        return $this->title;
+        return $this->openGraph->getTitle();
     }
 
     public function getDescription(): string
     {
-        return $this->description;
+        return $this->openGraph->getDescription();
     }
 
     /**
@@ -103,7 +91,7 @@ class OpenGraph implements OpenGraphInterface, ResettableInterface
      */
     public function setDescription(string $description): static
     {
-        $this->description = $description;
+        $this->openGraph->setDescription($description);
         return $this;
     }
 
@@ -113,18 +101,18 @@ class OpenGraph implements OpenGraphInterface, ResettableInterface
      */
     public function setImage(string $image): static
     {
-        $this->imageUrl = $image;
+        $this->openGraph->setImageUrl($image);
         return $this;
     }
 
     public function getImage(): string
     {
-        return $this->imageUrl;
+        return $this->openGraph->getImageUrl();
     }
 
     public function getUrl(): string
     {
-        return $this->url;
+        return $this->openGraph->getUrl();
     }
 
     /**
@@ -133,7 +121,7 @@ class OpenGraph implements OpenGraphInterface, ResettableInterface
      */
     public function setUrl(string $url): static
     {
-        $this->url = $url;
+        $this->openGraph->setUrl($url);
         return $this;
     }
 
@@ -142,7 +130,7 @@ class OpenGraph implements OpenGraphInterface, ResettableInterface
      */
     public function getType(): string
     {
-        return $this->type;
+        return $this->openGraph->getType();
     }
 
     /**
@@ -151,13 +139,13 @@ class OpenGraph implements OpenGraphInterface, ResettableInterface
      */
     public function setType(string $type): static
     {
-        $this->type = $type;
+        $this->openGraph->setType($type);
         return $this;
     }
 
     public function getStructuredProperties(): array
     {
-        return $this->structuredProperties;
+        return $this->openGraph->getStructuredProperties();
     }
 
     /**
@@ -172,15 +160,16 @@ class OpenGraph implements OpenGraphInterface, ResettableInterface
             return $this;
         }
 
-        $this->structuredProperty['type'] = $type;
-        $this->structuredProperty['property'] = $property;
-        $this->structuredProperty['content'] = $content ;
+        $structuredProperty['type'] = $type;
+        $structuredProperty['property'] = $property;
+        $structuredProperty['content'] = $content ;
 
-        if (!isset($this->structuredProperty[$type])) {
-            $this->structuredProperty[$type] = [];
-        }
+//        if (!isset($structuredProperty[$type])) {
+//            $structuredProperty[$type] = [];
+//        }
 
-        $this->structuredProperties['property'][] = $this->structuredProperty;
+        $structuredProperty['property'][] = $structuredProperty;
+        $this->openGraph->setStructuredProperties($structuredProperty);
         return $this;
     }
 
@@ -191,13 +180,13 @@ class OpenGraph implements OpenGraphInterface, ResettableInterface
      */
     public function addMusicProperty(string $property, string $content): static
     {
-        $this->musicProperties[] = ['property' => $property, 'content' => $content];
+        $this->openGraph->setMusicProperties(['property' => $property, 'content' => $content]);
         return $this;
     }
 
     public function getMusicProperties(): array
     {
-        return $this->musicProperties;
+        return $this->openGraph->getMusicProperties();
     }
 
     /**
@@ -207,7 +196,7 @@ class OpenGraph implements OpenGraphInterface, ResettableInterface
      */
     public function addTwitterCardProperty(string $name, string $content): static
     {
-        $this->twitterCardProperties[$name] = $content;
+        $this->openGraph->setTwitterCardProperties([$name => $content]);
         return $this;
     }
 
@@ -216,21 +205,65 @@ class OpenGraph implements OpenGraphInterface, ResettableInterface
      */
     public function getTwitterCardProperties(): array
     {
-        return $this->twitterCardProperties;
+        return $this->openGraph->getTwitterCardProperties();
     }
 
     public function reset(): void
     {
-        $this->title = '';
-        $this->description = '';
-        $this->imageUrl = '';
-        $this->url = '';
-        $this->type = '';
-        $this->alternateLocale = '';
-        $this->siteName = '';
-        $this->structuredProperty = [];
-        $this->structuredProperties = [];
-        $this->musicProperties = [];
-        $this->twitterCardProperties = [];
+        $this->openGraph = new OpenGraph();
+    }
+
+    /**
+     * @return string
+     */
+    public function getAudio(): string
+    {
+        return $this->openGraph->getAudio();
+    }
+
+    /**
+     * @param string $audio
+     * @return $this
+     */
+    public function setAudio(string $audio): static
+    {
+        $this->openGraph->setAudio($audio);
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVideo(): string
+    {
+        return $this->openGraph->getVideo();
+    }
+
+    /**
+     * @param string $video
+     * @return $this
+     */
+    public function setVideo(string $video): static
+    {
+        $this->openGraph->setVideo($video);
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageAltText(): string
+    {
+        return $this->openGraph->getImageAlt();
+    }
+
+    /**
+     * @param string $imageAltText
+     * @return $this
+     */
+    public function setImageAltText(string $imageAltText): static
+    {
+        $this->openGraph->setImageAlt($imageAltText);
+        return $this;
     }
 }

@@ -1,5 +1,25 @@
 # Open Graph
 
+#### Available interfaces and Twig functions
+
+Interfaces available as Typehints
+```php
+-   OpenGraphManagerInterface
+-   OGImageManagerInterface 
+-   OGVideoManagerInterface
+-   OGAudioManagerInterface
+-   OGArticleManagerInterface
+```
+
+Twig functions to be included
+```php 
+-   {{ open_graph() }}
+-   {{ og_image() }}
+-   {{ og_video() }}
+-   {{ og_audio() }}
+-   {{ og_article() }}
+```
+
 ### Example
 
 ### Add to template file
@@ -22,11 +42,11 @@ In your controller, type-hint `OpenGraphInterface`
 ### Example
 ```php
 
-use Abdellahramadan\OpenGraphBundle\OpenGraph\OpenGraphInterface;
+use Abdellahramadan\OpenGraphBundle\OpenGraph\OpenGraphManagerInterface;
 
 class HomeController extends AbstractController
 {
-    public function index(OpenGraphInterface $openGraph): Response
+    public function index(OpenGraphManagerInterface $openGraph): Response
     {
         $openGraph
             ->setTitle('My website')
@@ -65,3 +85,37 @@ will render
 <meta name="twitter:description" content="This is an example X(Twitter) Card)" />
 ```
 
+Structured Properties
+===
+
+Ability to add structured properties like articles, images, videos, music and more.
+
+### Image
+Typehint the ogImageInterface
+
+```php
+use Rami\SeoBundle\OpenGraph\OGImageManagerInterface;
+
+class HomeController {
+    public function index(OGImageManagerInterface $imageManager) {
+        $imageManager
+            ->setUrl('https://example.com/og.jpg')
+            ->setType('image/jpeg')
+            ->setAlt('some image')
+    }
+}
+```
+
+or via Twig
+
+```php
+    {{ og_image(url: '...', type: '...', alt: '...', width: '...', ...)}}
+```
+
+renders
+
+```html
+<meta property="og:image" content="https://example.com/ogp.jpg" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:alt" content="some image" />
+```

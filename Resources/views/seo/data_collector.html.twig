@@ -34,9 +34,16 @@
 {% block panel %}
     {# Optional, for showing the most details. #}
     <p>All in One Symfony SEO Bundle</p>
+    <hr/>
+
+    {% if collector.seoMeta is defined and collector.seoMeta is not empty %}
+        Activate
+    {% else %}
+        <h3>SEO Meta not Activated on this page</h3>
+    {% endif %}
     <table>
         <tr>
-
+            {{ collector.seoMeta.title }}
         </tr>
 
 {#        {% for type in collector.acceptableContentTypes %}#}

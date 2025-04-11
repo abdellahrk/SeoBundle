@@ -12,7 +12,7 @@ namespace Rami\SeoBundle\Tests\Integration;
  */
 
 
-use Rami\SeoBundle\OpenGraph\OpenGraphInterface;
+use Rami\SeoBundle\OpenGraph\OpenGraphManagerInterface;
 use Rami\SeoBundle\Sitemap\SitemapInterface;
 use Rami\SeoBundle\Test\Integration\TestApp;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -41,7 +41,7 @@ class OpenGraphGeneratorTest extends KernelTestCase
     {
         self::bootKernel();
 
-        $og = static::getContainer()->get(OpenGraphInterface::class);
+        $og = static::getContainer()->get(OpenGraphManagerInterface::class);
         $this->assertTrue(true);
     }
 }
