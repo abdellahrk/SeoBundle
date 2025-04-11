@@ -1,5 +1,11 @@
 # Changelog
-[1.0.7] - 2023-05-
+[1.0.7] - 2023-05-11
+### Added
+- OG Audio
+- OG Video
+- OG Image
+- OG Article
+
 ### Added 
 -   OG Image OpenGraph Structure Property
 -   OpenGraphManager and OGImageManager
