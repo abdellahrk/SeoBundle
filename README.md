@@ -84,11 +84,11 @@ In your controller, type-hint `OpenGraphInterface`
 ### Example
 ```php
 
-use Abdellahramadan\OpenGraphBundle\OpenGraph\OpenGraphInterface;
+use Abdellahramadan\OpenGraphBundle\OpenGraph\OpenGraphManagerInterface;
 
 class HomeController extends AbstractController
 {
-    public function index(OpenGraphInterface $openGraph): Response
+    public function index(OpenGraphManagerInterface $openGraph): Response
     {
         $openGraph
             ->setTitle('My website')

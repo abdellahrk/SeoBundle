@@ -2,7 +2,7 @@
 
 namespace Rami\SeoBundle\OpenGraph;
 
-interface OpenGraphInterface
+interface OpenGraphManagerInterface
 {
     public function setTitle(string $title): static;
     public function getTitle(): string;
@@ -31,4 +31,12 @@ interface OpenGraphInterface
     public function addTwitterCardProperty(string $name, string $content): static;
 
     public function getTwitterCardProperties(): array;
+
+    public function getAudio(): string;
+    public function setAudio(string $audio): static;
+    public function getVideo(): string;
+    public function setVideo(string $video): static;
+
+    public function getImageAltText(): string;
+    public function setImageAltText(string $imageAltText): static;
 }

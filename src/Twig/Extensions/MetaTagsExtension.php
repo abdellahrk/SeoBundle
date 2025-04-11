@@ -67,7 +67,7 @@ class MetaTagsExtension extends AbstractExtension
         ?string $contentType = ''
     ): string
     {
-        $seo = $this->metaTags->seoMeta;
+        $seo = $this->metaTags->getSeoMeta();
         $this->metaTags->setTitle( $title ?: $seo->getTitle())
             ->setDescription($description ?: $seo->getDescription())
             ->setKeywords($keywords ?: $seo->getKeywords())

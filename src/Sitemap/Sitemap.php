@@ -1,4 +1,13 @@
 <?php
+/*
+ * Copyright (c) 2025.
+ *
+ * This file is part of the SEO Bundle project
+ * @author Abdellah Ramadan <ramadanabdel24@gmail.com>
+ *
+ * For the full copyright and license information,
+ * please view the LICENSE file that was distributed with this source code.
+ */
 
 namespace Rami\SeoBundle\Sitemap;
 
@@ -7,7 +16,6 @@ use DOMDocument;
 use DOMXPath;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
