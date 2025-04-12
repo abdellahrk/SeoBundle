@@ -27,6 +27,7 @@ Add ```{{ open_graph() }}``` to the base template or any page where the meta inf
 
 You can define some defaults values in the `config/packages/open_graph.yaml` like:
 ```yaml
+# config/packages/seo.yaml
 seo:
     open_graph:
           description: Default description for all pages

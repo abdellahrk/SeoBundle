@@ -33,5 +33,13 @@ return static function (DefinitionConfigurator $definition) {
 
                         ->end()
                     ->end()
+                    ->arrayNode('google_tag_manager')
+                        ->addDefaultsIfNotSet()
+                        ->children()
+                            ->scalarNode('tag_manager_id')->defaultNull()->end()
+                            ->scalarNode('analytics_id')->defaultNull()->end()
+                            ->booleanNode('enabled')->defaultFalse()->end()
+                        ->end()
+                    ->end()
                 ->end();
 };

@@ -8,6 +8,7 @@ use Symfony\Component\Cache\ResettableInterface;
 class MetaTagsManager implements MetaTagsManagerInterface, ResettableInterface
 {
     public SeoMeta $seoMeta;
+
     public function __construct() {
         $this->seoMeta = new SeoMeta();
     }

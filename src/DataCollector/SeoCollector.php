@@ -28,7 +28,10 @@ class SeoCollector extends AbstractDataCollector
 
     public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
     {
-        $this->data['seoMeta'] = $this->metaTagsManager->getSeoMeta();
+        $metaTags = $this->metaTagsManager->getMetaTags();
+        $this->data['seoMeta'] = $metaTags;
+        $missingMetaTags = [];
+
     }
 
     public function getSeoMeta(): SeoMeta
