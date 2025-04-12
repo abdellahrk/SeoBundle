@@ -1,5 +1,5 @@
 # Changelog
-[1.0.7] - 2023-05-11
+[1.0.8] - 2023-05-11
 ### Added
 - Google Tag
 - Open Graph Structured objects -Profile and Book
