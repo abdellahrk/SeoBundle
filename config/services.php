@@ -2,6 +2,9 @@
 
 use Rami\SeoBundle\Command\GenerateSitemapCommand;
 use Rami\SeoBundle\DataCollector\SeoCollector;
+use Rami\SeoBundle\GoogleTagManager\EventSubscribers\GoogleTagInjectorSubscriber;
+use Rami\SeoBundle\GoogleTagManager\TagManager;
+use Rami\SeoBundle\GoogleTagManager\TagManagerInterface;
 use Rami\SeoBundle\Metas\MetaTagsManager;
 use Rami\SeoBundle\Metas\MetaTagsManagerInterface;
 use Rami\SeoBundle\OpenGraph\OGArticleManager;
@@ -24,6 +27,8 @@ use Rami\SeoBundle\Twig\Extensions\MetaTagsExtension;
 use Rami\SeoBundle\Twig\Extensions\OpenGraphExtension;
 use Rami\SeoBundle\Twig\Extensions\SchemaOrgExtension;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use Symfony\Component\DependencyInjection\Reference;
 
 return static function (ContainerConfigurator $container) {
     $services = $container->services()
@@ -76,4 +81,9 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('seo.og.article_manager', OGArticleManager::class);
     $services->alias(OGArticleManagerInterface::class, 'seo.og.article_manager');
+
+    // Google Tag
+    $services->set('seo.google_tag_manager', TagManager::class)->tag('seo.google_tag_manager');
+    $services->alias(TagManagerInterface::class, 'seo.google_tag_manager');
+    $services->set(GoogleTagInjectorSubscriber::class)->arg('$tagManager', new Reference(TagManagerInterface::class))->tag('kernel.event_subscriber');
 };

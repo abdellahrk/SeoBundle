@@ -4,6 +4,11 @@ This Bundle supports
 -   [x] OpenGraph (Twitter Cards, Facebook, LinkedIn, Instagram, Discord and more)
 -   [x] Structured Data (Schema)
 -   [x] Sitemap Generation
+-   [x] Google Tag
+-   [ ] Facebook Pixel
+-   [ ] SEO Profiling [Dev mode]
+-   [ ] Breadcrum Generation
+
 
 Installation
 ============

@@ -2,6 +2,8 @@
 
 namespace Rami\SeoBundle\OpenGraph;
 
+use Rami\SeoBundle\OpenGraph\Model\OpenGraph;
+
 interface OpenGraphManagerInterface
 {
     public function setTitle(string $title): static;
@@ -39,4 +41,6 @@ interface OpenGraphManagerInterface
 
     public function getImageAltText(): string;
     public function setImageAltText(string $imageAltText): static;
+
+    public function getOpenGraph(): OpenGraph;
 }

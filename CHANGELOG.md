@@ -1,6 +1,11 @@
 # Changelog
 [1.0.7] - 2023-05-11
 ### Added
+- Google Tag
+- Open Graph Structured objects -Profile and Book
+
+[1.0.7] - 2023-05-11
+### Added
 - OG Audio
 - OG Video
 - OG Image

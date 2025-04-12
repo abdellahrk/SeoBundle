@@ -2,6 +2,8 @@
 
 namespace Rami\SeoBundle\Metas;
 
+use Rami\SeoBundle\Metas\Model\SeoMeta;
+
 interface MetaTagsManagerInterface
 {
     public function getMetaTags(): array;
@@ -37,4 +39,6 @@ interface MetaTagsManagerInterface
     public function setCustomMetaTag(string $name, string $content): static;
 
     public function setAuthor(string $author): static;
+
+    public function getSeoMeta(): SeoMeta;
 }
