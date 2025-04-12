@@ -28,6 +28,10 @@ class GoogleTagCompilerPass implements CompilerPassInterface
             return;
         }
 
+        if (!$container->getParameter('seo.google_tag_manager')) {
+            return;
+        }
+
         $definition = $container->getDefinition('seo.google_tag_manager');
 
         // or processing tagged services:
