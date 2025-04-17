@@ -23,6 +23,14 @@ use Symfony\Component\HttpFoundation\Response;
     }
 ```
 
+enable the schema in the config:
+
+```yaml
+seo:
+  schema:
+    enabled: true
+```
+
 This is an example using the `Person` object which will render
 
 ```html
@@ -49,4 +57,34 @@ This is an example using the `Person` object which will render
 </script>
 ```
 
-This is a WIP as some objects are yet to be added
+### Currently Supported Schema Objects
+- Thing
+- Event
+- Organization
+- Person
+- Place
+- Product
+- CreativeWork
+- Airline
+- LocalBusiness
+- Library
+- RadioStation
+- TravelAgency
+- IndividualProduct
+- Audience
+- Brand
+- DefinedTerm
+- Grant
+- JobPosting
+- Occupation
+- VirtualLocation
+- Blog
+- Chapter
+- Course
+- EducationalOccupationCredential
+- Thesis
+- Website
+- AboutPage
+- BlogPosting
+- AdministrativeArea
+- Service

@@ -1,8 +1,9 @@
 <?php
 
+use Rami\SeoBundle\EventSubscriber\GoogleTagInjectorSubscriber;
+use Rami\SeoBundle\EventSubscriber\SchemaTwigInjectorSubscriber;
 use Rami\SeoBundle\Command\GenerateSitemapCommand;
 use Rami\SeoBundle\DataCollector\SeoCollector;
-use Rami\SeoBundle\GoogleTagManager\EventSubscribers\GoogleTagInjectorSubscriber;
 use Rami\SeoBundle\GoogleTagManager\TagManager;
 use Rami\SeoBundle\GoogleTagManager\TagManagerInterface;
 use Rami\SeoBundle\Metas\MetaTagsManager;
@@ -25,7 +26,6 @@ use Rami\SeoBundle\Sitemap\Sitemap;
 use Rami\SeoBundle\Sitemap\SitemapInterface;
 use Rami\SeoBundle\Twig\Extensions\MetaTagsExtension;
 use Rami\SeoBundle\Twig\Extensions\OpenGraphExtension;
-use Rami\SeoBundle\Twig\Extensions\SchemaOrgExtension;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\service;
 use Symfony\Component\DependencyInjection\Reference;
@@ -36,16 +36,23 @@ return static function (ContainerConfigurator $container) {
         ->autowire()
         ->autoconfigure();
 
-    $services->set('seo.schema.tags', Schema::class);
-    $services->alias(SchemaInterface::class, 'seo.schema.tags');
-    $services->set(SchemaOrgExtension::class, SchemaOrgExtension::class)
-        ->autowire()
-        ->tag('twig.extension');
+    // Schema Org 
+    $services->set('seo.schema', Schema::class)->tag('seo.schema');
+    $services->alias(SchemaInterface::class, 'seo.schema');
+
+    $services
+        ->set(SchemaTwigInjectorSubscriber::class)
+        ->args([new Reference(SchemaInterface::class)])
+        ->tag('kernel.event_subscriber');
+    $services->set(\Rami\SeoBundle\Schema\BaseType::class);
+    // End Schema Org
+
     $services->set('seo.meta.tags', MetaTagsManager::class)->tag('kernel.reset', ['method' => 'reset']);
     $services->alias(MetaTagsManagerInterface::class, 'seo.meta.tags');
     $services->set(MetaTagsExtension::class, MetaTagsExtension::class)
         ->autowire()
         ->tag('twig.extension');
+
     $services->set('seo.sitemap', Sitemap::class);
     $services->alias(SitemapInterface::class, 'seo.sitemap')->public();
     $services->set('open.graph.bundle', OpenGraphManager::class);
@@ -85,5 +92,9 @@ return static function (ContainerConfigurator $container) {
     // Google Tag
     $services->set('seo.google_tag_manager', TagManager::class)->tag('seo.google_tag_manager');
     $services->alias(TagManagerInterface::class, 'seo.google_tag_manager');
-    $services->set(GoogleTagInjectorSubscriber::class)->arg('$tagManager', new Reference(TagManagerInterface::class))->tag('kernel.event_subscriber');
+    $services
+        ->set(GoogleTagInjectorSubscriber::class)
+        ->arg('$tagManager', new Reference(TagManagerInterface::class))
+        ->tag('kernel.event_subscriber');
+    // Google Tag
 };

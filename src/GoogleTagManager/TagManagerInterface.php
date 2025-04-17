@@ -13,7 +13,7 @@ namespace Rami\SeoBundle\GoogleTagManager;
 
 interface TagManagerInterface
 {
-    public function enableGoogleTagManager(?string $gtmId, ?string $gaId): void;
+    public function enableGoogleTagManager(?string $gtmId): void;
 
     public function renderHeadTag(): string;
 
