@@ -1,10 +1,20 @@
 # Changelog
-[1.0.8] - 2023-05-11
+
+[1.0.9] - 2025-05-17
+### Added
+- Schema rendering through eventsubscriber
+- Config to enable Schema rendring
+
+### Changed
+- Removed schema_org twig tag
+- Enhanced the readme
+
+[1.0.8] - 2025-05-11
 ### Added
 - Google Tag
 - Open Graph Structured objects -Profile and Book
 
-[1.0.7] - 2023-05-11
+[1.0.7] - 2025-05-11
 ### Added
 - OG Audio
 - OG Video

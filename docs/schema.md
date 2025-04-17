@@ -57,3 +57,34 @@ This is an example using the `Person` object which will render
 </script>
 ```
 
+### Currently Supported Schema Objects
+- Thing
+- Event
+- Organization
+- Person
+- Place
+- Product
+- CreativeWork
+- Airline
+- LocalBusiness
+- Library
+- RadioStation
+- TravelAgency
+- IndividualProduct
+- Audience
+- Brand
+- DefinedTerm
+- Grant
+- JobPosting
+- Occupation
+- VirtualLocation
+- Blog
+- Chapter
+- Course
+- EducationalOccupationCredential
+- Thesis
+- Website
+- AboutPage
+- BlogPosting
+- AdministrativeArea
+- Service
