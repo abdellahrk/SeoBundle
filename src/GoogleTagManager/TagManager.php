@@ -12,17 +12,14 @@ namespace Rami\SeoBundle\GoogleTagManager;
 
 class TagManager implements TagManagerInterface
 {
-
     private ?string $gtmId = null;
-    private ?string $gaId = null;
 
     /**
      * @return void
      */
-    public function enableGoogleTagManager(?string $gtmId, ?string $gaId): void
+    public function enableGoogleTagManager(?string $gtmId): void
     {
         $this->gtmId = $gtmId;
-        $this->gaId = $gaId;
     }
 
 

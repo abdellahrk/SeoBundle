@@ -6,8 +6,9 @@ return static function (DefinitionConfigurator $definition) {
     $definition->rootNode()
         ->children()
                     ->arrayNode('schema')
+                        ->addDefaultsIfNotSet()
                         ->children()
-
+                            ->booleanNode('enabled')->defaultFalse()->end()
                         ->end()
                     ->end()
                     ->arrayNode('meta_tags')

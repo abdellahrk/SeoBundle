@@ -9,18 +9,20 @@
  * please view the LICENSE file that was distributed with this source code.
  */
 
-namespace Rami\SeoBundle\GoogleTagManager\EventSubscribers;
+namespace Rami\SeoBundle\EventSubscriber;
 
-use Rami\SeoBundle\GoogleTagManager\TagManagerInterface;
+use Rami\SeoBundle\Schema\SchemaInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class GoogleTagInjectorSubscriber implements EventSubscriberInterface
+class SchemaTwigInjectorSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private TagManagerInterface $tagManager,
-    ) {}
+        private SchemaInterface $schema,
+        private ParameterBagInterface $parameterBag,
+    ){}
 
     /**
      * @return array[]|\array[][]|string[]
@@ -34,6 +36,14 @@ class GoogleTagInjectorSubscriber implements EventSubscriberInterface
 
     public function onKernelResponse(ResponseEvent $event): void
     {
+        if (!$this->parameterBag->has('seo.schema')) {
+            return;
+        }
+
+        if (!$this->parameterBag->get('seo.schema')['enabled']) {
+            return;
+        }
+
         $response = $event->getResponse();
         $request = $event->getRequest();
 
@@ -45,17 +55,15 @@ class GoogleTagInjectorSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $headerTag = $this->tagManager->renderHeadTag();
-        $bodyTag = $this->tagManager->renderBodyTag();
+        $content = $this->schema->getType() ? $this->schema->getType()->render() : null;
 
-        if ($headerTag) {
-            $body = str_replace('</head>', $headerTag . PHP_EOL . '</head>', $body);
+        if (null === $content) {
+            return;
         }
 
-        if ($bodyTag) {
-            $body = str_replace('</body>', $bodyTag . "\n</body>", $body);
-        }
+        $body = str_replace('</head>', $content . PHP_EOL . '</head>', $body);
 
         $response->setContent($body);
+
     }
 }

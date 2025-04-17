@@ -149,6 +149,14 @@ use Symfony\Component\HttpFoundation\Response;
         $schema->render($person);
     }
 ```
+enable the schema in the config:
+
+```yaml
+seo:
+  schema:
+    enabled: true
+```
+
 
 This is an example using the `Person` object which will render
 
