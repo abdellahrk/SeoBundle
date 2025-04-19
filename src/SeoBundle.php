@@ -11,10 +11,9 @@
 
 namespace Rami\SeoBundle;
 
-use Rami\SeoBundle\DependencyInjection\CompilerPasses\SchemaCompilerPass;
+use Rami\SeoBundle\DependencyInjection\CompilerPasses\MetaPixelCompilerPass;
 use Rami\SeoBundle\DependencyInjection\CompilerPasses\GoogleTagCompilerPass;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
-use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
@@ -35,6 +34,10 @@ class SeoBundle extends AbstractBundle
         if ($config['schema']['enabled']) {
             $container->parameters()->set('seo.schema', $config['schema']);
         }
+
+        if ($config['meta_pixel']['enabled']) {
+            $container->parameters()->set('seo.meta_pixel', $config['meta_pixel']);
+        }
     }
 
     public function configure(DefinitionConfigurator $definition): void
@@ -54,5 +57,6 @@ class SeoBundle extends AbstractBundle
         parent::build($container);
 
         $container->addCompilerPass(new GoogleTagCompilerPass());
+        $container->addCompilerPass(new MetaPixelCompilerPass());
     }
 }

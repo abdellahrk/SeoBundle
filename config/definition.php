@@ -42,5 +42,12 @@ return static function (DefinitionConfigurator $definition) {
                             ->booleanNode('enabled')->defaultFalse()->end()
                         ->end()
                     ->end()
+                    ->arrayNode('meta_pixel')
+                        ->addDefaultsIfNotSet()
+                        ->children()
+                            ->scalarNode('pixel_id')->defaultNull()->end()
+                            ->booleanNode('enabled')->defaultFalse()->end()
+                        ->end()
+                    ->end()
                 ->end();
 };

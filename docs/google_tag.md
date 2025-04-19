@@ -3,7 +3,6 @@ To enable Google Tag do the follow:
 ```yaml
 # config/packages/seo.yaml
 seo:
-  
   google_tag_manager:
     enabled: true
     tag_manager_id: GTM-XXXXX

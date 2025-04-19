@@ -11,24 +11,26 @@
 
 namespace Rami\SeoBundle\EventSubscriber;
 
-use Rami\SeoBundle\Seo\GoogleTagManager\TagManagerInterface;
+use Rami\SeoBundle\Seo\MetaPixel\MetaPixelInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class GoogleTagInjectorSubscriber implements EventSubscriberInterface
+class MetaPixelInjectorSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private TagManagerInterface $tagManager,
-    ) {}
+        private MetaPixelInterface $metaPixel
+    )
+    {
+    }
 
     /**
-     * @return array[]|\array[][]|string[]
+     * @inheritDoc
      */
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::RESPONSE => ['onKernelResponse'],
+            KernelEvents::RESPONSE => 'onKernelResponse',
         ];
     }
 
@@ -45,15 +47,10 @@ class GoogleTagInjectorSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $headerTag = $this->tagManager->renderHeadTag();
-        $bodyTag = $this->tagManager->renderBodyTag();
+        $headerContent = $this->metaPixel->renderPixel();
 
-        if ($headerTag) {
-            $body = str_replace('</head>', $headerTag . PHP_EOL . '</head>', $body);
-        }
-
-        if ($bodyTag) {
-            $body = str_replace('</body>', $bodyTag . "\n</body>", $body);
+        if ($headerContent) {
+            $body = str_replace('</head>', $headerContent . PHP_EOL . '</head>', $body);
         }
 
         $response->setContent($body);
