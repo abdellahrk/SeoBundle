@@ -1,11 +1,11 @@
 This Bundle supports
 ====================
--   [x] Meta Tags
--   [x] OpenGraph (Twitter Cards, Facebook, LinkedIn, Instagram, Discord and more)
--   [x] Structured Data (Schema)
--   [x] Sitemap Generation
--   [x] Google Tag
--   [ ] Meta Pixel
+-   [x] [Meta Tags](docs/meta_tags.md)
+-   [x] [OpenGraph (Twitter Cards, Facebook, LinkedIn, Instagram, Discord and more)](docs/open_graph.md)
+-   [x] [Structured Data (Schema)](docs/schema.md)
+-   [x] [Sitemap Generation](docs/sitemap.md)
+-   [x] [Google Tag](docs/google_tag.md)
+-   [x] [Meta Pixel](docs/meta_pixel.md)
 -   [ ] SEO Profiling [Dev mode]
 -   [ ] Breadcrum Generation
 
@@ -16,9 +16,6 @@ Installation
 Make sure Composer is installed globally, as explained in the
 [installation chapter](https://getcomposer.org/doc/00-intro.md)
 of the Composer documentation.
-
-Applications that use Symfony Flex
-----------------------------------
 
 Open a command console, enter your project directory and execute:
 
@@ -37,6 +34,8 @@ return [
     Abdellahramadan\SeoBundle\SeoBundle::class => ['all' => true],
 ];
 ```
+
+#### For full documentation, click on the desired topic above to be taken to its documentation page
 
 # Meta Tags
 

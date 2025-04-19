@@ -1,19 +1,12 @@
 # Documentation
 
 ## Features
--   [x] Meta Tags
--   [x] OpenGraph (Twitter Cards, Facebook, LinkedIn, Instagram, Discord and more)
--   [x] Structured Data (Schema) 
--   [x] Sitemap Generation
--   [x] Google Tags
--   [ ] Facebook Pixel
+-   [x] [Meta Tags](docs/meta_tags.md)
+-   [x] [OpenGraph (Twitter Cards, Facebook, LinkedIn, Instagram, Discord and more)](docs/open_graph.md)
+-   [x] [Structured Data (Schema)](docs/schema.md)
+-   [x] [Sitemap Generation](docs/sitemap.md)
+-   [x] [Google Tag](docs/google_tag.md)
+-   [x] [Meta Pixel](docs/meta_pixel.md)
 -   [ ] SEO Profiling [Dev mode]
 -   [ ] Breadcrum Generation
 
-<br>
-
-- [Meta Tags Documentation](meta_tags.md)
-- [Open Graph Documentation](open_graph.md)
-- [SchemaOrg](schema.md)
-- [Sitemap](sitemap.md)
-- [Google Tags](google_tag.md)
