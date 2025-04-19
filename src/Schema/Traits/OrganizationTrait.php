@@ -6,10 +6,10 @@ use Rami\SeoBundle\Schema\Intangible\StructuredValue\ContactPoint\PostalAddress;
 use Rami\SeoBundle\Schema\Thing\CreativeWork;
 use Rami\SeoBundle\Schema\Thing\Intangible\DefinedTerm;
 use Rami\SeoBundle\Schema\Thing\Intangible\Grant;
-use Rami\SeoBundle\Utils\Utils;
 use Rami\SeoBundle\Schema\Thing\Organization;
 use Rami\SeoBundle\Schema\Thing\Person;
 use Rami\SeoBundle\Schema\Thing\Place;
+use Rami\SeoBundle\Seo\Utils\Utils;
 
 trait OrganizationTrait
 {

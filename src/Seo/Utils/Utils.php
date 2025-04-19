@@ -9,7 +9,7 @@
  * please view the LICENSE file that was distributed with this source code.
  */
 
-namespace Rami\SeoBundle\Utils;
+namespace Rami\SeoBundle\Seo\Utils;
 
 class Utils
 {

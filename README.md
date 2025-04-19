@@ -5,7 +5,7 @@ This Bundle supports
 -   [x] Structured Data (Schema)
 -   [x] Sitemap Generation
 -   [x] Google Tag
--   [ ] Facebook Pixel
+-   [ ] Meta Pixel
 -   [ ] SEO Profiling [Dev mode]
 -   [ ] Breadcrum Generation
 

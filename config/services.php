@@ -1,11 +1,14 @@
 <?php
 
+use Rami\SeoBundle\EventSubscriber\MetaPixelInjectorSubscriber;
+use Rami\SeoBundle\Seo\GoogleTagManager\TagManager;
+use Rami\SeoBundle\Seo\GoogleTagManager\TagManagerInterface;
+use Rami\SeoBundle\Seo\MetaPixel\MetaPixel;
+use Rami\SeoBundle\Seo\MetaPixel\MetaPixelInterface;
 use Rami\SeoBundle\EventSubscriber\GoogleTagInjectorSubscriber;
 use Rami\SeoBundle\EventSubscriber\SchemaTwigInjectorSubscriber;
 use Rami\SeoBundle\Command\GenerateSitemapCommand;
 use Rami\SeoBundle\DataCollector\SeoCollector;
-use Rami\SeoBundle\GoogleTagManager\TagManager;
-use Rami\SeoBundle\GoogleTagManager\TagManagerInterface;
 use Rami\SeoBundle\Metas\MetaTagsManager;
 use Rami\SeoBundle\Metas\MetaTagsManagerInterface;
 use Rami\SeoBundle\OpenGraph\OGArticleManager;
@@ -27,7 +30,6 @@ use Rami\SeoBundle\Sitemap\SitemapInterface;
 use Rami\SeoBundle\Twig\Extensions\MetaTagsExtension;
 use Rami\SeoBundle\Twig\Extensions\OpenGraphExtension;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symfony\Component\DependencyInjection\Loader\Configurator\service;
 use Symfony\Component\DependencyInjection\Reference;
 
 return static function (ContainerConfigurator $container) {
@@ -55,24 +57,16 @@ return static function (ContainerConfigurator $container) {
 
     $services->set('seo.sitemap', Sitemap::class);
     $services->alias(SitemapInterface::class, 'seo.sitemap')->public();
-    $services->set('open.graph.bundle', OpenGraphManager::class);
-    $services->alias(OpenGraphManagerInterface::class, 'open.graph.bundle')->public();
-    $services->set('open.graph.bundle.twig.extension', OpenGraphExtension::class)
-        ->tag('twig.extension');
-    $services->set('open.graph', OpenGraphManager::class)->tag('kernel.reset', ['method' => 'reset']);
-    $services->set('seo.generate.site.map', GenerateSitemapCommand::class)->tag('console.command');
-    $services->set('seo.generate.sitemap.message', GenerateSitemapMessageHandler::class)->tag('message.message_handler');
-    $services->set('seo.update.sitemap.event', class: UpdateSitemapEventListener::class)->tag('kernel.event_listener');
-
-    $services
-        ->set(SeoCollector::class)
-        ->tag('data_collector',
-            [
-                'id' => SeoCollector::class,
-                'template' => '@Seo/seo/data_collector.html.twig'
-            ]);
 
     // Open Graph
+    $services->set('open.graph.bundle', OpenGraphManager::class);
+    $services->alias(OpenGraphManagerInterface::class, 'open.graph.bundle')->public();
+
+    $services->set('open.graph.bundle.twig.extension', OpenGraphExtension::class)
+        ->tag('twig.extension');
+
+    $services->set('open.graph', OpenGraphManager::class)->tag('kernel.reset', ['method' => 'reset']);
+
     $services->set('seo.og.image_manager', OGImageManager::class);
     $services
         ->alias( OGImageManagerInterface::class, 'seo.og.image_manager')
@@ -89,12 +83,43 @@ return static function (ContainerConfigurator $container) {
     $services->set('seo.og.article_manager', OGArticleManager::class);
     $services->alias(OGArticleManagerInterface::class, 'seo.og.article_manager');
 
-    // Google Tag
-    $services->set('seo.google_tag_manager', TagManager::class)->tag('seo.google_tag_manager');
+    $services
+        ->set('seo.generate.site.map', GenerateSitemapCommand::class)
+        ->tag('console.command');
+
+    $services
+        ->set('seo.generate.sitemap.message', GenerateSitemapMessageHandler::class)
+        ->tag('message.message_handler');
+
+    $services
+        ->set('seo.update.sitemap.event', class: UpdateSitemapEventListener::class)
+        ->tag('kernel.event_listener');
+
+    $services
+        ->set(SeoCollector::class)
+        ->tag('data_collector',
+            [
+                'id' => SeoCollector::class,
+                'template' => '@Seo/seo/data_collector.html.twig'
+            ]);
+
+    $services
+        ->set('seo.google_tag_manager', TagManager::class)
+        ->tag('seo.google_tag_manager');
     $services->alias(TagManagerInterface::class, 'seo.google_tag_manager');
+
     $services
         ->set(GoogleTagInjectorSubscriber::class)
         ->arg('$tagManager', new Reference(TagManagerInterface::class))
         ->tag('kernel.event_subscriber');
-    // Google Tag
+
+    $services
+        ->set('seo.meta_pixel', MetaPixel::class)
+        ->tag('seo.meta_pixel');
+    $services->alias(MetaPixelInterface::class, 'seo.meta_pixel');
+
+    $services
+        ->set(MetaPixelInjectorSubscriber::class)
+        ->arg('$metaPixel', new Reference(MetaPixelInterface::class))
+        ->tag('kernel.event_subscriber');
 };
