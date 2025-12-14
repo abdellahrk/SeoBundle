@@ -143,54 +143,55 @@ final class OpenGraphExtension extends AbstractExtension
         $hasDefaultConfig = false;
         $openGraph = $this->openGraphManager->getOpenGraph();
 
-        if ($this->parameterBag->has('seo.open_graph') && !empty($this->parameterBag->get('seo.open_graph'))) {
+        $openGraphConfig = $this->parameterBag->has('seo.open_graph') ? $this->parameterBag->get('seo.open_graph') : null;
+        if (null !== $openGraphConfig && [] !== $openGraphConfig) {
             $hasDefaultConfig = true;
         }
 
         if ($hasDefaultConfig) {
             $defaults = $this->parameterBag->get('seo.open_graph');
-            if (empty($openGraph->getTitle())  && array_key_exists('title', $defaults)) {
+            if ((null === $openGraph->getTitle() || '' === $openGraph->getTitle()) && array_key_exists('title', $defaults)) {
                 $openGraph->setTitle($defaults['title']);
             }
 
-            if (empty($openGraph->getDescription()) && array_key_exists('description', $defaults)) {
+            if ((null === $openGraph->getDescription() || '' === $openGraph->getDescription()) && array_key_exists('description', $defaults)) {
                 $openGraph->setDescription($defaults['description']);
             }
 
-            if (empty($openGraph->getSiteName()) && array_key_exists('sitename', $defaults)) {
+            if ((null === $openGraph->getSiteName() || '' === $openGraph->getSiteName()) && array_key_exists('sitename', $defaults)) {
                 $openGraph->setSiteName($defaults['sitename']);
             }
 
-            if (empty($openGraph->getUrl()) && array_key_exists('url', $defaults)) {
+            if ((null === $openGraph->getUrl() || '' === $openGraph->getUrl()) && array_key_exists('url', $defaults)) {
                 $openGraph->setUrl($defaults['url']);
             }
 
-            if (empty($openGraph->getType()) && array_key_exists('type', $defaults)) {
+            if ((null === $openGraph->getType() || '' === $openGraph->getType()) && array_key_exists('type', $defaults)) {
                 $openGraph->setType($defaults['type']);
             }
         }
 
-        if (!empty($openGraph->getTitle())) {
+        if (null !== $openGraph->getTitle() && '' !== $openGraph->getTitle()) {
             $openGraphString .=  sprintf('<meta property="og:title" content="%s" />', strip_tags($openGraph->getTitle()));
         }
 
-        if ($openGraph->getDescription() !== '') {
+        if (null !== $openGraph->getDescription() && '' !== $openGraph->getDescription()) {
             $openGraphString .= sprintf('<meta property="og:description" content="%s" />', strip_tags($openGraph->getDescription()));
         }
 
-        if ($openGraph->getImageUrl() !== '') {
+        if (null !== $openGraph->getImageUrl() && '' !== $openGraph->getImageUrl()) {
             $openGraphString .= sprintf('<meta property="og:image" content="%s" />', strip_tags($openGraph->getImageUrl()));
         }
 
-        if ($openGraph->getUrl() !== '') {
+        if (null !== $openGraph->getUrl() && '' !== $openGraph->getUrl()) {
             $openGraphString .= sprintf('<meta property="og:url" content="%s" />', strip_tags($openGraph->getUrl()));
         }
 
-        if ($openGraph->getType() !== '') {
+        if (null !== $openGraph->getType() && '' !== $openGraph->getType()) {
             $openGraphString .= sprintf('<meta property="og:type" content="%s" />',  strip_tags($openGraph->getType()));
         }
 
-        if ($openGraph->getSiteName()) {
+        if (null !== $openGraph->getSiteName() && '' !== $openGraph->getSiteName()) {
             $openGraphString .= sprintf('<meta property="og:site_name" content="%s" />', $openGraph->getSiteName());
         }
 
@@ -211,9 +212,11 @@ final class OpenGraphExtension extends AbstractExtension
             }
         }
 
-        if ($openGraph->getTwitterCardProperties()) {
-            foreach ($openGraph->getTwitterCardProperties() as $name => $content) {
-                $openGraphString .= sprintf('<meta property=twitter:"%s" content="%s" />', $name, $content);
+        if ([] !== $openGraph->getTwitterCardProperties()) {
+            foreach ($openGraph->getTwitterCardProperties() as $twitterCardProperty) {
+                foreach ($twitterCardProperty as $name => $content) {
+                    $openGraphString .= sprintf('<meta property=twitter:"%s" content="%s" />', $name, $content);
+                }
             }
         }
 
@@ -226,27 +229,27 @@ final class OpenGraphExtension extends AbstractExtension
 
         $ogString = '';
 
-        if (!empty($ogImage->getUrl())) {
+        if (null !== $ogImage->getUrl() && '' !== $ogImage->getUrl()) {
             $ogString .= sprintf('<meta property="og:image" content="%s" />', $ogImage->getUrl());
         }
-        
-        if (!empty($ogImage->getSecureUrl())) {
+
+        if (null !== $ogImage->getSecureUrl() && '' !== $ogImage->getSecureUrl()) {
             $ogString .= sprintf('<meta property="og:image:secure_url" content="%s">', $ogImage->getSecureUrl());
         }
 
-        if (!empty($ogImage->getType())) {
+        if (null !== $ogImage->getType() && '' !== $ogImage->getType()) {
             $ogString .= sprintf('<meta property="og:image:type" content="%s" />', $ogImage->getType());
         }
 
-        if (!empty($ogImage->getWidth())) {
+        if (null !== $ogImage->getWidth() && '' !== $ogImage->getWidth()) {
             $ogString .= sprintf('<meta property="og:image:width" content="%s" />', $ogImage->getWidth());
         }
 
-        if (!empty($ogImage->getHeight())) {
+        if (null !== $ogImage->getHeight() && '' !== $ogImage->getHeight()) {
             $ogString .= sprintf('<meta property="og:image:height" content="%s" />', $ogImage->getHeight());
         }
 
-        if (!empty($ogImage->getAlt())) {
+        if (null !== $ogImage->getAlt() && '' !== $ogImage->getAlt()) {
             $ogString .= sprintf('<meta property="og:image:alt" content="%s" />', $ogImage->getAlt());
         }
 
@@ -259,23 +262,23 @@ final class OpenGraphExtension extends AbstractExtension
 
         $ogString = '';
 
-        if (!empty($ogVideo->getUrl())) {
+        if (null !== $ogVideo->getUrl() && '' !== $ogVideo->getUrl()) {
             $ogString .= sprintf('<meta property="og:video" content="%s" />', $ogVideo->getUrl());
         }
 
-        if (!empty($ogVideo->getSecureUrl())) {
+        if (null !== $ogVideo->getSecureUrl() && '' !== $ogVideo->getSecureUrl()) {
             $ogString .= sprintf('<meta property="og:video:secure_url" content="%s">', $ogVideo->getSecureUrl());
         }
 
-        if (!empty($ogVideo->getType())) {
+        if (null !== $ogVideo->getType() && '' !== $ogVideo->getType()) {
             $ogString .= sprintf('<meta property="og:video:type" content="%s" />', $ogVideo->getType());
         }
 
-        if (!empty($ogVideo->getWidth())) {
+        if (null !== $ogVideo->getWidth() && '' !== $ogVideo->getWidth()) {
             $ogString .= sprintf('<meta property="og:video:width" content="%s" />', $ogVideo->getWidth());
         }
 
-        if (!empty($ogVideo->getHeight())) {
+        if (null !== $ogVideo->getHeight() && '' !== $ogVideo->getHeight()) {
             $ogString .= sprintf('<meta property="og:video:height" content="%s" />', $ogVideo->getHeight());
         }
 
@@ -288,23 +291,23 @@ final class OpenGraphExtension extends AbstractExtension
 
         $articleString = '';
 
-        if (!empty($article->getPublishedTime())) {
+        if (null !== $article->getPublishedTime()) {
             $articleString .= sprintf('<meta property="article:published_time" content="%s" />', $article->getPublishedTime()->format('Y-md-m-Y-H-i-s'));
         }
 
-        if (!empty($article->getModifiedTime())) {
+        if (null !== $article->getModifiedTime()) {
             $articleString .= sprintf('<meta property="article:modified_time" content="%s" />', $article->getModifiedTime()->format('Y-m-d-m-Y-H-i-s'));
         }
 
-        if (!empty($article->getAuthor())) {
+        if (null !== $article->getAuthor() && '' !== $article->getAuthor()) {
             $articleString .= sprintf('<meta property="article:author" content="%s" />', $article->getAuthor());
         }
 
-        if (!empty($article->getSection())) {
+        if (null !== $article->getSection() && '' !== $article->getSection()) {
             $articleString .= sprintf('<meta property="article:section" content="%s" />', $article->getSection());
         }
 
-        if (!empty($article->getTags())) {
+        if (null !== $article->getTags() && [] !== $article->getTags()) {
             foreach ($article->getTags() as $tag) {
                 $articleString .= sprintf('<meta property="article:tag" content="%s" />', $tag);
             }

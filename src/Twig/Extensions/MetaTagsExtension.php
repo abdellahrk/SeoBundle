@@ -88,7 +88,7 @@ class MetaTagsExtension extends AbstractExtension
             $this->metaTags->setXUACompatible();
         }
 
-        if (!empty($customMetaTags)) {
+        if (null !== $customMetaTags && [] !== $customMetaTags) {
             foreach ($customMetaTags as $name => $content) {
                 $this->metaTags->setCustomMetaTag($name, $content);
             }
@@ -106,43 +106,43 @@ class MetaTagsExtension extends AbstractExtension
 
         $seoMeta = $this->metaTags->seoMeta;
 
-        if (!empty($seoMeta->getTitle())) {
+        if (null !== $seoMeta->getTitle() && '' !== $seoMeta->getTitle()) {
             $metaTags .= sprintf('<title>%s</title>', $seoMeta->getTitle());
         }
 
-        if (!empty($seoMeta->getDescription())) {
+        if (null !== $seoMeta->getDescription() && '' !== $seoMeta->getDescription()) {
             $metaTags .= sprintf('<meta name="description" content="%s" />', $seoMeta->getDescription());
         }
 
-        if (!empty($seoMeta->getKeywords())) {
+        if (null !== $seoMeta->getKeywords() && [] !== $seoMeta->getKeywords()) {
             $metaTags .= sprintf('<meta name="keywords" content="%s" />', implode(', ', $seoMeta->getKeywords()));
         }
 
-        if (!empty($seoMeta->getCanonical())) {
+        if (null !== $seoMeta->getCanonical() && '' !== $seoMeta->getCanonical()) {
             $metaTags .= sprintf('<link rel="canonical" href="%s" />', $seoMeta->getCanonical());
         }
 
-        if (!empty($seoMeta->getAuthor())) {
+        if (null !== $seoMeta->getAuthor() && '' !== $seoMeta->getAuthor()) {
             $metaTags .= sprintf('<meta name="author" content="%s" />', $seoMeta->getAuthor());
         }
 
-        if (!empty($seoMeta->getCharset())) {
+        if (null !== $seoMeta->getCharset() && '' !== $seoMeta->getCharset()) {
             $metaTags .= sprintf('<meta charset="%s" />', $seoMeta->getCharset());
         }
 
-        if (!empty($seoMeta->getRobots())) {
+        if (null !== $seoMeta->getRobots() && [] !== $seoMeta->getRobots()) {
             $metaTags .= sprintf('<meta name="robots" content="%s" />', implode(', ', $seoMeta->getRobots()));
         }
 
-        if (!empty($seoMeta->getViewport())) {
+        if (null !== $seoMeta->getViewport() && '' !== $seoMeta->getViewport()) {
             $metaTags .= sprintf('<meta name="viewport" content="%s" />', $seoMeta->getViewport());
         }
 
-        if (!empty($seoMeta->getContentSecurityPolicy())) {
+        if (null !== $seoMeta->getContentSecurityPolicy() && '' !== $seoMeta->getContentSecurityPolicy()) {
             $metaTags .= sprintf('<meta name="Content-Security-Policy" content="%s" />', $seoMeta->getContentSecurityPolicy());
         }
 
-        if (!empty($seoMeta->getContentType())) {
+        if (null !== $seoMeta->getContentType() && '' !== $seoMeta->getContentType()) {
             $metaTags .= sprintf('<meta name="Content-Type" content="%s" />', $seoMeta->getContentType());
         }
 
@@ -154,7 +154,7 @@ class MetaTagsExtension extends AbstractExtension
                 if (isset($value['http-equiv']) && isset($value['value'])) {
                     $metaTags .= sprintf('<meta http-equiv="%s" content="%s" />', $value['http-equiv'], $value['value']);
                 } elseif (isset($value['rel']) && isset($value['href'])) {
-                    if (!empty($value['media'])) {
+                    if (isset($value['media']) && '' !== $value['media']) {
                         $metaTags .= sprintf('<link rel="%s" href="%s" media="%s" />', $value['rel'], $value['href'], $value['media']);
                     } else {
                         $metaTags .= sprintf('<link rel="%s" href="%s" />', $value['rel'], $value['href']);

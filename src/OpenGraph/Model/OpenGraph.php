@@ -258,7 +258,7 @@ class OpenGraph
      */
     public function setTwitterCardProperties(array $twitterCardProperties): OpenGraph
     {
-        $this->twitterCardProperties = $twitterCardProperties;
+        $this->twitterCardProperties[] = $twitterCardProperties;
         return $this;
     }
 
