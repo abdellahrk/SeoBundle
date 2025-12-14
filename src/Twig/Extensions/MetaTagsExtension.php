@@ -106,6 +106,10 @@ class MetaTagsExtension extends AbstractExtension
 
         $seoMeta = $this->metaTags->seoMeta;
 
+        if (null !== $seoMeta->getCharset() && '' !== $seoMeta->getCharset()) {
+            $metaTags .= sprintf('<meta charset="%s" />', $seoMeta->getCharset());
+        }
+
         if (null !== $seoMeta->getTitle() && '' !== $seoMeta->getTitle()) {
             $metaTags .= sprintf('<title>%s</title>', $seoMeta->getTitle());
         }
@@ -124,10 +128,6 @@ class MetaTagsExtension extends AbstractExtension
 
         if (null !== $seoMeta->getAuthor() && '' !== $seoMeta->getAuthor()) {
             $metaTags .= sprintf('<meta name="author" content="%s" />', $seoMeta->getAuthor());
-        }
-
-        if (null !== $seoMeta->getCharset() && '' !== $seoMeta->getCharset()) {
-            $metaTags .= sprintf('<meta charset="%s" />', $seoMeta->getCharset());
         }
 
         if (null !== $seoMeta->getRobots() && [] !== $seoMeta->getRobots()) {
