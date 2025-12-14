@@ -69,4 +69,10 @@ class Event extends BaseType
         $this->setProperty('audience', $this->parseChild($audience));
         return $this;
     }
+
+    public function eventAttendanceMode(string $eventAttendanceMode):static
+    {
+        $this->setProperty('eventAttendanceMode', $eventAttendanceMode);
+        return $this;
+    }
 }
