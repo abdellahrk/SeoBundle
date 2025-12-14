@@ -26,7 +26,7 @@ class MetaTagsManager implements MetaTagsManagerInterface, ResettableInterface
 
     public function setCharacterEncoding(string $charset = 'UTF-8'): static
     {
-       $this->metaTags['charset'] = $charset;
+       $this->seoMeta->setCharset($charset);
        return $this;
     }
 

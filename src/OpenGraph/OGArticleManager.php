@@ -35,7 +35,7 @@ class OGArticleManager implements OGArticleManagerInterface
      */
     public function setPublishedTime(\DateTime $publishedTime): static
     {
-        $this->setPublishedTime($publishedTime);
+        $this->article->setPublishedTime($publishedTime);
         return $this;
     }
 
@@ -44,7 +44,7 @@ class OGArticleManager implements OGArticleManagerInterface
      */
     public function getModifiedTime(): \DateTime
     {
-        return $this->getModifiedTime();
+        return $this->article->getModifiedTime();
     }
 
     /**
