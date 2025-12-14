@@ -32,29 +32,71 @@
 {% endblock %}
 
 {% block panel %}
-    {# Optional, for showing the most details. #}
     <p>All in One Symfony SEO Bundle</p>
     <hr/>
 
-    {% if collector.seoMeta is defined and collector.seoMeta is not empty %}
-        Activate
+    {% if collector.seoMetas is defined and collector.seoMetas is not empty %}
+        <h2>SEO META TAGS</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Meta</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            {% for key, value in collector.seoMetas %}
+                <tr>
+                    <td><strong>{{ key }}</strong></td>
+                    <td>
+                        {% if value is iterable %}
+                            {% if value is empty %}
+                                <em>[]</em>
+                            {% else %}
+                                <pre>{{ value|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                            {% endif %}
+                        {% elseif value is null or value == '' %}
+                            <em>—</em>
+                        {% else %}
+                            {{ value }}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
     {% else %}
-        <h3>SEO Meta not Activated on this page</h3>
+        <h3>SEO Meta Tags not activated on this page</h3>
     {% endif %}
-    <table>
-        <tr>
-            {{ collector.seoMeta.title }}
-        </tr>
 
-{#        {% for type in collector.acceptableContentTypes %}#}
-{#            <tr>#}
-{#                <td>{{ type }}</td>#}
-{#            </tr>#}
-{#        {% endfor %}#}
+    {% if collector.openGraph() is defined and collector.openGraph() is not empty %}
+        <h2>OpenGraph</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Tag</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            {% for key, value in collector.openGraph() %}
+            <tr>
+                <td><strong>{{ key }}</strong></td>
+                <td>
+                    {% if value is iterable %}
+                        {% if value is empty %}
+                            <em>[]</em>
+                        {% else %}
+                            <pre>{{ value|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                        {% endif %}
+                    {% elseif value is null or value == '' %}
+                        <em>—</em>
+                    {% else %}
+                        {{ value }}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <h4>OpenGraph active on this page</h4>
+    {% endif %}
 
-{#        #}{# use the profiler_dump() function to render the contents of dumped objects #}
-{#        <tr>#}
-{#            {{ profiler_dump(collector.someObject) }}#}
-{#        </tr>#}
-    </table>
 {% endblock %}

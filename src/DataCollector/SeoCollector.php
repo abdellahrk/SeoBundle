@@ -11,32 +11,60 @@
 
 namespace Rami\SeoBundle\DataCollector;
 
+use Rami\SeoBundle\Metas\MetaTagsManager;
 use Rami\SeoBundle\Metas\MetaTagsManagerInterface;
 use Rami\SeoBundle\Metas\Model\SeoMeta;
+use Rami\SeoBundle\OpenGraph\OpenGraphManagerInterface;
 use Symfony\Bundle\FrameworkBundle\DataCollector\AbstractDataCollector;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class SeoCollector extends AbstractDataCollector
 {
     public function __construct(
         private MetaTagsManagerInterface $metaTagsManager,
-    )
-    {
+        private NormalizerInterface $normalizer,
+        private OpenGraphManagerInterface $openGraphManager,
+    ) {
+    }
 
+    public static function getTemplate(): ?string
+    {
+        return 'templates/seo/data_collector.html.twig';
     }
 
     public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
     {
-        $metaTags = $this->metaTagsManager->getMetaTags();
-        $this->data['seoMeta'] = $metaTags;
-        $missingMetaTags = [];
+        $this->data['seo_metas'] = $this->normalizer->normalize(
+            $this->metaTagsManager->getSeoMeta(),
+            null,
+            [
+                'skip_null_values' => true,
+                'enable_max_depth' => true,
+            ]
+        );
 
+        $this->data['open_graph'] = $this->normalizer->normalize(
+            $this->openGraphManager->getOpenGraph(),
+            null,
+            [
+                'skip_null_values' => true,
+                'enable_max_depth' => true,
+            ]
+        );
     }
 
-    public function getSeoMeta(): SeoMeta
+    /** @return [] */
+    public function getSeoMetas(): array
     {
-        return $this->data['seoMeta'];
+        return $this->data['seo_metas'];
+    }
+
+    /** @return [] */
+    public function getOpenGraph(): array
+    {
+        return $this->data['open_graph'];
     }
 
 

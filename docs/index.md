@@ -7,6 +7,7 @@
 -   [x] [Sitemap Generation](docs/sitemap.md)
 -   [x] [Google Tag](docs/google_tag.md)
 -   [x] [Meta Pixel](docs/meta_pixel.md)
--   [ ] SEO Profiling [Dev mode]
+-   [x] SEO Profiling [Dev mode]
 -   [ ] Breadcrum Generation
 
+![Profiler](Profiler.png)

@@ -29,7 +29,8 @@
         "symfony/test-pack": "^1.0",
         "symfony/framework-bundle": "^5.4 || ^6.0 || ^7.0 || ^8.0",
         "symfony/yaml": "^5.4 || ^6.0 || ^7.0 || ^8.0",
-        "symfony/profiler-pack": "^1.0"
+        "symfony/profiler-pack": "^1.0",
+        "symfony/serializer": "^5.4 || ^6.0 || ^7.0 || ^8.0"
     },
     "license": "MIT",
     "autoload": {
