@@ -8,7 +8,7 @@ use Rami\SeoBundle\Schema\Thing\CreativeWork\Blog;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\Course;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\EducationalOccupationalCredential;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\Thesis;
-use Rami\SeoBundle\Schema\Thing\CreativeWork\Website;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebSite;
 use Rami\SeoBundle\Schema\Thing\Intangible\DefinedTerm;
 use Rami\SeoBundle\Schema\Thing\Intangible\JobPosting;
 use Rami\SeoBundle\Schema\Thing\Intangible\Occupation;
@@ -152,9 +152,9 @@ class Schema implements SchemaInterface
         return new Course();
     }
 
-    public function website(): Website
+    public function website(): WebSite
     {
-        return new Website();
+        return new WebSite();
     }
 
     public function thesis(): Thesis

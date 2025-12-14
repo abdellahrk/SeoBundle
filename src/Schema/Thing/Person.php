@@ -120,7 +120,7 @@ class Person extends BaseType
 
     public function colleague(Person|Url $colleague): static
     {
-        $this->setProperty('colleage', $this->parseChild($colleague));
+        $this->setProperty('colleague', $this->parseChild($colleague));
         return $this;
     }
 
@@ -138,7 +138,7 @@ class Person extends BaseType
 
     public function nationality(Country $country): static
     {
-        $this->setProperty('country', $this->parseChild($country));
+        $this->setProperty('nationality', $this->parseChild($country));
         return $this;
     }
 }

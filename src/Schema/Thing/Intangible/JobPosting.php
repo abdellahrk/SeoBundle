@@ -61,7 +61,7 @@ class JobPosting extends BaseType
 
     public function relevantOccupation(Occupation $occupation): string
     {
-        $this->setProperty('occupation', $this->parseChild($occupation));
+        $this->setProperty('relevantOccupation', $this->parseChild($occupation));
         return $this;
     }
 

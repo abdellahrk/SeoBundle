@@ -16,9 +16,9 @@ class Course extends BaseType
         return $this;
     }
 
-    public function totalHistoralEnrollmennt(string $totalHistoralEnrollment): static
+    public function totalHistoricalEnrollment(string $totalHistoricalEnrollment): static
     {
-        $this->setProperty('totalHistoralEnrollment', $totalHistoralEnrollment);
+        $this->setProperty('totalHistoricalEnrollment', $totalHistoricalEnrollment);
         return $this;
     }
 
