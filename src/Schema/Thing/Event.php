@@ -29,6 +29,12 @@ class Event extends BaseType
         return $this;
     }
 
+    public function organizer(Person|Organization $organizer): static
+    {
+        $this->setProperty('organizer', $this->parseChild($organizer));
+        return $this;
+    }
+
     public function location(Place|PostalAddress|VirtualLocation|string $location): static
     {
         if (is_string($location)) {
@@ -73,6 +79,18 @@ class Event extends BaseType
     public function eventAttendanceMode(string $eventAttendanceMode):static
     {
         $this->setProperty('eventAttendanceMode', $eventAttendanceMode);
+        return $this;
+    }
+
+    public function eventStatus(string $eventStatus):static
+    {
+        $this->setProperty('eventStatus', $eventStatus);
+        return $this;
+    }
+
+    public function image(string $image):static
+    {
+        $this->setProperty('image', $image);
         return $this;
     }
 }
