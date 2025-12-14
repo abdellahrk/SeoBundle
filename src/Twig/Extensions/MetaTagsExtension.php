@@ -151,16 +151,16 @@ class MetaTagsExtension extends AbstractExtension
         foreach ($tags as $name => $value) {
             if (is_array($value)) {
                 // Handle structured tags like default-style, x-ua-compatible, rel
-                if (isset($value['http-equiv']) && isset($value['value'])) {
+                if (isset($value['http-equiv'], $value['value']) && '' !== $value['http-equiv'] && '' !== $value['value']) {
                     $metaTags .= sprintf('<meta http-equiv="%s" content="%s" />', $value['http-equiv'], $value['value']);
-                } elseif (isset($value['rel']) && isset($value['href'])) {
+                } elseif (isset($value['rel'], $value['href']) && '' !== $value['rel'] && '' !== $value['href']) {
                     if (isset($value['media']) && '' !== $value['media']) {
                         $metaTags .= sprintf('<link rel="%s" href="%s" media="%s" />', $value['rel'], $value['href'], $value['media']);
                     } else {
                         $metaTags .= sprintf('<link rel="%s" href="%s" />', $value['rel'], $value['href']);
                     }
                 }
-            } elseif ($name !== 'charset') {
+            } elseif ('charset' !== $name) {
                 // Handle custom meta tags (skip charset as it's already handled above)
                 $metaTags .= sprintf('<meta name="%s" content="%s" />', $name, $value);
             }
