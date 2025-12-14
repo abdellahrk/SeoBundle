@@ -51,6 +51,8 @@ class MetaTagsExtension extends AbstractExtension
      * @param string|null $viewport
      * @param string|null $author
      * @param string|null $contentType
+     * @param bool $xuaCompatible
+     * @param array|null $customMetaTags
      * @return string
      */
     public function renderMetaTags(
@@ -64,11 +66,13 @@ class MetaTagsExtension extends AbstractExtension
         ?string $copyright = '',
         ?string $viewport = "",
         ?string $author = '',
-        ?string $contentType = ''
+        ?string $contentType = '',
+        bool $xuaCompatible = false,
+        ?array $customMetaTags = []
     ): string
     {
         $seo = $this->metaTags->getSeoMeta();
-        $this->metaTags->setTitle( $title ?: $seo->getTitle())
+        $this->metaTags->setTitle($title ?: $seo->getTitle())
             ->setDescription($description ?: $seo->getDescription())
             ->setKeywords($keywords ?: $seo->getKeywords())
             ->setSubject($subject ?: $seo->getSubject())
@@ -78,8 +82,17 @@ class MetaTagsExtension extends AbstractExtension
             ->setCopyright($copyright ?: $seo->getCopyright())
             ->setViewport($viewport ?: $seo->getViewport())
             ->setAuthor($author ?: $seo->getAuthor())
-            ->setContentType($contentType ?: $seo->getContentType())
-        ;
+            ->setContentType($contentType ?: $seo->getContentType());
+
+        if ($xuaCompatible) {
+            $this->metaTags->setXUACompatible();
+        }
+
+        if (!empty($customMetaTags)) {
+            foreach ($customMetaTags as $name => $content) {
+                $this->metaTags->setCustomMetaTag($name, $content);
+            }
+        }
 
         return $this->renderTags();
     }
@@ -131,6 +144,26 @@ class MetaTagsExtension extends AbstractExtension
 
         if (!empty($seoMeta->getContentType())) {
             $metaTags .= sprintf('<meta name="Content-Type" content="%s" />', $seoMeta->getContentType());
+        }
+
+        // Render additional custom meta tags
+        $tags = $this->metaTags->getMetaTags();
+        foreach ($tags as $name => $value) {
+            if (is_array($value)) {
+                // Handle structured tags like default-style, x-ua-compatible, rel
+                if (isset($value['http-equiv']) && isset($value['value'])) {
+                    $metaTags .= sprintf('<meta http-equiv="%s" content="%s" />', $value['http-equiv'], $value['value']);
+                } elseif (isset($value['rel']) && isset($value['href'])) {
+                    if (!empty($value['media'])) {
+                        $metaTags .= sprintf('<link rel="%s" href="%s" media="%s" />', $value['rel'], $value['href'], $value['media']);
+                    } else {
+                        $metaTags .= sprintf('<link rel="%s" href="%s" />', $value['rel'], $value['href']);
+                    }
+                }
+            } elseif ($name !== 'charset') {
+                // Handle custom meta tags (skip charset as it's already handled above)
+                $metaTags .= sprintf('<meta name="%s" content="%s" />', $name, $value);
+            }
         }
 
         return $metaTags;
