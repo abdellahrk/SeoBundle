@@ -9,7 +9,7 @@ class WebSite extends BaseType
 {
     use CreativeWorkTrait;
 
-    public function ssn(string $ssn): static
+    public function issn(string $ssn): static
     {
         $this->setProperty('issn', $ssn);
         return $this;
