@@ -50,6 +50,13 @@ class BaseType
         $this->setProperty('url', $value);
         return $this;
     }
+
+    public function inLanguage(string $isLanguage): static
+    {
+        $this->setProperty('inLanguage', $isLanguage);
+        return $this;
+    }
+
     public function setDescription(string $value): static
     {
         $this->setProperty('description', $value);
