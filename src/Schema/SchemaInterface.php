@@ -43,6 +43,7 @@ interface SchemaInterface
 
     public function webPage(): WebPage;
     public function collectionPage(): CollectionPage;
+    public function mediaGallery(): CollectionPage\MediaGallery;
     public function aboutPage(): AboutPage;
     public function contactPage(): ContactPage;
     public function imageObject(): ImageObject;
