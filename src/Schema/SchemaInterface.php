@@ -17,7 +17,10 @@ use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPageElement;
 use Rami\SeoBundle\Schema\Thing\Intangible\BreadcrumbList;
 use Rami\SeoBundle\Schema\Thing\Intangible\ListItem;
 use Rami\SeoBundle\Schema\Thing\Intangible\StructuredValue\SpeakableSpecification;
+use Rami\SeoBundle\Schema\Thing\Intangible\StructuredValue\PropertyValue;
 use Rami\SeoBundle\Schema\Thing\Intangible\Specialty;
+use Rami\SeoBundle\Schema\Thing\Action;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\TextObject;
 use Rami\SeoBundle\Schema\Intangible\Service;
 use Rami\SeoBundle\Schema\Place\AdministrativeArea;
 use Rami\SeoBundle\Schema\Thing\Event;
@@ -51,6 +54,9 @@ interface SchemaInterface
     public function article(): Article;
     public function socialMediaPosting(): SocialMediaPosting;
     public function blogPosting(): BlogPosting;
+    public function propertyValue(): PropertyValue;
+    public function action(): Action;
+    public function textObject(): TextObject;
 
     public function getType(): BaseType|null;
 

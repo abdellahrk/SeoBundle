@@ -18,6 +18,8 @@ use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\CollectionPage;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\ContactPage;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPageElement;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebSite;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\TextObject;
+use Rami\SeoBundle\Schema\Thing\Action;
 use Rami\SeoBundle\Schema\Thing\Intangible\BreadcrumbList;
 use Rami\SeoBundle\Schema\Thing\Intangible\DefinedTerm;
 use Rami\SeoBundle\Schema\Thing\Intangible\JobPosting;
@@ -25,6 +27,7 @@ use Rami\SeoBundle\Schema\Thing\Intangible\ListItem;
 use Rami\SeoBundle\Schema\Thing\Intangible\Occupation;
 use Rami\SeoBundle\Schema\Thing\Intangible\Specialty;
 use Rami\SeoBundle\Schema\Thing\Intangible\StructuredValue\MonetaryAmount;
+use Rami\SeoBundle\Schema\Thing\Intangible\StructuredValue\PropertyValue;
 use Rami\SeoBundle\Schema\Thing\Intangible\StructuredValue\SpeakableSpecification;
 use Rami\SeoBundle\Schema\Thing\Organization\LocalBusiness;
 use Rami\SeoBundle\Schema\Thing\Organization\LocalBusiness\Library;
@@ -243,6 +246,21 @@ class Schema implements SchemaInterface
     public function blogPosting(): BlogPosting
     {
         return new BlogPosting();
+    }
+
+    public function propertyValue(): PropertyValue
+    {
+        return new PropertyValue();
+    }
+
+    public function action(): Action
+    {
+        return new Action();
+    }
+
+    public function textObject(): TextObject
+    {
+        return new TextObject();
     }
 
 }
