@@ -4,6 +4,7 @@ namespace Rami\SeoBundle\Schema\Traits;
 
 use Rami\SeoBundle\Schema\BaseType;
 use Rami\SeoBundle\Schema\DataType\Text\Url;
+use Rami\SeoBundle\Schema\Intangible\ItemList;
 use Rami\SeoBundle\Schema\Thing\CreativeWork;
 use Rami\SeoBundle\Schema\Thing\Organization;
 use Rami\SeoBundle\Schema\Thing\Person;
@@ -224,7 +225,7 @@ trait CreativeWorkTrait
         return $this;
     }
 
-    public function mainEntity(BaseType $entity): static
+    public function mainEntity(ItemList $entity): static
     {
         $this->setProperty('mainEntity', $this->parseChild($entity));
         return $this;
