@@ -2,14 +2,14 @@
 
 namespace Rami\SeoBundle\Schema\Thing;
 
-use Rami\SeoBundle\Schema\Thing;
+use Rami\SeoBundle\Schema\BaseType;
 use Rami\SeoBundle\Schema\Traits\CreativeWorkTrait;
+use Rami\SeoBundle\Schema\Traits\ThingsTrait;
 
-class CreativeWork extends Thing
+class CreativeWork extends BaseType
 {
     use CreativeWorkTrait;
+    use ThingsTrait;
 
     public array $properties = [];
-
-
 }
