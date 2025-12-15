@@ -2,13 +2,10 @@
 
 namespace Rami\SeoBundle\Schema\Thing\CreativeWork;
 
-use Rami\SeoBundle\Schema\BaseType;
-use Rami\SeoBundle\Schema\Traits\CreativeWorkTrait;
+use Rami\SeoBundle\Schema\Thing\CreativeWork;
 
-class WebSite extends BaseType
+class WebSite extends CreativeWork
 {
-    use CreativeWorkTrait;
-
     public function issn(string $ssn): static
     {
         $this->setProperty('issn', $ssn);

@@ -9,6 +9,4 @@ use Rami\SeoBundle\Schema\Traits\ThingTrait;
 class CreativeWork extends Thing
 {
     use CreativeWorkTrait;
-
-    public array $properties = [];
 }
