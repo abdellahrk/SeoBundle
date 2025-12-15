@@ -228,6 +228,11 @@ class Schema implements SchemaInterface
         return new WebPage\SearchResultsPage();
     }
 
+    public function mediaObject(): CreativeWork\MediaObject
+    {
+        return new CreativeWork\MediaObject();
+    }
+
     public function imageObject(): ImageObject
     {
         return new ImageObject();

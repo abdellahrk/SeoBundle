@@ -63,6 +63,7 @@ interface SchemaInterface
     public function propertyValue(): PropertyValue;
     public function action(): Action;
     public function textObject(): TextObject;
+    public function mediaObject(): CreativeWork\MediaObject;
 
     public function getType(): BaseType|null;
 
