@@ -2,20 +2,18 @@
 
 namespace Rami\SeoBundle\Schema\Thing\CreativeWork\Article;
 
-use Rami\SeoBundle\Schema\Thing\CreativeWork\Article;
-use Rami\SeoBundle\Schema\Thing\Organization;
+use Rami\SeoBundle\Schema\BaseType;
+use Rami\SeoBundle\Schema\Traits\ArticleTrait;
+use Rami\SeoBundle\Schema\Traits\CreativeWorkTrait;
+use Rami\SeoBundle\Schema\Traits\SocialMediaPostingTrait;
+use Rami\SeoBundle\Schema\Traits\ThingTrait;
 
-class SocialMediaPosting extends Article
+class SocialMediaPosting extends BaseType
 {
-    public function sharedContent(Article $content): static
-    {
-        $this->setProperty('sharedContent', $this->parseChild($content));
-        return $this;
-    }
+    use ThingTrait;
+    use CreativeWorkTrait;
+    use ArticleTrait;
+    use SocialMediaPostingTrait;
 
-    public function discussionUrl(string $url): static
-    {
-        $this->setProperty('discussionUrl', $url);
-        return $this;
-    }
+    public array $properties = [];
 }
