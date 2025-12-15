@@ -17,6 +17,7 @@ class Audience extends BaseType
     public function geographicArea(AdministrativeArea $administrativeArea): static
     {
         $this->setProperty('geographicArea', $administrativeArea);
+
         return $this;
     }
 }
