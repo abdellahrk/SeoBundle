@@ -97,13 +97,19 @@ class BaseType
     protected function parseArray(array $children): array
     {
         $properties = [];
-        foreach ($children as $key => $child) {
-            if ($child instanceof BaseType) {
 
-                $property[ "@type"] = $child->getType() ;
-                $property = $property+$child->getProperties();
-                $properties[$key] = $property;
+        foreach ($children as $key => $child) {
+            if (!$child instanceof BaseType) {
+                continue;
             }
+
+            $property = [
+                '@type' => $child->getType(),
+            ];
+
+            $property = array_merge($property, $child->getProperties());
+
+            $properties[$key] = $property;
         }
 
         return $properties;
