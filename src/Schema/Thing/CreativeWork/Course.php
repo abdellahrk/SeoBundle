@@ -3,13 +3,12 @@
 namespace Rami\SeoBundle\Schema\Thing\CreativeWork;
 
 use Rami\SeoBundle\Schema\BaseType;
+use Rami\SeoBundle\Schema\Thing\CreativeWork;
 use Rami\SeoBundle\Schema\Thing\Intangible\DefinedTerm;
 use Rami\SeoBundle\Schema\Traits\CreativeWorkTrait;
 
-class Course extends BaseType
+class Course extends CreativeWork
 {
-    use CreativeWorkTrait;
-
     public function courseCode(string $courseCode): static
     {
         $this->setProperty('courseCode', $courseCode);
