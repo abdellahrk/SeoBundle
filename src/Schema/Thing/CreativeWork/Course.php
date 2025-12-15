@@ -2,10 +2,8 @@
 
 namespace Rami\SeoBundle\Schema\Thing\CreativeWork;
 
-use Rami\SeoBundle\Schema\BaseType;
 use Rami\SeoBundle\Schema\Thing\CreativeWork;
 use Rami\SeoBundle\Schema\Thing\Intangible\DefinedTerm;
-use Rami\SeoBundle\Schema\Traits\CreativeWorkTrait;
 
 class Course extends CreativeWork
 {
