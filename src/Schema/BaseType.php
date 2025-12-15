@@ -104,12 +104,10 @@ class BaseType
     {
         $properties = $child->getProperties();
 
-        if (!isset($properties['@id'])) {
-            $id = $properties['id'] ?? $properties['url'] ?? null;
-
-            if (\is_string($id) && '' !== $id) {
-                $properties['@id'] = $id;
-            }
+        // Replace "id" with "@id" if present and non-empty
+        if (isset($properties['id']) && \is_string($properties['id']) && '' !== $properties['id']) {
+            $properties['@id'] = $properties['id'];
+            unset($properties['id']);
         }
 
         return [
