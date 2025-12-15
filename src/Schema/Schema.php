@@ -15,7 +15,7 @@ use Rami\SeoBundle\Schema\Thing\CreativeWork\Blog;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\Course;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\EducationalOccupationalCredential;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\MediaObject\ImageObject;
-use Rami\SeoBundle\Schema\Thing\CreativeWork\TextObject;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\MediaObject\TextObject;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\Thesis;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\AboutPage;

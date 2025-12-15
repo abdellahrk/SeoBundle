@@ -12,7 +12,7 @@ use Rami\SeoBundle\Schema\Thing\CreativeWork\Article;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\Article\SocialMediaPosting;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\Article\SocialMediaPosting\BlogPosting;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\MediaObject\ImageObject;
-use Rami\SeoBundle\Schema\Thing\CreativeWork\TextObject;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\MediaObject\TextObject;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\AboutPage;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\CollectionPage;
