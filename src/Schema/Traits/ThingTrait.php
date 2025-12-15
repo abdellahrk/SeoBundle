@@ -64,7 +64,7 @@ trait ThingTrait
     public function mainEntityOfPage(CreativeWork|string $mainEntityOfPage): static
     {
         if ($mainEntityOfPage instanceof CreativeWork) {
-            $this->setProperty('mainEntityOfPage', $this->parseChild($mainEntityOfPage));
+            $this->setProperty('mainEntityOfPage', $this->parseChildWithId($mainEntityOfPage));
         } else {
             $this->setProperty('mainEntityOfPage', $mainEntityOfPage);
         }
