@@ -249,21 +249,42 @@ trait CreativeWorkTrait
         return $this;
     }
 
-    public function dateCreated(\DateTime $date): static
+    public function dateCreated(\DateTime $date, \DateTimeZone $dateTimeZone = null): static
     {
-        $this->setProperty('dateCreated', $date->format('Y-m-d'));
+        $this->setDateTimeProperty(
+            name: 'dateCreated',
+            date: $date,
+            dateTimeZone: $dateTimeZone
+        );
         return $this;
     }
 
-    public function dateModified(\DateTime $date): static
+    public function dateModified(\DateTime $date, \DateTimeZone $dateTimeZone = null): static
     {
-        $this->setProperty('dateModified', $date->format('Y-m-d'));
+        $this->setDateTimeProperty(
+            name: 'dateModified',
+            date: $date,
+            dateTimeZone: $dateTimeZone
+        );
         return $this;
     }
 
-    public function datePublished(\DateTime $date): static
+    public function datePublished(\DateTime $date, \DateTimeZone $dateTimeZone = null): static
     {
-        $this->setProperty('datePublished', $date->format('Y-m-d'));
+        $this->setDateTimeProperty(
+            name: 'datePublished',
+            date: $date,
+            dateTimeZone: $dateTimeZone
+        );
         return $this;
+    }
+
+    private function setDateTimeProperty(string $name, \DateTime $date, \DateTimeZone $dateTimeZone = null): void
+    {
+        if ($dateTimeZone instanceof \DateTimeZone) {
+            $date->setTimezone($dateTimeZone);
+        }
+
+        $this->setProperty($name, $date->format(DATE_ATOM));
     }
 }
