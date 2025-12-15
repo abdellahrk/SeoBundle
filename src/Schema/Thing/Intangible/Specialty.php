@@ -2,8 +2,8 @@
 
 namespace Rami\SeoBundle\Schema\Thing\Intangible;
 
-use Rami\SeoBundle\Schema\BaseType;
+use Rami\SeoBundle\Schema\Thing;
 
-class Specialty extends BaseType
+class Specialty extends Thing
 {
 }
