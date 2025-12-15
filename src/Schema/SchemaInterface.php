@@ -47,6 +47,7 @@ interface SchemaInterface
     public function itemPage(): WebPage\ItemPage;
     public function checkoutPage(): WebPage\CheckoutPage;
     public function profilePage(): WebPage\ProfilePage;
+    public function searchResultPage(): WebPage\SearchResultsPage;
     public function mediaGallery(): CollectionPage\MediaGallery;
     public function aboutPage(): AboutPage;
     public function contactPage(): ContactPage;
@@ -64,7 +65,5 @@ interface SchemaInterface
     public function textObject(): TextObject;
 
     public function getType(): BaseType|null;
-
-//    private function setType(BaseType $type): void;
 
 }

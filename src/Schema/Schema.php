@@ -208,24 +208,24 @@ class Schema implements SchemaInterface
         return new WebPage\FAQPage();
     }
 
-    public function aboutPage(): AboutPage
+    public function itemPage(): WebPage\ItemPage
     {
-        return new AboutPage();
+        return new WebPage\ItemPage();
     }
 
-    public function aboutPage(): AboutPage
+    public function checkoutPage(): WebPage\CheckoutPage
     {
-        return new AboutPage();
+        return new WebPage\CheckoutPage();
     }
 
-    public function aboutPage(): AboutPage
+    public function profilePage(): WebPage\ProfilePage
     {
-        return new AboutPage();
+        return new WebPage\ProfilePage();
     }
 
-    public function aboutPage(): AboutPage
+    public function searchResultPage(): WebPage\SearchResultsPage
     {
-        return new AboutPage();
+        return new WebPage\SearchResultsPage();
     }
 
     public function imageObject(): ImageObject
