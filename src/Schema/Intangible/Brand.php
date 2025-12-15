@@ -2,9 +2,10 @@
 
 namespace Rami\SeoBundle\Schema\Intangible;
 
-use Rami\SeoBundle\Schema\BaseType;
+use Rami\SeoBundle\Schema\Thing;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\MediaObject\ImageObject;
 
-class Brand extends BaseType
+class Brand extends Thing
 {
     public function slogan(string $slogan): static
     {
@@ -12,4 +13,9 @@ class Brand extends BaseType
         return $this;
     }
 
+    public function logo(ImageObject|string $logo): static
+    {
+        $this->setProperty('logo', is_string($logo) ? $logo : $this->parseChild($logo));
+        return $this;
+    }
 }
