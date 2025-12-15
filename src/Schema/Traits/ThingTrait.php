@@ -10,9 +10,8 @@ use Rami\SeoBundle\Schema\Thing\CreativeWork\TextObject;
 use Rami\SeoBundle\Schema\Thing\Intangible\StructuredValue\PropertyValue;
 use Rami\SeoBundle\Schema\Thing\Organization;
 use Rami\SeoBundle\Schema\Thing\Person;
-use Rami\SeoBundle\Schema\Thing\Place\AdministrativeArea\Country;
 
-trait ThingsTrait
+trait ThingTrait
 {
     public function additionalType(string $additionalType): static
     {
