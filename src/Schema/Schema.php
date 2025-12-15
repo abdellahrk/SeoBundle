@@ -5,6 +5,8 @@ namespace Rami\SeoBundle\Schema;
 use Rami\SeoBundle\Schema\Intangible\StructuredValue\ContactPoint\PostalAddress;
 use Rami\SeoBundle\Schema\Thing\CreativeWork;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\Article;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\Article\SocialMediaPosting;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\Article\SocialMediaPosting\BlogPosting;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\Blog;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\Course;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\EducationalOccupationalCredential;
@@ -231,6 +233,16 @@ class Schema implements SchemaInterface
     public function contactPage(): ContactPage
     {
         return new ContactPage();
+    }
+
+    public function socialMediaPosting(): SocialMediaPosting
+    {
+        return new SocialMediaPosting();
+    }
+
+    public function blogPosting(): BlogPosting
+    {
+        return new BlogPosting();
     }
 
 }

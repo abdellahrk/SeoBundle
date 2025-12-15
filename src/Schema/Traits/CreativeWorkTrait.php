@@ -2,6 +2,7 @@
 
 namespace Rami\SeoBundle\Schema\Traits;
 
+use Rami\SeoBundle\Schema\BaseType;
 use Rami\SeoBundle\Schema\Thing\Place\AdministrativeArea\Country;
 use Rami\SeoBundle\Schema\Thing\Organization;
 use Rami\SeoBundle\Schema\Thing\Person;
@@ -137,6 +138,12 @@ trait CreativeWorkTrait
     public function conditionsOfAccess(string $conditions): static
     {
         $this->setProperty('conditionsOfAccess', $conditions);
+        return $this;
+    }
+
+    public function mainEntity(BaseType $entity): static
+    {
+        $this->setProperty('mainEntity', $this->parseChild($entity));
         return $this;
     }
 }

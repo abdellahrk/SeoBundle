@@ -6,6 +6,8 @@ use Rami\SeoBundle\Schema\Intangible\Audience;
 use Rami\SeoBundle\Schema\Intangible\StructuredValue\ContactPoint\PostalAddress;
 use Rami\SeoBundle\Schema\Thing\CreativeWork;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\Article;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\Article\SocialMediaPosting;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\Article\SocialMediaPosting\BlogPosting;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\CollectionPage;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\AboutPage;
@@ -47,6 +49,8 @@ interface SchemaInterface
     public function speakableSpecification(): SpeakableSpecification;
     public function specialty(): Specialty;
     public function article(): Article;
+    public function socialMediaPosting(): SocialMediaPosting;
+    public function blogPosting(): BlogPosting;
 
     public function getType(): BaseType|null;
 
