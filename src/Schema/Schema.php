@@ -203,6 +203,31 @@ class Schema implements SchemaInterface
         return new AboutPage();
     }
 
+    public function faqPage(): WebPage\FAQPage
+    {
+        return new WebPage\FAQPage();
+    }
+
+    public function aboutPage(): AboutPage
+    {
+        return new AboutPage();
+    }
+
+    public function aboutPage(): AboutPage
+    {
+        return new AboutPage();
+    }
+
+    public function aboutPage(): AboutPage
+    {
+        return new AboutPage();
+    }
+
+    public function aboutPage(): AboutPage
+    {
+        return new AboutPage();
+    }
+
     public function imageObject(): ImageObject
     {
         return new ImageObject();
