@@ -2,16 +2,8 @@
 
 namespace Rami\SeoBundle\Schema\Thing\CreativeWork\Article\SocialMediaPosting;
 
-use Rami\SeoBundle\Schema\BaseType;
-use Rami\SeoBundle\Schema\Traits\ArticleTrait;
-use Rami\SeoBundle\Schema\Traits\CreativeWorkTrait;
-use Rami\SeoBundle\Schema\Traits\SocialMediaPostingTrait;
-use Rami\SeoBundle\Schema\Traits\ThingTrait;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\Article\SocialMediaPosting;
 
-class BlogPosting extends BaseType
+class BlogPosting extends SocialMediaPosting
 {
-    use ThingTrait;
-    use CreativeWorkTrait;
-    use ArticleTrait;
-    use SocialMediaPostingTrait;
 }
