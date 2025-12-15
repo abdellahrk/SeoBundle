@@ -5,9 +5,11 @@ namespace Rami\SeoBundle\Schema;
 use Rami\SeoBundle\Schema\Intangible\Audience;
 use Rami\SeoBundle\Schema\Intangible\StructuredValue\ContactPoint\PostalAddress;
 use Rami\SeoBundle\Schema\Thing\CreativeWork;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\Article;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\CollectionPage;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\AboutPage;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\ContactPage;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\ImageObject;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPageElement;
 use Rami\SeoBundle\Schema\Thing\Intangible\BreadcrumbList;
@@ -37,12 +39,14 @@ interface SchemaInterface
     public function webPage(): WebPage;
     public function collectionPage(): CollectionPage;
     public function aboutPage(): AboutPage;
+    public function contactPage(): ContactPage;
     public function imageObject(): ImageObject;
     public function webPageElement(): WebPageElement;
     public function breadcrumbList(): BreadcrumbList;
     public function listItem(): ListItem;
     public function speakableSpecification(): SpeakableSpecification;
     public function specialty(): Specialty;
+    public function article(): Article;
 
     public function getType(): BaseType|null;
 
