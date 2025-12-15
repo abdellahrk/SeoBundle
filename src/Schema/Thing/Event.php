@@ -12,15 +12,23 @@ class Event extends Thing
 {
     public array $properties = [];
 
-    public function startDate(\DateTime $startDate): static
+    public function startDate(\DateTime $startDate, \DateTimeZone $dateTimeZone = null): static
     {
-        $this->setProperty('startDate', $startDate->format('Y-m-d H:i:s'));
+        if ($dateTimeZone instanceof \DateTimeZone) {
+            $startDate->setTimezone($dateTimeZone);
+        }
+
+        $this->setProperty('startDate', $startDate->format(DATE_ATOM));
         return $this;
     }
 
-    public function endDate(\DateTime $endDate): static
+    public function endDate(\DateTime $endDate, \DateTimeZone $dateTimeZone = null): static
     {
-        $this->setProperty('endDate', $endDate->format('Y-m-d H:i:s'));
+        if ($dateTimeZone instanceof \DateTimeZone) {
+            $endDate->setTimezone($dateTimeZone);
+        }
+
+        $this->setProperty('endDate', $endDate->format(DATE_ATOM));
         return $this;
     }
 
