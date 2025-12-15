@@ -3,6 +3,8 @@
 namespace Rami\SeoBundle\Schema\Traits;
 
 use Rami\SeoBundle\Schema\BaseType;
+use Rami\SeoBundle\Schema\DataType\Text\Url;
+use Rami\SeoBundle\Schema\Thing\CreativeWork;
 use Rami\SeoBundle\Schema\Thing\Place\AdministrativeArea\Country;
 use Rami\SeoBundle\Schema\Thing\Organization;
 use Rami\SeoBundle\Schema\Thing\Person;
@@ -12,12 +14,6 @@ trait CreativeWorkTrait
     public function abstract(string $abstract): static
     {
         $this->setProperty('abstract', $abstract);
-        return $this;
-    }
-
-    public function expires(\DateTime $dateTime): static
-    {
-        $this->setProperty('expires', $dateTime);
         return $this;
     }
 
@@ -63,9 +59,60 @@ trait CreativeWorkTrait
         return $this;
     }
 
+    public function acquireLicensePage(string|CreativeWork $acquireLicensePage): static
+    {
+        if (is_string($acquireLicensePage)) {
+            $this->setProperty('acquireLicensePage', $acquireLicensePage);
+            return $this;
+        }
+
+        $this->setProperty('acquireLicensePage', $this->parseChild($acquireLicensePage));
+        return $this;
+    }
+
+    public function alternativeHeadline(string $alternativeHeadline): static
+    {
+        $this->setProperty('alternativeHeadline', $alternativeHeadline);
+        return $this;
+    }
+
+    public function archivedAt(Url|CreativeWork\WebPage $archivedAt): static
+    {
+        if ($archivedAt instanceof Url) {
+            $this->setProperty('archivedAt', $this->parseChild($archivedAt));
+            return $this;
+        }
+
+        $this->setProperty('archivedAt', $this->parseChild($archivedAt));
+        return $this;
+    }
+
     public function author(Person|Organization $author): static
     {
         $this->setProperty('author', $this->parseChild($author));
+        return $this;
+    }
+
+    public function award(string $award): static
+    {
+        $this->setProperty('award', $award);
+        return $this;
+    }
+
+    public function character(Person $character): static
+    {
+        $this->setProperty('character', $this->parseChild($character));
+        return $this;
+    }
+
+    public function citation(string|CreativeWork $citation): static
+    {
+        if (is_string($citation)) {
+            $this->setProperty('citation', $citation);
+            return $this;
+        }
+
+        $this->setProperty('citation', $this->parseChild($citation));
         return $this;
     }
 
@@ -78,6 +125,18 @@ trait CreativeWorkTrait
     public function creator(Person|Organization $creator): static
     {
         $this->setProperty('creator', $this->parseChild($creator));
+        return $this;
+    }
+
+    public function countryOfOrigin(Country $countryOfOrigin): static
+    {
+        $this->setProperty('countryOfOrigin', $this->parseChild($countryOfOrigin));
+        return $this;
+    }
+
+    public function expires(\DateTime $dateTime): static
+    {
+        $this->setProperty('expires', $dateTime);
         return $this;
     }
 
@@ -99,9 +158,27 @@ trait CreativeWorkTrait
         return $this;
     }
 
-    public function countryOfOrigin(Country $countryOfOrigin): static
+    public function headline(string $headline): static
     {
-        $this->setProperty('countryOfOrigin', $this->parseChild($countryOfOrigin));
+        $this->setProperty('headline', $headline);
+        return $this;
+    }
+
+    public function keywords(string $keywords): static
+    {
+        $this->setProperty('keywords', $keywords);
+        return $this;
+    }
+
+    public function maintainer(Person|Organization $maintainer): static
+    {
+        $this->setProperty('maintainer', $this->parseChild($maintainer));
+        return $this;
+    }
+
+    public function isFamilyFriendly(bool $isFamilyFriendly): static
+    {
+        $this->setProperty('isFamilyFriendly', $isFamilyFriendly);
         return $this;
     }
 
@@ -129,6 +206,12 @@ trait CreativeWorkTrait
         return $this;
     }
 
+    public function sponsor(Person|Organization $sponsor): static
+    {
+        $this->setProperty('sponsor', $this->parseChild($sponsor));
+        return $this;
+    }
+
     public function text(string $text): static
     {
         $this->setProperty('text', $text);
@@ -144,6 +227,42 @@ trait CreativeWorkTrait
     public function mainEntity(BaseType $entity): static
     {
         $this->setProperty('mainEntity', $this->parseChild($entity));
+        return $this;
+    }
+
+    public function thumbnail(CreativeWork\ImageObject $thumbnail): static
+    {
+        $this->setProperty('thumbnail', $this->parseChild($thumbnail));
+        return $this;
+    }
+
+    public function thumbnailUrl(Url $thumbnailUrl): static
+    {
+        $this->setProperty('thumbnailUrl', $this->parseChild($thumbnailUrl));
+        return $this;
+    }
+
+    public function version(string $version): static
+    {
+        $this->setProperty('version', $version);
+        return $this;
+    }
+
+    public function dateCreated(\DateTime $date): static
+    {
+        $this->setProperty('dateCreated', $date->format('Y-m-d'));
+        return $this;
+    }
+
+    public function dateModified(\DateTime $date): static
+    {
+        $this->setProperty('dateModified', $date->format('Y-m-d'));
+        return $this;
+    }
+
+    public function datePublished(\DateTime $date): static
+    {
+        $this->setProperty('datePublished', $date->format('Y-m-d'));
         return $this;
     }
 }
