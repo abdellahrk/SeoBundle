@@ -2,9 +2,9 @@
 
 namespace Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage;
 
-use Rami\SeoBundle\Schema\BaseType;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage;
 
-class AboutPage extends BaseType
+class AboutPage extends WebPage
 {
 
 }
