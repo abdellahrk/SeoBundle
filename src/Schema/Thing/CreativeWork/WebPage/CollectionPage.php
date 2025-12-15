@@ -2,8 +2,8 @@
 
 namespace Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage;
 
-use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage;
+use Rami\SeoBundle\Schema\BaseType;
 
-class CollectionPage extends WebPage
+class CollectionPage extends BaseType
 {
 }
