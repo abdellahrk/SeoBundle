@@ -3,6 +3,7 @@
 namespace Rami\SeoBundle\Schema;
 
 use Rami\SeoBundle\Schema\Intangible\Audience;
+use Rami\SeoBundle\Schema\Intangible\ItemList;
 use Rami\SeoBundle\Schema\Intangible\Offer;
 use Rami\SeoBundle\Schema\Intangible\Service;
 use Rami\SeoBundle\Schema\Intangible\StructuredValue\ContactPoint\PostalAddress;
@@ -107,6 +108,11 @@ class Schema implements SchemaInterface
     public function jobPosting(): JobPosting
     {
         return new JobPosting();
+    }
+
+    public function itemList(): ItemList
+    {
+        return new ItemList();
     }
 
     public function occupation(): Occupation

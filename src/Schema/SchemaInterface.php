@@ -3,6 +3,7 @@
 namespace Rami\SeoBundle\Schema;
 
 use Rami\SeoBundle\Schema\Intangible\Audience;
+use Rami\SeoBundle\Schema\Intangible\ItemList;
 use Rami\SeoBundle\Schema\Intangible\Offer;
 use Rami\SeoBundle\Schema\Intangible\Service;
 use Rami\SeoBundle\Schema\Intangible\StructuredValue\ContactPoint\PostalAddress;
@@ -41,7 +42,7 @@ interface SchemaInterface
     public function administrativeArea(): AdministrativeArea;
     public function postalAddress(): PostalAddress;
     public function audience(): Audience;
-
+    public function itemList(): ItemList;
     public function webPage(): WebPage;
     public function collectionPage(): CollectionPage;
     public function faqPage(): WebPage\FAQPage;
