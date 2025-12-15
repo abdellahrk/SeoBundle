@@ -39,6 +39,12 @@ class BaseType
         return $this;
     }
 
+    public function id(string $value): static
+    {
+        $this->setProperty('id', $value);
+        return $this;
+    }
+
     public function alternateName(string $value): static
     {
         $this->setProperty('alternateName', $value);
@@ -92,6 +98,23 @@ class BaseType
                 "@type" =>  $child->getType(),]+
             $child->getProperties()
             ;
+    }
+
+    protected function parseChildWithId(BaseType $child): array
+    {
+        $properties = $child->getProperties();
+
+        if (!isset($properties['@id'])) {
+            $id = $properties['id'] ?? $properties['url'] ?? null;
+
+            if (\is_string($id) && '' !== $id) {
+                $properties['@id'] = $id;
+            }
+        }
+
+        return [
+                '@type' => $child->getType(),
+            ] + $properties;
     }
 
     protected function parseArray(array $children): array
