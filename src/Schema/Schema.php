@@ -205,6 +205,11 @@ class Schema implements SchemaInterface
         return new CollectionPage\MediaGallery();
     }
 
+    public function imageGallery(): CollectionPage\MediaGallery\ImageGallery
+    {
+        return new CollectionPage\MediaGallery\ImageGallery;
+    }
+
     public function aboutPage(): AboutPage
     {
         return new AboutPage();

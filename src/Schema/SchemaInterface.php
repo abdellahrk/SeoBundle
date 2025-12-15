@@ -51,6 +51,7 @@ interface SchemaInterface
     public function profilePage(): WebPage\ProfilePage;
     public function searchResultPage(): WebPage\SearchResultsPage;
     public function mediaGallery(): CollectionPage\MediaGallery;
+    public function imageGallery(): CollectionPage\MediaGallery\ImageGallery;
     public function aboutPage(): AboutPage;
     public function contactPage(): ContactPage;
     public function imageObject(): ImageObject;
