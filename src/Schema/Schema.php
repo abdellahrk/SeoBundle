@@ -3,6 +3,7 @@
 namespace Rami\SeoBundle\Schema;
 
 use Rami\SeoBundle\Schema\Intangible\Audience;
+use Rami\SeoBundle\Schema\Intangible\Offer;
 use Rami\SeoBundle\Schema\Intangible\Service;
 use Rami\SeoBundle\Schema\Intangible\StructuredValue\ContactPoint\PostalAddress;
 use Rami\SeoBundle\Schema\Place\AdministrativeArea;
@@ -231,6 +232,11 @@ class Schema implements SchemaInterface
     public function mediaObject(): CreativeWork\MediaObject
     {
         return new CreativeWork\MediaObject();
+    }
+
+    public function offer(): Offer
+    {
+        return new Offer();
     }
 
     public function imageObject(): ImageObject

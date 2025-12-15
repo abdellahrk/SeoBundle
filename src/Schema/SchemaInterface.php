@@ -3,6 +3,7 @@
 namespace Rami\SeoBundle\Schema;
 
 use Rami\SeoBundle\Schema\Intangible\Audience;
+use Rami\SeoBundle\Schema\Intangible\Offer;
 use Rami\SeoBundle\Schema\Intangible\Service;
 use Rami\SeoBundle\Schema\Intangible\StructuredValue\ContactPoint\PostalAddress;
 use Rami\SeoBundle\Schema\Place\AdministrativeArea;
@@ -61,6 +62,7 @@ interface SchemaInterface
     public function socialMediaPosting(): SocialMediaPosting;
     public function blogPosting(): BlogPosting;
     public function propertyValue(): PropertyValue;
+    public function offer(): Offer;
     public function action(): Action;
     public function textObject(): TextObject;
     public function mediaObject(): CreativeWork\MediaObject;
