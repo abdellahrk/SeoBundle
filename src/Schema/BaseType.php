@@ -98,7 +98,7 @@ class BaseType
     {
         $properties = [];
 
-        foreach ($children as $key => $child) {
+        foreach ($children as $child) {
             if (!$child instanceof BaseType) {
                 continue;
             }
@@ -107,9 +107,7 @@ class BaseType
                 '@type' => $child->getType(),
             ];
 
-            $property = array_merge($property, $child->getProperties());
-
-            $properties[$key] = $property;
+            $properties[] = array_merge($property, $child->getProperties());
         }
 
         return $properties;
