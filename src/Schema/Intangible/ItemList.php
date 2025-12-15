@@ -12,4 +12,11 @@ class ItemList extends Thing
 
         return $this;
     }
+
+    public function numberOfItems(int $number): static
+    {
+        $this->setProperty('numberOfItems', $number);
+
+        return $this;
+    }
 }
