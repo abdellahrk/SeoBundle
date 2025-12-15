@@ -2,13 +2,10 @@
 
 namespace Rami\SeoBundle\Schema\Thing\CreativeWork;
 
-use Rami\SeoBundle\Schema\BaseType;
-use Rami\SeoBundle\Schema\Traits\CreativeWorkTrait;
+use Rami\SeoBundle\Schema\Thing\CreativeWork;
 
-class Chapter extends BaseType
+class Chapter extends CreativeWork
 {
-    use CreativeWorkTrait;
-
     public function pageEnd(string|int $pageEnd): static
     {
         $this->setProperty('pageEnd', $pageEnd);
