@@ -2,9 +2,9 @@
 
 namespace Rami\SeoBundle\Schema\Thing\CreativeWork;
 
-use Rami\SeoBundle\Schema\BaseType;
+use Rami\SeoBundle\Schema\Thing\CreativeWork;
 
-class EducationalOccupationalCredential extends BaseType
+class EducationalOccupationalCredential extends CreativeWork
 {
 
 }
