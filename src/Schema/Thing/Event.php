@@ -4,10 +4,11 @@ namespace Rami\SeoBundle\Schema\Thing;
 
 use Rami\SeoBundle\Schema\BaseType;
 use Rami\SeoBundle\Schema\Intangible\StructuredValue\ContactPoint\PostalAddress;
+use Rami\SeoBundle\Schema\Thing;
 use Rami\SeoBundle\Schema\Thing\Intangible\Audience;
 use Rami\SeoBundle\Schema\Thing\Intangible\VirtualLocation;
 
-class Event extends BaseType
+class Event extends Thing
 {
     public array $properties = [];
 
@@ -32,6 +33,12 @@ class Event extends BaseType
     public function organizer(Person|Organization $organizer): static
     {
         $this->setProperty('organizer', $this->parseChild($organizer));
+        return $this;
+    }
+
+    public function performer(Person|Organization $performer): static
+    {
+        $this->setProperty('performer', $this->parseChild($performer));
         return $this;
     }
 
