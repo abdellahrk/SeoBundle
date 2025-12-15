@@ -7,12 +7,21 @@ use Rami\SeoBundle\Schema\Thing\CreativeWork;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\Blog;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\Course;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\EducationalOccupationalCredential;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\ImageObject;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\Thesis;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\AboutPage;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\CollectionPage;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPageElement;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebSite;
+use Rami\SeoBundle\Schema\Thing\Intangible\BreadcrumbList;
 use Rami\SeoBundle\Schema\Thing\Intangible\DefinedTerm;
 use Rami\SeoBundle\Schema\Thing\Intangible\JobPosting;
+use Rami\SeoBundle\Schema\Thing\Intangible\ListItem;
 use Rami\SeoBundle\Schema\Thing\Intangible\Occupation;
+use Rami\SeoBundle\Schema\Thing\Intangible\Specialty;
 use Rami\SeoBundle\Schema\Thing\Intangible\StructuredValue\MonetaryAmount;
+use Rami\SeoBundle\Schema\Thing\Intangible\StructuredValue\SpeakableSpecification;
 use Rami\SeoBundle\Schema\Thing\Organization\LocalBusiness;
 use Rami\SeoBundle\Schema\Thing\Organization\LocalBusiness\Library;
 use Rami\SeoBundle\Schema\Thing\Organization\LocalBusiness\RadioStation;
@@ -165,6 +174,51 @@ class Schema implements SchemaInterface
     public function organization(): Organization
     {
         return new Organization();
+    }
+
+    public function webPage(): WebPage
+    {
+        return new WebPage();
+    }
+
+    public function collectionPage(): CollectionPage
+    {
+        return new CollectionPage();
+    }
+
+    public function aboutPage(): AboutPage
+    {
+        return new AboutPage();
+    }
+
+    public function imageObject(): ImageObject
+    {
+        return new ImageObject();
+    }
+
+    public function webPageElement(): WebPageElement
+    {
+        return new WebPageElement();
+    }
+
+    public function breadcrumbList(): BreadcrumbList
+    {
+        return new BreadcrumbList();
+    }
+
+    public function listItem(): ListItem
+    {
+        return new ListItem();
+    }
+
+    public function speakableSpecification(): SpeakableSpecification
+    {
+        return new SpeakableSpecification();
+    }
+
+    public function specialty(): Specialty
+    {
+        return new Specialty();
     }
 
 }
