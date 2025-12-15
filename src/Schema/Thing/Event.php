@@ -3,6 +3,7 @@
 namespace Rami\SeoBundle\Schema\Thing;
 
 use Rami\SeoBundle\Schema\BaseType;
+use Rami\SeoBundle\Schema\Intangible\Offer;
 use Rami\SeoBundle\Schema\Intangible\StructuredValue\ContactPoint\PostalAddress;
 use Rami\SeoBundle\Schema\Thing;
 use Rami\SeoBundle\Schema\Thing\Intangible\Audience;
@@ -39,6 +40,12 @@ class Event extends Thing
     public function performer(Person|Organization $performer): static
     {
         $this->setProperty('performer', $this->parseChild($performer));
+        return $this;
+    }
+
+    public function offers(Offer $offer): static
+    {
+        $this->setProperty('offers', $this->parseChild($offer));
         return $this;
     }
 
