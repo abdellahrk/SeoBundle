@@ -5,9 +5,9 @@ namespace Rami\SeoBundle\Schema\Traits;
 use Rami\SeoBundle\Schema\BaseType;
 use Rami\SeoBundle\Schema\DataType\Text\Url;
 use Rami\SeoBundle\Schema\Thing\CreativeWork;
-use Rami\SeoBundle\Schema\Thing\Place\AdministrativeArea\Country;
 use Rami\SeoBundle\Schema\Thing\Organization;
 use Rami\SeoBundle\Schema\Thing\Person;
+use Rami\SeoBundle\Schema\Thing\Place\AdministrativeArea\Country;
 
 trait CreativeWorkTrait
 {
@@ -230,7 +230,7 @@ trait CreativeWorkTrait
         return $this;
     }
 
-    public function thumbnail(CreativeWork\ImageObject $thumbnail): static
+    public function thumbnail(CreativeWork\MediaObject\ImageObject $thumbnail): static
     {
         $this->setProperty('thumbnail', $this->parseChild($thumbnail));
         return $this;

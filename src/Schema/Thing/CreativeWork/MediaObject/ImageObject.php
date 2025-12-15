@@ -1,12 +1,10 @@
 <?php
 
-namespace Rami\SeoBundle\Schema\Thing\CreativeWork;
+namespace Rami\SeoBundle\Schema\Thing\CreativeWork\MediaObject;
 
 use Rami\SeoBundle\Schema\Thing\CreativeWork;
-use Rami\SeoBundle\Schema\Thing\Organization;
-use Rami\SeoBundle\Schema\Thing\Person;
 
-class ImageObject extends CreativeWork
+class ImageObject extends CreativeWork\MediaObject
 {
     public function caption(string $caption): static
     {

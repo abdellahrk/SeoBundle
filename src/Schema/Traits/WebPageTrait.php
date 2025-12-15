@@ -2,13 +2,13 @@
 
 namespace Rami\SeoBundle\Schema\Traits;
 
-use Rami\SeoBundle\Schema\Thing\Intangible\BreadcrumbList;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\MediaObject\ImageObject;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPageElement;
-use Rami\SeoBundle\Schema\Thing\CreativeWork\ImageObject;
+use Rami\SeoBundle\Schema\Thing\Intangible\BreadcrumbList;
+use Rami\SeoBundle\Schema\Thing\Intangible\Specialty;
+use Rami\SeoBundle\Schema\Thing\Intangible\StructuredValue\SpeakableSpecification;
 use Rami\SeoBundle\Schema\Thing\Organization;
 use Rami\SeoBundle\Schema\Thing\Person;
-use Rami\SeoBundle\Schema\Thing\Intangible\StructuredValue\SpeakableSpecification;
-use Rami\SeoBundle\Schema\Thing\Intangible\Specialty;
 
 trait WebPageTrait
 {

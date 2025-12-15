@@ -3,27 +3,27 @@
 namespace Rami\SeoBundle\Schema;
 
 use Rami\SeoBundle\Schema\Intangible\Audience;
+use Rami\SeoBundle\Schema\Intangible\Service;
 use Rami\SeoBundle\Schema\Intangible\StructuredValue\ContactPoint\PostalAddress;
+use Rami\SeoBundle\Schema\Place\AdministrativeArea;
+use Rami\SeoBundle\Schema\Thing\Action;
 use Rami\SeoBundle\Schema\Thing\CreativeWork;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\Article;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\Article\SocialMediaPosting;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\Article\SocialMediaPosting\BlogPosting;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\MediaObject\ImageObject;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\TextObject;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage;
-use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\CollectionPage;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\AboutPage;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\CollectionPage;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\ContactPage;
-use Rami\SeoBundle\Schema\Thing\CreativeWork\ImageObject;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPageElement;
+use Rami\SeoBundle\Schema\Thing\Event;
 use Rami\SeoBundle\Schema\Thing\Intangible\BreadcrumbList;
 use Rami\SeoBundle\Schema\Thing\Intangible\ListItem;
-use Rami\SeoBundle\Schema\Thing\Intangible\StructuredValue\SpeakableSpecification;
-use Rami\SeoBundle\Schema\Thing\Intangible\StructuredValue\PropertyValue;
 use Rami\SeoBundle\Schema\Thing\Intangible\Specialty;
-use Rami\SeoBundle\Schema\Thing\Action;
-use Rami\SeoBundle\Schema\Thing\CreativeWork\TextObject;
-use Rami\SeoBundle\Schema\Intangible\Service;
-use Rami\SeoBundle\Schema\Place\AdministrativeArea;
-use Rami\SeoBundle\Schema\Thing\Event;
+use Rami\SeoBundle\Schema\Thing\Intangible\StructuredValue\PropertyValue;
+use Rami\SeoBundle\Schema\Thing\Intangible\StructuredValue\SpeakableSpecification;
 use Rami\SeoBundle\Schema\Thing\Person;
 
 interface SchemaInterface
