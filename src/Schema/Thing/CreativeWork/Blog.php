@@ -13,19 +13,9 @@ namespace Rami\SeoBundle\Schema\Thing\CreativeWork;
 
 use Rami\SeoBundle\Schema\Thing\CreativeWork;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\Article\SocialMediaPosting\BlogPosting;
-use Rami\SeoBundle\Schema\Traits\CreativeWorkTrait;
-use Rami\SeoBundle\Schema\Traits\ThingTrait;
 
 class Blog extends CreativeWork
 {
-    use ThingTrait;
-    use CreativeWorkTrait;
-
-    public function __toString(): string
-    {
-        return 'Blog';
-    }
-
     /**
      * @param BlogPosting $blogPosting
      * @return $this
