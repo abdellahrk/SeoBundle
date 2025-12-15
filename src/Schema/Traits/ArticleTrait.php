@@ -51,10 +51,4 @@ trait ArticleTrait
         $this->setProperty('wordCount', $count);
         return $this;
     }
-
-    public function headline(string $headline): static
-    {
-        $this->setProperty('headline', $headline);
-        return $this;
-    }
 }
