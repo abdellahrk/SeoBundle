@@ -45,6 +45,7 @@ interface SchemaInterface
     public function collectionPage(): CollectionPage;
     public function faqPage(): WebPage\FAQPage;
     public function itemPage(): WebPage\ItemPage;
+    public function checkoutPage(): WebPage\CheckoutPage;
     public function mediaGallery(): CollectionPage\MediaGallery;
     public function aboutPage(): AboutPage;
     public function contactPage(): ContactPage;
