@@ -6,7 +6,7 @@ This Bundle supports
 -   [x] [Sitemap Generation](docs/sitemap.md)
 -   [x] [Google Tag](docs/google_tag.md)
 -   [x] [Meta Pixel](docs/meta_pixel.md)
--   [ ] SEO Profiling [Dev mode]
+-   [x] SEO Profiling [Dev mode]
 -   [ ] Breadcrum Generation
 
 
@@ -34,7 +34,7 @@ return [
     Abdellahramadan\SeoBundle\SeoBundle::class => ['all' => true],
 ];
 ```
-
+![Profiler](docs/Profiler.png)
 #### For full documentation, click on the desired topic above to be taken to its documentation page
 
 # Meta Tags
