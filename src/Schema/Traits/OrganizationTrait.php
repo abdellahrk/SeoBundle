@@ -131,6 +131,12 @@ trait OrganizationTrait
         return $this;
     }
 
+    public function email(string $email): static
+    {
+        $this->setProperty('email', $email);
+        return $this;
+    }
+
     /**
      * @param Place $foundingPlace
      * @return $this
