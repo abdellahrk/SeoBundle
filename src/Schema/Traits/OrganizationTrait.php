@@ -202,4 +202,14 @@ trait OrganizationTrait
         $this->setProperty('slogan', $this->parseChild($slogan));
         return $this;
     }
+
+    public function logo(CreativeWork\MediaObject\ImageObject|string $logo): static
+    {
+        if (is_string($logo)) {
+            $this->setProperty('logo', $logo);
+            return $this;
+        }
+        $this->setProperty('logo', $this->parseChild($logo));
+        return $this;
+    }
 }
