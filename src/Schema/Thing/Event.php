@@ -2,7 +2,6 @@
 
 namespace Rami\SeoBundle\Schema\Thing;
 
-use Rami\SeoBundle\Schema\BaseType;
 use Rami\SeoBundle\Schema\Intangible\Offer;
 use Rami\SeoBundle\Schema\Intangible\StructuredValue\ContactPoint\PostalAddress;
 use Rami\SeoBundle\Schema\Thing;
@@ -102,8 +101,13 @@ class Event extends Thing
         return $this;
     }
 
-    public function image(string $image):static
+    public function image(string|Thing\CreativeWork\MediaObject\ImageObject $image):static
     {
+        if ($image instanceof Thing\CreativeWork\MediaObject\ImageObject) {
+            $this->setProperty('image', $this->parseChild($image));
+            return $this;
+        }
+
         $this->setProperty('image', $image);
         return $this;
     }
