@@ -58,11 +58,7 @@ class Event extends Thing
 
     public function location(Place|PostalAddress|VirtualLocation|string $location): static
     {
-        if (is_string($location)) {
-            $this->setProperty('location', $location);
-        }
-
-        $this->setProperty('location', $this->parseChild($location));
+        $this->setProperty('location', is_string($location) ? $location : $this->parseChild($location));
 
         return $this;
     }
