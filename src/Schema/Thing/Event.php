@@ -2,24 +2,33 @@
 
 namespace Rami\SeoBundle\Schema\Thing;
 
-use Rami\SeoBundle\Schema\BaseType;
+use Rami\SeoBundle\Schema\Intangible\Offer;
 use Rami\SeoBundle\Schema\Intangible\StructuredValue\ContactPoint\PostalAddress;
+use Rami\SeoBundle\Schema\Thing;
 use Rami\SeoBundle\Schema\Thing\Intangible\Audience;
 use Rami\SeoBundle\Schema\Thing\Intangible\VirtualLocation;
 
-class Event extends BaseType
+class Event extends Thing
 {
     public array $properties = [];
 
-    public function startDate(\DateTime $startDate): static
+    public function startDate(\DateTime $startDate, \DateTimeZone $dateTimeZone = null): static
     {
-        $this->setProperty('startDate', $startDate->format('Y-m-d H:i:s'));
+        if ($dateTimeZone instanceof \DateTimeZone) {
+            $startDate->setTimezone($dateTimeZone);
+        }
+
+        $this->setProperty('startDate', $startDate->format(DATE_ATOM));
         return $this;
     }
 
-    public function endDate(\DateTime $endDate): static
+    public function endDate(\DateTime $endDate, \DateTimeZone $dateTimeZone = null): static
     {
-        $this->setProperty('endDate', $endDate->format('Y-m-d H:i:s'));
+        if ($dateTimeZone instanceof \DateTimeZone) {
+            $endDate->setTimezone($dateTimeZone);
+        }
+
+        $this->setProperty('endDate', $endDate->format(DATE_ATOM));
         return $this;
     }
 
@@ -29,13 +38,27 @@ class Event extends BaseType
         return $this;
     }
 
+    public function organizer(Person|Organization $organizer): static
+    {
+        $this->setProperty('organizer', $this->parseChild($organizer));
+        return $this;
+    }
+
+    public function performer(Person|Organization $performer): static
+    {
+        $this->setProperty('performer', $this->parseChild($performer));
+        return $this;
+    }
+
+    public function offers(Offer $offer): static
+    {
+        $this->setProperty('offers', $this->parseChild($offer));
+        return $this;
+    }
+
     public function location(Place|PostalAddress|VirtualLocation|string $location): static
     {
-        if (is_string($location)) {
-            $this->setProperty('location', $location);
-        }
-
-        $this->setProperty('location', $this->parseChild($location));
+        $this->setProperty('location', is_string($location) ? $location : $this->parseChild($location));
 
         return $this;
     }
@@ -67,6 +90,29 @@ class Event extends BaseType
     public function audience(Audience $audience):static
     {
         $this->setProperty('audience', $this->parseChild($audience));
+        return $this;
+    }
+
+    public function eventAttendanceMode(string $eventAttendanceMode):static
+    {
+        $this->setProperty('eventAttendanceMode', $eventAttendanceMode);
+        return $this;
+    }
+
+    public function eventStatus(string $eventStatus):static
+    {
+        $this->setProperty('eventStatus', $eventStatus);
+        return $this;
+    }
+
+    public function image(string|Thing\CreativeWork\MediaObject\ImageObject $image):static
+    {
+        if ($image instanceof Thing\CreativeWork\MediaObject\ImageObject) {
+            $this->setProperty('image', $this->parseChild($image));
+            return $this;
+        }
+
+        $this->setProperty('image', $image);
         return $this;
     }
 }

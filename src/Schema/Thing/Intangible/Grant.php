@@ -2,11 +2,11 @@
 
 namespace Rami\SeoBundle\Schema\Thing\Intangible;
 
-use Rami\SeoBundle\Schema\BaseType;
+use Rami\SeoBundle\Schema\Thing;
 use Rami\SeoBundle\Schema\Thing\Organization;
 use Rami\SeoBundle\Schema\Thing\Person;
 
-class Grant extends BaseType
+class Grant extends Thing
 {
     public function funder(Person|Organization $funder): static
     {

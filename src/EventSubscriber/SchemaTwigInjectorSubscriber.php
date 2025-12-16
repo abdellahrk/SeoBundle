@@ -20,8 +20,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class SchemaTwigInjectorSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private SchemaInterface $schema,
-        private ParameterBagInterface $parameterBag,
+        private readonly SchemaInterface $schema,
+        private readonly ParameterBagInterface $parameterBag,
     ){}
 
     /**

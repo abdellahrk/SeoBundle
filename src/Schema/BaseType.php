@@ -39,6 +39,12 @@ class BaseType
         return $this;
     }
 
+    public function id(string $value): static
+    {
+        $this->setProperty('id', $value);
+        return $this;
+    }
+
     public function alternateName(string $value): static
     {
         $this->setProperty('alternateName', $value);
@@ -50,6 +56,13 @@ class BaseType
         $this->setProperty('url', $value);
         return $this;
     }
+
+    public function inLanguage(string $isLanguage): static
+    {
+        $this->setProperty('inLanguage', $isLanguage);
+        return $this;
+    }
+
     public function setDescription(string $value): static
     {
         $this->setProperty('description', $value);
@@ -87,16 +100,35 @@ class BaseType
             ;
     }
 
+    protected function parseChildWithId(BaseType $child): array
+    {
+        $properties = $child->getProperties();
+
+        // Replace "id" with "@id" if present and non-empty
+        if (isset($properties['id']) && \is_string($properties['id']) && '' !== $properties['id']) {
+            $properties['@id'] = $properties['id'];
+            unset($properties['id']);
+        }
+
+        return [
+                '@type' => $child->getType(),
+            ] + $properties;
+    }
+
     protected function parseArray(array $children): array
     {
         $properties = [];
-        foreach ($children as $key => $child) {
-            if ($child instanceof BaseType) {
 
-                $property[ "@type"] = $child->getType() ;
-                $property = $property+$child->getProperties();
-                $properties[$key] = $property;
+        foreach ($children as $child) {
+            if (!$child instanceof BaseType) {
+                continue;
             }
+
+            $property = [
+                '@type' => $child->getType(),
+            ];
+
+            $properties[] = array_merge($property, $child->getProperties());
         }
 
         return $properties;

@@ -4,10 +4,10 @@ namespace Rami\SeoBundle\Schema\Intangible;
 
 use Rami\SeoBundle\Schema\BaseType;
 use Rami\SeoBundle\Schema\Place\AdministrativeArea;
+use Rami\SeoBundle\Schema\Thing;
 
-class Audience extends BaseType
+class Audience extends Thing
 {
-    public array $properties = [];
     public function audienceType(string $audienceType): static
     {
         $this->setProperty('audienceType', $audienceType);
@@ -17,6 +17,7 @@ class Audience extends BaseType
     public function geographicArea(AdministrativeArea $administrativeArea): static
     {
         $this->setProperty('geographicArea', $administrativeArea);
+
         return $this;
     }
 }

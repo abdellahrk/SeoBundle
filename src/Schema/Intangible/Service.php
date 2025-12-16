@@ -2,12 +2,10 @@
 
 namespace Rami\SeoBundle\Schema\Intangible;
 
-use Rami\SeoBundle\Schema\BaseType;
+use Rami\SeoBundle\Schema\Thing;
 
-class Service extends BaseType
+class Service extends Thing
 {
-    public array $properties = [];
-
     public function getType(): string
     {
         return (new \ReflectionClass($this))->getShortName();

@@ -2,9 +2,9 @@
 
 namespace Rami\SeoBundle\Schema\Thing\CreativeWork;
 
-use Rami\SeoBundle\Schema\BaseType;
+use Rami\SeoBundle\Schema\Thing\CreativeWork;
 
-class Thesis extends BaseType
+class Thesis extends CreativeWork
 {
     public function isSupportOf(string $isSupportOf): static
     {

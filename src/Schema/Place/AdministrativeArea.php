@@ -2,9 +2,9 @@
 
 namespace Rami\SeoBundle\Schema\Place;
 
-use Rami\SeoBundle\Schema\BaseType;
+use Rami\SeoBundle\Schema\Thing\Place;
 
-class AdministrativeArea extends BaseType
+class AdministrativeArea extends Place
 {
     /**
      * @var array

@@ -2,29 +2,47 @@
 
 namespace Rami\SeoBundle\Schema;
 
+use Rami\SeoBundle\Schema\Intangible\Audience;
+use Rami\SeoBundle\Schema\Intangible\ItemList;
+use Rami\SeoBundle\Schema\Intangible\Offer;
+use Rami\SeoBundle\Schema\Intangible\Service;
 use Rami\SeoBundle\Schema\Intangible\StructuredValue\ContactPoint\PostalAddress;
+use Rami\SeoBundle\Schema\Place\AdministrativeArea;
+use Rami\SeoBundle\Schema\Thing\Action;
 use Rami\SeoBundle\Schema\Thing\CreativeWork;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\Article;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\Article\SocialMediaPosting;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\Article\SocialMediaPosting\BlogPosting;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\Blog;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\Course;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\EducationalOccupationalCredential;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\MediaObject\ImageObject;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\MediaObject\TextObject;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\Thesis;
-use Rami\SeoBundle\Schema\Thing\CreativeWork\Website;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\AboutPage;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\CollectionPage;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\ContactPage;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPageElement;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebSite;
+use Rami\SeoBundle\Schema\Thing\Event;
+use Rami\SeoBundle\Schema\Thing\Intangible\BreadcrumbList;
 use Rami\SeoBundle\Schema\Thing\Intangible\DefinedTerm;
 use Rami\SeoBundle\Schema\Thing\Intangible\JobPosting;
+use Rami\SeoBundle\Schema\Thing\Intangible\ListItem;
 use Rami\SeoBundle\Schema\Thing\Intangible\Occupation;
+use Rami\SeoBundle\Schema\Thing\Intangible\Specialty;
 use Rami\SeoBundle\Schema\Thing\Intangible\StructuredValue\MonetaryAmount;
+use Rami\SeoBundle\Schema\Thing\Intangible\StructuredValue\PropertyValue;
+use Rami\SeoBundle\Schema\Thing\Intangible\StructuredValue\SpeakableSpecification;
+use Rami\SeoBundle\Schema\Thing\Organization;
 use Rami\SeoBundle\Schema\Thing\Organization\LocalBusiness;
 use Rami\SeoBundle\Schema\Thing\Organization\LocalBusiness\Library;
 use Rami\SeoBundle\Schema\Thing\Organization\LocalBusiness\RadioStation;
 use Rami\SeoBundle\Schema\Thing\Organization\LocalBusiness\TravelAgency;
-use Rami\SeoBundle\Schema\Thing\Place\AdministrativeArea\Country;
-use Rami\SeoBundle\Schema\Intangible\Audience;
-use Rami\SeoBundle\Schema\Intangible\Service;
-use Rami\SeoBundle\Schema\Place\AdministrativeArea;
-use Rami\SeoBundle\Schema\Thing\Event;
-use Rami\SeoBundle\Schema\Thing\Organization;
 use Rami\SeoBundle\Schema\Thing\Person;
 use Rami\SeoBundle\Schema\Thing\Place;
+use Rami\SeoBundle\Schema\Thing\Place\AdministrativeArea\Country;
 
 class Schema implements SchemaInterface
 {
@@ -92,6 +110,11 @@ class Schema implements SchemaInterface
         return new JobPosting();
     }
 
+    public function itemList(): ItemList
+    {
+        return new ItemList();
+    }
+
     public function occupation(): Occupation
     {
         return new Occupation();
@@ -152,9 +175,9 @@ class Schema implements SchemaInterface
         return new Course();
     }
 
-    public function website(): Website
+    public function website(): WebSite
     {
-        return new Website();
+        return new WebSite();
     }
 
     public function thesis(): Thesis
@@ -165,6 +188,131 @@ class Schema implements SchemaInterface
     public function organization(): Organization
     {
         return new Organization();
+    }
+
+    public function webPage(): WebPage
+    {
+        return new WebPage();
+    }
+
+    public function collectionPage(): CollectionPage
+    {
+        return new CollectionPage();
+    }
+
+    public function mediaGallery(): CollectionPage\MediaGallery
+    {
+        return new CollectionPage\MediaGallery();
+    }
+
+    public function imageGallery(): CollectionPage\MediaGallery\ImageGallery
+    {
+        return new CollectionPage\MediaGallery\ImageGallery;
+    }
+
+    public function aboutPage(): AboutPage
+    {
+        return new AboutPage();
+    }
+
+    public function faqPage(): WebPage\FAQPage
+    {
+        return new WebPage\FAQPage();
+    }
+
+    public function itemPage(): WebPage\ItemPage
+    {
+        return new WebPage\ItemPage();
+    }
+
+    public function checkoutPage(): WebPage\CheckoutPage
+    {
+        return new WebPage\CheckoutPage();
+    }
+
+    public function profilePage(): WebPage\ProfilePage
+    {
+        return new WebPage\ProfilePage();
+    }
+
+    public function searchResultPage(): WebPage\SearchResultsPage
+    {
+        return new WebPage\SearchResultsPage();
+    }
+
+    public function mediaObject(): CreativeWork\MediaObject
+    {
+        return new CreativeWork\MediaObject();
+    }
+
+    public function offer(): Offer
+    {
+        return new Offer();
+    }
+
+    public function imageObject(): ImageObject
+    {
+        return new ImageObject();
+    }
+
+    public function webPageElement(): WebPageElement
+    {
+        return new WebPageElement();
+    }
+
+    public function breadcrumbList(): BreadcrumbList
+    {
+        return new BreadcrumbList();
+    }
+
+    public function listItem(): ListItem
+    {
+        return new ListItem();
+    }
+
+    public function speakableSpecification(): SpeakableSpecification
+    {
+        return new SpeakableSpecification();
+    }
+
+    public function specialty(): Specialty
+    {
+        return new Specialty();
+    }
+
+    public function article(): Article
+    {
+        return new Article();
+    }
+
+    public function contactPage(): ContactPage
+    {
+        return new ContactPage();
+    }
+
+    public function socialMediaPosting(): SocialMediaPosting
+    {
+        return new SocialMediaPosting();
+    }
+
+    public function blogPosting(): BlogPosting
+    {
+        return new BlogPosting();
+    }
+
+    public function propertyValue(): PropertyValue
+    {
+        return new PropertyValue();
+    }
+
+    public function action(): Action
+    {
+        return new Action();
+    }
+
+    public function textObject(): TextObject
+    {
+        return new TextObject();
     }
 
 }

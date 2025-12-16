@@ -7,12 +7,11 @@ use Rami\SeoBundle\Schema\DataType\Text\Url;
 use Rami\SeoBundle\Schema\Intangible\Brand;
 use Rami\SeoBundle\Schema\Intangible\StructuredValue\ContactPoint\PostalAddress;
 use Rami\SeoBundle\Schema\Place\CivicStructure\EducationalOrganization;
+use Rami\SeoBundle\Schema\Thing;
 use Rami\SeoBundle\Schema\Thing\Place\AdministrativeArea\Country;
 
-class Person extends BaseType
+class Person extends Thing
 {
-    public array $properties = [];
-
     public function additionalName(string $additionalName): static
     {
         $this->setProperty('additionalName', $additionalName);
@@ -120,7 +119,7 @@ class Person extends BaseType
 
     public function colleague(Person|Url $colleague): static
     {
-        $this->setProperty('colleage', $this->parseChild($colleague));
+        $this->setProperty('colleague', $this->parseChild($colleague));
         return $this;
     }
 
@@ -138,7 +137,7 @@ class Person extends BaseType
 
     public function nationality(Country $country): static
     {
-        $this->setProperty('country', $this->parseChild($country));
+        $this->setProperty('nationality', $this->parseChild($country));
         return $this;
     }
 }

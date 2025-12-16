@@ -11,9 +11,7 @@
 
 namespace Rami\SeoBundle\DataCollector;
 
-use Rami\SeoBundle\Metas\MetaTagsManager;
 use Rami\SeoBundle\Metas\MetaTagsManagerInterface;
-use Rami\SeoBundle\Metas\Model\SeoMeta;
 use Rami\SeoBundle\OpenGraph\OpenGraphManagerInterface;
 use Symfony\Bundle\FrameworkBundle\DataCollector\AbstractDataCollector;
 use Symfony\Component\HttpFoundation\Request;
