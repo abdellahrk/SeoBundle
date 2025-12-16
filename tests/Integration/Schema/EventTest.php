@@ -148,9 +148,10 @@ class EventTest extends TestCase
 
     public function testLocationWithString(): void
     {
-        // Note: There is a bug in Event::location() - it doesn't return after checking is_string
-        // This test is skipped until the bug is fixed
-        $this->markTestSkipped('Event::location() has a bug when passing string - missing return statement');
+        $this->event->location('Berlin, Germany');
+
+        $location = $this->event->getProperty('location');
+        $this->assertEquals('Berlin, Germany', $location);
     }
 
     public function testLocationWithPlace(): void
