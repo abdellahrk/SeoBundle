@@ -2,9 +2,9 @@
 
 namespace Rami\SeoBundle\Schema\Thing\Intangible;
 
-use Rami\SeoBundle\Schema\BaseType;
+use Rami\SeoBundle\Schema\Thing;
 
-class VirtualLocation extends BaseType
+class VirtualLocation extends Thing
 {
 
 }

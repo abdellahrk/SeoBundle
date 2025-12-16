@@ -2,9 +2,9 @@
 
 namespace Rami\SeoBundle\Schema\Intangible\StructuredValue;
 
-use Rami\SeoBundle\Schema\BaseType;
+use Rami\SeoBundle\Schema\Thing;
 
-class GeoShape extends BaseType
+class GeoShape extends Thing
 {
     public function box(string $box): static
     {

@@ -111,12 +111,12 @@ trait OrganizationTrait
     }
 
     /**
-     * @param array<string, Person|Organization> $founder Person[] | Organization[]
+     * @param array<string, Person|Organization> $founders Person[] | Organization[]
      * @return $this
      */
-    public function founders(array $founder): static
+    public function founders(array $founders): static
     {
-        $this->setProperty('founder', $this->parseArray($founder));
+        $this->setProperty('founders', $this->parseArray($founders));
         return $this;
     }
 
@@ -128,6 +128,12 @@ trait OrganizationTrait
     public function foundingDate(\DateTime $foundingDate): static
     {
         $this->setProperty('foundingDate', Utils::parseFullDateIso8601($foundingDate));
+        return $this;
+    }
+
+    public function email(string $email): static
+    {
+        $this->setProperty('email', $email);
         return $this;
     }
 
@@ -194,6 +200,16 @@ trait OrganizationTrait
             return $this;
         }
         $this->setProperty('slogan', $this->parseChild($slogan));
+        return $this;
+    }
+
+    public function logo(CreativeWork\MediaObject\ImageObject|string $logo): static
+    {
+        if (is_string($logo)) {
+            $this->setProperty('logo', $logo);
+            return $this;
+        }
+        $this->setProperty('logo', $this->parseChild($logo));
         return $this;
     }
 }

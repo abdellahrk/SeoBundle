@@ -2,9 +2,8 @@
 
 namespace Rami\SeoBundle\Schema\Thing\CreativeWork\Article\SocialMediaPosting;
 
-use Rami\SeoBundle\Schema\BaseType;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\Article\SocialMediaPosting;
 
-class BlogPosting extends BaseType
+class BlogPosting extends SocialMediaPosting
 {
-
 }

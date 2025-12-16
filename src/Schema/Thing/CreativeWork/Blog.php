@@ -11,26 +11,18 @@
 
 namespace Rami\SeoBundle\Schema\Thing\CreativeWork;
 
-use Rami\SeoBundle\Schema\BaseType;
+use Rami\SeoBundle\Schema\Thing\CreativeWork;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\Article\SocialMediaPosting\BlogPosting;
-use Rami\SeoBundle\Schema\Traits\CreativeWorkTrait;
 
-class Blog extends BaseType
+class Blog extends CreativeWork
 {
-    use CreativeWorkTrait;
-
-    public function __toString(): string
-    {
-        return 'BlogPosting';
-    }
-
     /**
      * @param BlogPosting $blogPosting
      * @return $this
      */
     public function blogPost(BlogPosting $blogPosting): static
     {
-        $this->setProperty('blogPosting', $this->parseChild($blogPosting));
+        $this->setProperty('blogPost', $this->parseChild($blogPosting));
         return $this;
     }
 

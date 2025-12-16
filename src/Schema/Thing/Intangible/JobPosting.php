@@ -2,8 +2,8 @@
 
 namespace Rami\SeoBundle\Schema\Thing\Intangible;
 
-use Rami\SeoBundle\Schema\BaseType;
 use Rami\SeoBundle\Schema\Intangible\StructuredValue\ContactPoint;
+use Rami\SeoBundle\Schema\Thing;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\EducationalOccupationalCredential;
 use Rami\SeoBundle\Schema\Thing\Intangible\StructuredValue\MonetaryAmount;
 use Rami\SeoBundle\Schema\Thing\Intangible\StructuredValue\MonetaryValue;
@@ -11,7 +11,7 @@ use Rami\SeoBundle\Schema\Thing\Intangible\StructuredValue\QuantitativeValueDist
 use Rami\SeoBundle\Schema\Thing\Organization;
 use Rami\SeoBundle\Schema\Thing\Person;
 
-class JobPosting extends BaseType
+class JobPosting extends Thing
 {
     public function title(string $title): string
     {
@@ -61,7 +61,7 @@ class JobPosting extends BaseType
 
     public function relevantOccupation(Occupation $occupation): string
     {
-        $this->setProperty('occupation', $this->parseChild($occupation));
+        $this->setProperty('relevantOccupation', $this->parseChild($occupation));
         return $this;
     }
 

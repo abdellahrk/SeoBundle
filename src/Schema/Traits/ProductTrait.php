@@ -32,9 +32,9 @@ trait ProductTrait
         return $this;
     }
 
-    public function countryOfLastProcessing(string $countryOfProcessing): static
+    public function countryOfLastProcessing(string $countryOfLastProcessing): static
     {
-        $this->setProperty('countryOfProcessing', $countryOfProcessing);
+        $this->setProperty('countryOfLastProcessing', $countryOfLastProcessing);
         return $this;
     }
 
@@ -52,7 +52,7 @@ trait ProductTrait
 
     public function slogan(string $slogan): static
     {
-        $this->setProperty('sku', $slogan);
+        $this->setProperty('slogan', $slogan);
         return $this;
     }
 

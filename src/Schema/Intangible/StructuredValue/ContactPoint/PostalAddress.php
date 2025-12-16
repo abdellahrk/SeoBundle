@@ -2,13 +2,11 @@
 
 namespace Rami\SeoBundle\Schema\Intangible\StructuredValue\ContactPoint;
 
-use Rami\SeoBundle\Schema\BaseType;
+use Rami\SeoBundle\Schema\Intangible\StructuredValue\ContactPoint;
 use Rami\SeoBundle\Schema\Thing\Place\AdministrativeArea\Country;
 
-class PostalAddress extends BaseType
+class PostalAddress extends ContactPoint
 {
-    public array $properties = [];
-
     public function addressCountry(string|Country $addressCountry): static
     {
         if (is_string($addressCountry)) {

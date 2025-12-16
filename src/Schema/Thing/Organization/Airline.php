@@ -3,12 +3,11 @@
 namespace Rami\SeoBundle\Schema\Thing\Organization;
 
 use Rami\SeoBundle\Schema\BaseType;
+use Rami\SeoBundle\Schema\Thing\Organization;
 use Rami\SeoBundle\Schema\Traits\OrganizationTrait;
 
-class Airline extends BaseType
+class Airline extends Organization
 {
-    use OrganizationTrait;
-
     public function iataCode(string $iataCode): self
     {
         $this->setProperty('iataCode', $iataCode);
