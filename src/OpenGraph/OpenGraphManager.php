@@ -173,16 +173,15 @@ class OpenGraphManager implements OpenGraphManagerInterface, ResettableInterface
             return $this;
         }
 
-        $structuredProperty['type'] = $type;
-        $structuredProperty['property'] = $property;
-        $structuredProperty['content'] = $content;
+        $structuredProperty = [
+            'type' => $type,
+            'property' => $property,
+            'content' => $content,
+        ];
 
-        //        if (!isset($structuredProperty[$type])) {
-        //            $structuredProperty[$type] = [];
-        //        }
-
-        $structuredProperty['property'][] = $structuredProperty;
-        $this->openGraph->setStructuredProperties($structuredProperty);
+        $properties = $this->openGraph->getStructuredProperties();
+        $properties[] = $structuredProperty;
+        $this->openGraph->setStructuredProperties($properties);
 
         return $this;
     }
