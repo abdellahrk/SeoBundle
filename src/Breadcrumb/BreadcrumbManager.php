@@ -20,7 +20,7 @@ class BreadcrumbManager implements BreadcrumbManagerInterface, ResettableInterfa
 {
     /**
      * @param array<int, array{label: string, url: string|null}> $items
-     * @param array<string, string> $options
+     * @param array<string, string>                              $options
      */
     public function __construct(
         public array $items = [],
