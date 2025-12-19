@@ -111,6 +111,9 @@ final readonly class OpenGraphExtension
         return $this->getOgVideo();
     }
 
+    /**
+     * @param array<int, string>|null $tags
+     */
     #[AsTwigFunction('og_article', isSafe: ['html'])]
     public function renderOgArticle(
         ?DateTime $publishedTime = null,
@@ -145,12 +148,17 @@ final readonly class OpenGraphExtension
 
         if ($hasDefaultConfig) {
             $defaults = $this->parameterBag->get('seo.open_graph');
-            if ((null === $openGraph->getTitle() || '' === $openGraph->getTitle()) && array_key_exists('title', $defaults)) {
-                $openGraph->setTitle($defaults['title']);
+            assert(is_array($defaults));
+            if ('' === $openGraph->getTitle() && array_key_exists('title', $defaults)) {
+                $title = $defaults['title'];
+                assert(is_string($title));
+                $openGraph->setTitle($title);
             }
 
-            if ((null === $openGraph->getDescription() || '' === $openGraph->getDescription()) && array_key_exists('description', $defaults)) {
-                $openGraph->setDescription($defaults['description']);
+            if ('' === $openGraph->getDescription() && array_key_exists('description', $defaults)) {
+                $description = $defaults['description'];
+                assert(is_string($description));
+                $openGraph->setDescription($description);
             }
 
             if ((null === $openGraph->getSiteName() || '' === $openGraph->getSiteName()) && array_key_exists('sitename', $defaults)) {
