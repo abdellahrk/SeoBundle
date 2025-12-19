@@ -21,11 +21,11 @@ interface OGArticleManagerInterface
 {
     public function getArticle(): Article;
 
-    public function getPublishedTime(): DateTime;
+    public function getPublishedTime(): ?DateTime;
 
     public function setPublishedTime(DateTime $publishedTime): static;
 
-    public function getModifiedTime(): DateTime;
+    public function getModifiedTime(): ?DateTime;
 
     public function setModifiedTime(DateTime $modifiedTime): static;
 
@@ -37,7 +37,13 @@ interface OGArticleManagerInterface
 
     public function setSection(string $section): static;
 
+    /**
+     * @return array<int, string>
+     */
     public function getTags(): array;
 
+    /**
+     * @param array<int, string> $tags
+     */
     public function setTags(array $tags): static;
 }

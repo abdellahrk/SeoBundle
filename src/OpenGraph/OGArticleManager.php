@@ -26,7 +26,7 @@ class OGArticleManager implements OGArticleManagerInterface
         $this->article = new Article();
     }
 
-    public function getPublishedTime(): DateTime
+    public function getPublishedTime(): ?DateTime
     {
         return $this->article->getPublishedTime();
     }
@@ -41,7 +41,7 @@ class OGArticleManager implements OGArticleManagerInterface
         return $this;
     }
 
-    public function getModifiedTime(): DateTime
+    public function getModifiedTime(): ?DateTime
     {
         return $this->article->getModifiedTime();
     }
@@ -86,12 +86,16 @@ class OGArticleManager implements OGArticleManagerInterface
         return $this;
     }
 
+    /**
+     * @return array<int, string>
+     */
     public function getTags(): array
     {
         return $this->article->getTags();
     }
 
     /**
+     * @param array<int, string> $tags
      * @return $this
      */
     public function setTags(array $tags): static
