@@ -84,7 +84,12 @@ final readonly class Sitemap implements SitemapInterface
                 continue;
             }
 
-            $controller = explode(':', (string) $route->getDefaults()['_controller'])[0];
+            $defaults = $route->getDefaults();
+            $controllerValue = $defaults['_controller'] ?? null;
+            if (!is_string($controllerValue) || $controllerValue === '') {
+                continue;
+            }
+            $controller = explode(':', $controllerValue)[0];
             $ref = new ReflectionClass($controller);
             foreach ($ref->getMethods() as $method) {
                 $attributes = $method->getAttributes();
