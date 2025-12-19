@@ -1,0 +1,16 @@
+{% if breadcrumb is not empty %}
+<nav aria-label="breadcrumb">
+    <ul class="{{ options.list_class }}">
+        {% for crumb in breadcrumb %}
+            {% if crumb.url %}
+                <li class="{{ options.list_item_class }}">
+                    <a href="{{ crumb.url }}">{{ crumb.label }}</a>
+                </li>
+            {% else %}
+                <li class="{{ options.list_item_class }} {{ options.active_item }}" aria-current="page">{{ crumb.label }}</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</nav>
+{% endif %}
+{{ dump() }}

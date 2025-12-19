@@ -18,7 +18,7 @@ use Twig\TwigFunction;
 class MetaTagsExtension extends AbstractExtension
 {
     public function __construct(
-        private MetaTagsManagerInterface $metaTags
+        private readonly MetaTagsManagerInterface $metaTags
     ){}
 
     public function getFunctions(): array

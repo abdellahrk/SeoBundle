@@ -7,7 +7,7 @@ This Bundle supports
 -   [x] [Google Tag](docs/google_tag.md)
 -   [x] [Meta Pixel](docs/meta_pixel.md)
 -   [x] SEO Profiling [Dev mode]
--   [ ] Breadcrum Generation
+-   [x] [Breadcrumb Generation](docs/breadcrumb.md)
 
 
 Installation

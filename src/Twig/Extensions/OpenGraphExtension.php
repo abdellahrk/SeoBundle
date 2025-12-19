@@ -27,7 +27,7 @@ final class OpenGraphExtension extends AbstractExtension
         private OGImageManagerInterface $ogImageManager,
         private OGVideoManagerInterface $ogVideoManager,
         private OGArticleManagerInterface $ogArticleManager,
-        private ParameterBagInterface $parameterBag
+        private readonly ParameterBagInterface $parameterBag
     ) {}
     public function getFunctions(): array
     {
