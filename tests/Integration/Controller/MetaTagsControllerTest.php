@@ -192,8 +192,10 @@ final class MetaTagsControllerTest extends TestCase
 
         $metaTags = $this->metaTagsManager->getMetaTags();
         $this->assertArrayHasKey('default-style', $metaTags);
-        $this->assertEquals('Default-Style', $metaTags['default-style']['http-equiv']);
-        $this->assertEquals($style, $metaTags['default-style']['value']);
+        $defaultStyle = $metaTags['default-style'];
+        assert(is_array($defaultStyle));
+        $this->assertEquals('Default-Style', $defaultStyle['http-equiv']);
+        $this->assertEquals($style, $defaultStyle['value']);
     }
 
     public function testSetXUACompatible(): void
@@ -202,8 +204,10 @@ final class MetaTagsControllerTest extends TestCase
 
         $metaTags = $this->metaTagsManager->getMetaTags();
         $this->assertArrayHasKey('x-ua-compatible', $metaTags);
-        $this->assertEquals('X-UA-Compatible', $metaTags['x-ua-compatible']['http-equiv']);
-        $this->assertEquals('IE=edge', $metaTags['x-ua-compatible']['value']);
+        $xuaCompatible = $metaTags['x-ua-compatible'];
+        assert(is_array($xuaCompatible));
+        $this->assertEquals('X-UA-Compatible', $xuaCompatible['http-equiv']);
+        $this->assertEquals('IE=edge', $xuaCompatible['value']);
     }
 
     public function testSetAlternate(): void
@@ -214,9 +218,11 @@ final class MetaTagsControllerTest extends TestCase
 
         $metaTags = $this->metaTagsManager->getMetaTags();
         $this->assertArrayHasKey('rel', $metaTags);
-        $this->assertEquals('canonical', $metaTags['rel']['rel']);
-        $this->assertEquals($href, $metaTags['rel']['href']);
-        $this->assertEquals($media, $metaTags['rel']['media']);
+        $rel = $metaTags['rel'];
+        assert(is_array($rel));
+        $this->assertEquals('canonical', $rel['rel']);
+        $this->assertEquals($href, $rel['href']);
+        $this->assertEquals($media, $rel['media']);
     }
 
     public function testSetAlternateWithoutMedia(): void
@@ -226,9 +232,11 @@ final class MetaTagsControllerTest extends TestCase
 
         $metaTags = $this->metaTagsManager->getMetaTags();
         $this->assertArrayHasKey('rel', $metaTags);
-        $this->assertEquals('canonical', $metaTags['rel']['rel']);
-        $this->assertEquals($href, $metaTags['rel']['href']);
-        $this->assertEquals('', $metaTags['rel']['media']);
+        $rel = $metaTags['rel'];
+        assert(is_array($rel));
+        $this->assertEquals('canonical', $rel['rel']);
+        $this->assertEquals($href, $rel['href']);
+        $this->assertEquals('', $rel['media']);
     }
 
     public function testGetMetaTagsReturnsArray(): void
@@ -236,13 +244,12 @@ final class MetaTagsControllerTest extends TestCase
         $this->metaTagsManager->setCustomMetaTag('test', 'value');
 
         $metaTags = $this->metaTagsManager->getMetaTags();
-        $this->assertIsArray($metaTags);
+        $this->assertNotEmpty($metaTags);
     }
 
     public function testGetMetaTagsReturnsEmptyArrayInitially(): void
     {
         $metaTags = $this->metaTagsManager->getMetaTags();
-        $this->assertIsArray($metaTags);
         $this->assertEmpty($metaTags);
     }
 
