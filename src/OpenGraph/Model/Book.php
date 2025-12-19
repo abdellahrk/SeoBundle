@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -21,75 +24,51 @@ class Book
 
     protected array $tags = [];
 
-    /**
-     * @return string
-     */
     public function getAuthor(): string
     {
         return $this->author;
     }
 
-    /**
-     * @param string $author
-     * @return Book
-     */
-    public function setAuthor(string $author): Book
+    public function setAuthor(string $author): self
     {
         $this->author = $author;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getIsbn(): string
     {
         return $this->isbn;
     }
 
-    /**
-     * @param string $isbn
-     * @return Book
-     */
-    public function setIsbn(string $isbn): Book
+    public function setIsbn(string $isbn): self
     {
         $this->isbn = $isbn;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getReleaseDate(): string
     {
         return $this->releaseDate;
     }
 
-    /**
-     * @param string $releaseDate
-     * @return Book
-     */
-    public function setReleaseDate(string $releaseDate): Book
+    public function setReleaseDate(string $releaseDate): self
     {
         $this->releaseDate = $releaseDate;
+
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getTags(): array
     {
         return $this->tags;
     }
 
-    /**
-     * @param array $tags
-     * @return Book
-     */
-    public function setTags(array $tags): Book
+    public function setTags(array $tags): self
     {
         $this->tags = $tags;
+
         return $this;
     }
 }

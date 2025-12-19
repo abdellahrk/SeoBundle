@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -11,12 +14,15 @@
 
 namespace Rami\SeoBundle;
 
-use Rami\SeoBundle\DependencyInjection\CompilerPasses\MetaPixelCompilerPass;
 use Rami\SeoBundle\DependencyInjection\CompilerPasses\GoogleTagCompilerPass;
+use Rami\SeoBundle\DependencyInjection\CompilerPasses\MetaPixelCompilerPass;
+use ReflectionObject;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
+
+use function dirname;
 
 class SeoBundle extends AbstractBundle
 {
@@ -28,7 +34,7 @@ class SeoBundle extends AbstractBundle
         $container->parameters()->set('seo.sitemap', $config['sitemap'] ?? null);
 
         if ($config['google_tag_manager']['enabled']) {
-            $container->parameters()->set('seo.google_tag_manager',  $config['google_tag_manager']);
+            $container->parameters()->set('seo.google_tag_manager', $config['google_tag_manager']);
         }
 
         if ($config['schema']['enabled']) {
@@ -47,9 +53,9 @@ class SeoBundle extends AbstractBundle
 
     public function getPath(): string
     {
-        $reflected = new \ReflectionObject($this);
+        $reflectionObject = new ReflectionObject($this);
 
-        return \dirname($reflected->getFileName(), 2);
+        return dirname($reflectionObject->getFileName(), 2);
     }
 
     public function build(ContainerBuilder $container): void

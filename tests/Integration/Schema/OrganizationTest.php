@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -14,7 +17,7 @@ namespace Rami\SeoBundle\Test\Integration\Schema;
 use PHPUnit\Framework\TestCase;
 use Rami\SeoBundle\Schema\Thing\Organization;
 
-class OrganizationTest extends TestCase
+final class OrganizationTest extends TestCase
 {
     private Organization $organization;
 
@@ -32,7 +35,7 @@ class OrganizationTest extends TestCase
 
     public function testGetTypeReturnsOrganization(): void
     {
-        $this->assertEquals('Organization', $this->organization->getType());
+        $this->assertSame('Organization', $this->organization->getType());
     }
 
     public function testInheritsFromThing(): void
@@ -43,11 +46,11 @@ class OrganizationTest extends TestCase
 
     public function testFluentInterface(): void
     {
-        $result = $this->organization
+        $baseType = $this->organization
             ->name('Tech Company')
             ->url('https://techcompany.com');
 
-        $this->assertSame($this->organization, $result);
+        $this->assertSame($this->organization, $baseType);
     }
 
     public function testRenderOutputsValidJsonLd(): void
@@ -59,9 +62,9 @@ class OrganizationTest extends TestCase
 
         $rendered = $this->organization->render();
 
-        $this->assertStringContainsString('"@type": "Organization"', $rendered);
-        $this->assertStringContainsString('Tech Company Ltd', $rendered);
-        $this->assertStringContainsString('https://techcompany.com', $rendered);
+        $this->assertStringContainsString('"@type": "Organization"', (string) $rendered);
+        $this->assertStringContainsString('Tech Company Ltd', (string) $rendered);
+        $this->assertStringContainsString('https://techcompany.com', (string) $rendered);
     }
 
     public function testOrganizationUsesTraits(): void

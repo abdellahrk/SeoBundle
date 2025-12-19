@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -25,93 +28,63 @@ class Article
 
     protected array $tags = [];
 
-    /**
-     * @return DateTime|null
-     */
     public function getPublishedTime(): ?DateTime
     {
         return $this->publishedTime;
     }
 
-    /**
-     * @param DateTime|null $publishedTime
-     * @return Article
-     */
-    public function setPublishedTime(?DateTime $publishedTime): Article
+    public function setPublishedTime(?DateTime $publishedTime): self
     {
         $this->publishedTime = $publishedTime;
+
         return $this;
     }
 
-    /**
-     * @return DateTime|null
-     */
     public function getModifiedTime(): ?DateTime
     {
         return $this->modifiedTime;
     }
 
-    /**
-     * @param DateTime|null $modifiedTime
-     * @return Article
-     */
-    public function setModifiedTime(?DateTime $modifiedTime): Article
+    public function setModifiedTime(?DateTime $modifiedTime): self
     {
         $this->modifiedTime = $modifiedTime;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getAuthor(): string
     {
         return $this->author;
     }
 
-    /**
-     * @param string $author
-     * @return Article
-     */
-    public function setAuthor(string $author): Article
+    public function setAuthor(string $author): self
     {
         $this->author = $author;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSection(): string
     {
         return $this->section;
     }
 
-    /**
-     * @param string $section
-     * @return Article
-     */
-    public function setSection(string $section): Article
+    public function setSection(string $section): self
     {
         $this->section = $section;
+
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getTags(): array
     {
         return $this->tags;
     }
 
-    /**
-     * @param array $tags
-     * @return Article
-     */
-    public function setTags(array $tags): Article
+    public function setTags(array $tags): self
     {
         $this->tags = $tags;
+
         return $this;
     }
 }

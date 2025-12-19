@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rami\SeoBundle\Schema;
 
 use Rami\SeoBundle\Schema\Intangible\Audience;
@@ -16,13 +18,21 @@ use Rami\SeoBundle\Schema\Thing\CreativeWork\Article\SocialMediaPosting\BlogPost
 use Rami\SeoBundle\Schema\Thing\CreativeWork\Blog;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\Course;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\EducationalOccupationalCredential;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\MediaObject;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\MediaObject\ImageObject;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\MediaObject\TextObject;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\Thesis;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\AboutPage;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\CheckoutPage;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\CollectionPage;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\CollectionPage\MediaGallery;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\CollectionPage\MediaGallery\ImageGallery;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\ContactPage;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\FAQPage;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\ItemPage;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\ProfilePage;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\SearchResultsPage;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPageElement;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebSite;
 use Rami\SeoBundle\Schema\Thing\Event;
@@ -48,21 +58,19 @@ class Schema implements SchemaInterface
 {
     private ?BaseType $baseType = null;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->baseType = new Thing();
     }
-    public function getType(): BaseType|null
+
+    public function getType(): ?BaseType
     {
         return $this->baseType ?? null;
     }
 
-    /**
-     * @param BaseType $type
-     * @return void
-     */
-    public function render(BaseType $type): void
+    public function render(BaseType $baseType): void
     {
-        $this->baseType = $type;
+        $this->baseType = $baseType;
     }
 
     public function thing(): Thing
@@ -200,14 +208,14 @@ class Schema implements SchemaInterface
         return new CollectionPage();
     }
 
-    public function mediaGallery(): CollectionPage\MediaGallery
+    public function mediaGallery(): MediaGallery
     {
-        return new CollectionPage\MediaGallery();
+        return new MediaGallery();
     }
 
-    public function imageGallery(): CollectionPage\MediaGallery\ImageGallery
+    public function imageGallery(): ImageGallery
     {
-        return new CollectionPage\MediaGallery\ImageGallery;
+        return new ImageGallery();
     }
 
     public function aboutPage(): AboutPage
@@ -215,34 +223,34 @@ class Schema implements SchemaInterface
         return new AboutPage();
     }
 
-    public function faqPage(): WebPage\FAQPage
+    public function faqPage(): FAQPage
     {
-        return new WebPage\FAQPage();
+        return new FAQPage();
     }
 
-    public function itemPage(): WebPage\ItemPage
+    public function itemPage(): ItemPage
     {
-        return new WebPage\ItemPage();
+        return new ItemPage();
     }
 
-    public function checkoutPage(): WebPage\CheckoutPage
+    public function checkoutPage(): CheckoutPage
     {
-        return new WebPage\CheckoutPage();
+        return new CheckoutPage();
     }
 
-    public function profilePage(): WebPage\ProfilePage
+    public function profilePage(): ProfilePage
     {
-        return new WebPage\ProfilePage();
+        return new ProfilePage();
     }
 
-    public function searchResultPage(): WebPage\SearchResultsPage
+    public function searchResultPage(): SearchResultsPage
     {
-        return new WebPage\SearchResultsPage();
+        return new SearchResultsPage();
     }
 
-    public function mediaObject(): CreativeWork\MediaObject
+    public function mediaObject(): MediaObject
     {
-        return new CreativeWork\MediaObject();
+        return new MediaObject();
     }
 
     public function offer(): Offer
@@ -314,5 +322,4 @@ class Schema implements SchemaInterface
     {
         return new TextObject();
     }
-
 }

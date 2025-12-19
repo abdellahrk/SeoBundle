@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -14,117 +17,86 @@ namespace Rami\SeoBundle\OpenGraph\Model;
 class Image
 {
     protected string $url = '';
+
     protected string $secureUrl = '';
+
     protected string $type = '';
+
     protected string $width = '';
+
     protected string $height = '';
+
     protected string $alt = '';
 
-    /**
-     * @return string
-     */
     public function getUrl(): string
     {
         return $this->url;
     }
 
-    /**
-     * @param string $url
-     * @return Image
-     */
-    public function setUrl(string $url): Image
+    public function setUrl(string $url): self
     {
         $this->url = $url;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSecureUrl(): string
     {
         return $this->secureUrl;
     }
 
-    /**
-     * @param string $secureUrl
-     * @return Image
-     */
-    public function setSecureUrl(string $secureUrl): Image
+    public function setSecureUrl(string $secureUrl): self
     {
         $this->secureUrl = $secureUrl;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @param string $type
-     * @return Image
-     */
-    public function setType(string $type): Image
+    public function setType(string $type): self
     {
         $this->type = $type;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getWidth(): string
     {
         return $this->width;
     }
 
-    /**
-     * @param string $width
-     * @return Image
-     */
-    public function setWidth(string $width): Image
+    public function setWidth(string $width): self
     {
         $this->width = $width;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getHeight(): string
     {
         return $this->height;
     }
 
-    /**
-     * @param string $height
-     * @return Image
-     */
-    public function setHeight(string $height): Image
+    public function setHeight(string $height): self
     {
         $this->height = $height;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getAlt(): string
     {
         return $this->alt;
     }
 
-    /**
-     * @param string $alt
-     * @return Image
-     */
-    public function setAlt(string $alt): Image
+    public function setAlt(string $alt): self
     {
         $this->alt = $alt;
+
         return $this;
     }
 }

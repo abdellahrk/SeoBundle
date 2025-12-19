@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rami\SeoBundle\Metas;
 
 use Rami\SeoBundle\Metas\Model\SeoMeta;

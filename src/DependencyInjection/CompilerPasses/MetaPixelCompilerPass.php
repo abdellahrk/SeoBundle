@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -16,10 +19,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class MetaPixelCompilerPass implements CompilerPassInterface
 {
-
-    /**
-     * @inheritDoc
-     */
     public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition('seo.meta_pixel')) {
@@ -32,7 +31,7 @@ class MetaPixelCompilerPass implements CompilerPassInterface
             return;
         }
 
-        foreach ($container->findTaggedServiceIds('seo.meta_pixel') as $id => $tags) {
+        foreach ($container->findTaggedServiceIds('seo.meta_pixel') as $tags) {
             $definition->addMethodCall('enableMetaPixel', [
                 $container->getParameter('seo.meta_pixel')['pixel_id'],
             ]);

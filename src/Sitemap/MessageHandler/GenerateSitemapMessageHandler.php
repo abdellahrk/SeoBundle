@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -16,16 +19,15 @@ use Rami\SeoBundle\Sitemap\SitemapInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler()]
-final class GenerateSitemapMessageHandler
+final readonly class GenerateSitemapMessageHandler
 {
     public function __construct(
         private SitemapInterface $sitemap,
-    )
-    {
+    ) {
     }
 
-    public function __invoke(GenerateSitemapMessage $message): void
+    public function __invoke(GenerateSitemapMessage $generateSitemapMessage): void
     {
-        $this->sitemap->generateSitemap($message->getBaseUrl());
+        $this->sitemap->generateSitemap($generateSitemapMessage->getBaseUrl());
     }
 }

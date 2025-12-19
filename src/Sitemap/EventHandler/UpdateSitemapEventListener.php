@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -18,10 +21,11 @@ use Symfony\Component\Messenger\MessageBusInterface;
 class UpdateSitemapEventListener
 {
     public function __construct(
-        private MessageBusInterface $messageBus,
-    ) {}
+        private readonly MessageBusInterface $messageBus,
+    ) {
+    }
 
-    public function __invoke(UpdateSitemapEvent $event): void
+    public function __invoke(UpdateSitemapEvent $updateSitemapEvent): void
     {
         $this->messageBus->dispatch(new GenerateSitemapMessage());
     }

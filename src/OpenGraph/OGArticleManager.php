@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -11,103 +14,90 @@
 
 namespace Rami\SeoBundle\OpenGraph;
 
+use DateTime;
 use Rami\SeoBundle\OpenGraph\Model\Article;
 
 class OGArticleManager implements OGArticleManagerInterface
 {
     public Article $article;
+
     public function __construct()
     {
         $this->article = new Article();
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getPublishedTime(): \DateTime
+    public function getPublishedTime(): DateTime
     {
         return $this->article->getPublishedTime();
     }
 
     /**
-     * @param \DateTime $publishedTime
      * @return $this
      */
-    public function setPublishedTime(\DateTime $publishedTime): static
+    public function setPublishedTime(DateTime $publishedTime): static
     {
         $this->article->setPublishedTime($publishedTime);
+
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getModifiedTime(): \DateTime
+    public function getModifiedTime(): DateTime
     {
         return $this->article->getModifiedTime();
     }
 
     /**
-     * @param \DateTime $modifiedTime
      * @return $this
      */
-    public function setModifiedTime(\DateTime $modifiedTime): static
+    public function setModifiedTime(DateTime $modifiedTime): static
     {
         $this->article->setModifiedTime($modifiedTime);
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getAuthor(): string
     {
         return $this->article->getAuthor();
     }
 
     /**
-     * @param string $author
      * @return $this
      */
     public function setAuthor(string $author): static
     {
         $this->article->setAuthor($author);
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSection(): string
     {
         return $this->article->getSection();
     }
 
     /**
-     * @param string $section
      * @return $this
      */
     public function setSection(string $section): static
     {
         $this->article->setSection($section);
+
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getTags(): array
     {
         return $this->article->getTags();
     }
 
     /**
-     * @param array $tags
      * @return $this
      */
     public function setTags(array $tags): static
     {
         $this->article->setTags($tags);
+
         return $this;
     }
 

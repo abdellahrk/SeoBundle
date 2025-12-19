@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -12,49 +15,25 @@
 namespace Rami\SeoBundle\Twig\Extensions;
 
 use Rami\SeoBundle\Metas\MetaTagsManagerInterface;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
+use Twig\Attribute\AsTwigFunction;
 
-class MetaTagsExtension extends AbstractExtension
+use function is_array;
+use function sprintf;
+
+class MetaTagsExtension
 {
     public function __construct(
-        private MetaTagsManagerInterface $metaTags
-    ){}
-
-    public function getFunctions(): array
-    {
-        return [
-            new TwigFunction('meta_tags', [$this, 'renderMetaTags'], ['is_safe' => ['html']]),
-            new TwigFunction('lang_head_value', [$this, 'renderHeadLang'], ['is_safe' => ['html']]),
-        ];
+        private readonly MetaTagsManagerInterface $metaTagsManager
+    ) {
     }
 
-    /**
-     * @param string $lang
-     * @return string
-     */
+    #[AsTwigFunction('lang_head_value', isSafe: ['html'])]
     public function renderHeadLang(string $lang): string
     {
         return 'lang="'.$lang.'"';
     }
 
-
-    /**
-     * @param string|null $title
-     * @param string|null $description
-     * @param array|null $keywords
-     * @param string|null $subject
-     * @param string|null $charset
-     * @param array|null $robots
-     * @param string|null $canonical
-     * @param string|null $copyright
-     * @param string|null $viewport
-     * @param string|null $author
-     * @param string|null $contentType
-     * @param bool $xuaCompatible
-     * @param array|null $customMetaTags
-     * @return string
-     */
+    #[AsTwigFunction('meta_tags', isSafe: ['html'])]
     public function renderMetaTags(
         ?string $title = '',
         ?string $description = '',
@@ -64,15 +43,14 @@ class MetaTagsExtension extends AbstractExtension
         ?array $robots = [],
         ?string $canonical = '',
         ?string $copyright = '',
-        ?string $viewport = "",
+        ?string $viewport = '',
         ?string $author = '',
         ?string $contentType = '',
         bool $xuaCompatible = false,
         ?array $customMetaTags = []
-    ): string
-    {
-        $seo = $this->metaTags->getSeoMeta();
-        $this->metaTags->setTitle($title ?: $seo->getTitle())
+    ): string {
+        $seo = $this->metaTagsManager->getSeoMeta();
+        $this->metaTagsManager->setTitle($title ?: $seo->getTitle())
             ->setDescription($description ?: $seo->getDescription())
             ->setKeywords($keywords ?: $seo->getKeywords())
             ->setSubject($subject ?: $seo->getSubject())
@@ -85,26 +63,23 @@ class MetaTagsExtension extends AbstractExtension
             ->setContentType($contentType ?: $seo->getContentType());
 
         if ($xuaCompatible) {
-            $this->metaTags->setXUACompatible();
+            $this->metaTagsManager->setXUACompatible();
         }
 
         if (null !== $customMetaTags && [] !== $customMetaTags) {
             foreach ($customMetaTags as $name => $content) {
-                $this->metaTags->setCustomMetaTag($name, $content);
+                $this->metaTagsManager->setCustomMetaTag($name, $content);
             }
         }
 
         return $this->renderTags();
     }
 
-    /**
-     * @return string
-     */
     private function renderTags(): string
     {
         $metaTags = '';
 
-        $seoMeta = $this->metaTags->seoMeta;
+        $seoMeta = $this->metaTagsManager->seoMeta;
 
         if (null !== $seoMeta->getCharset() && '' !== $seoMeta->getCharset()) {
             $metaTags .= sprintf('<meta charset="%s" />', $seoMeta->getCharset());
@@ -147,7 +122,7 @@ class MetaTagsExtension extends AbstractExtension
         }
 
         // Render additional custom meta tags
-        $tags = $this->metaTags->getMetaTags();
+        $tags = $this->metaTagsManager->getMetaTags();
         foreach ($tags as $name => $value) {
             if (is_array($value)) {
                 // Handle structured tags like default-style, x-ua-compatible, rel

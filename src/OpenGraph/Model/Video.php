@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -14,99 +17,72 @@ namespace Rami\SeoBundle\OpenGraph\Model;
 class Video
 {
     protected string $url = '';
+
     protected string $secureUrl = '';
+
     protected string $type = '';
+
     protected string $width = '';
+
     protected string $height = '';
 
-    /**
-     * @return string
-     */
     public function getUrl(): string
     {
         return $this->url;
     }
 
-    /**
-     * @param string $url
-     * @return Video
-     */
-    public function setUrl(string $url): Video
+    public function setUrl(string $url): self
     {
         $this->url = $url;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSecureUrl(): string
     {
         return $this->secureUrl;
     }
 
-    /**
-     * @param string $secureUrl
-     * @return Video
-     */
-    public function setSecureUrl(string $secureUrl): Video
+    public function setSecureUrl(string $secureUrl): self
     {
         $this->secureUrl = $secureUrl;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @param string $type
-     * @return Video
-     */
-    public function setType(string $type): Video
+    public function setType(string $type): self
     {
         $this->type = $type;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getWidth(): string
     {
         return $this->width;
     }
 
-    /**
-     * @param string $width
-     * @return Video
-     */
-    public function setWidth(string $width): Video
+    public function setWidth(string $width): self
     {
         $this->width = $width;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getHeight(): string
     {
         return $this->height;
     }
 
-    /**
-     * @param string $height
-     * @return $this
-     */
-    public function setHeight(string $height): Video
+    public function setHeight(string $height): self
     {
         $this->height = $height;
+
         return $this;
     }
-
 }

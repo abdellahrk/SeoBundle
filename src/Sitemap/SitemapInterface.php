@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -11,17 +14,16 @@
 
 namespace Rami\SeoBundle\Sitemap;
 
+use DOMException;
+
 interface SitemapInterface
 {
-    /**
-     * @return void
-     */
     public function generateSitemap(?string $baseUrl = null): void;
 
     /**
      * @param array<mixed> $attributes
-     * @return void
-     * @throws \DOMException
+     *
+     * @throws DOMException
      */
     public function generateDynamicSitemap(array $attributes, ?string $baseUrl = null): void;
 }

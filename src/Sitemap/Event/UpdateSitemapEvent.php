@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -13,5 +16,4 @@ namespace Rami\SeoBundle\Sitemap\Event;
 
 class UpdateSitemapEvent
 {
-    public function __construct() {}
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -11,6 +14,7 @@
 
 namespace Rami\SeoBundle\EventSubscriber;
 
+use Rami\SeoBundle\Schema\BaseType;
 use Rami\SeoBundle\Schema\SchemaInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -20,12 +24,13 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class SchemaTwigInjectorSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private SchemaInterface $schema,
-        private ParameterBagInterface $parameterBag,
-    ){}
+        private readonly SchemaInterface $schema,
+        private readonly ParameterBagInterface $parameterBag,
+    ) {
+    }
 
     /**
-     * @return array[]|\array[][]|string[]
+     * @return array[]|array[][]|string[]
      */
     public static function getSubscribedEvents(): array
     {
@@ -34,7 +39,7 @@ class SchemaTwigInjectorSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onKernelResponse(ResponseEvent $event): void
+    public function onKernelResponse(ResponseEvent $responseEvent): void
     {
         if (!$this->parameterBag->has('seo.schema')) {
             return;
@@ -44,26 +49,27 @@ class SchemaTwigInjectorSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $response = $event->getResponse();
-        $request = $event->getRequest();
+        $response = $responseEvent->getResponse();
+        $request = $responseEvent->getRequest();
 
-        if (!str_contains($request->headers->get('accept', ''), 'text/html' )) return;
-
-        $body = $response->getContent();
-
-        if (!$event->isMainRequest() || $request->isXmlHttpRequest()) {
+        if (!str_contains($request->headers->get('accept', ''), 'text/html')) {
             return;
         }
 
-        $content = $this->schema->getType() ? $this->schema->getType()->render() : null;
+        $body = $response->getContent();
+
+        if (!$responseEvent->isMainRequest() || $request->isXmlHttpRequest()) {
+            return;
+        }
+
+        $content = $this->schema->getType() instanceof BaseType ? $this->schema->getType()->render() : null;
 
         if (null === $content) {
             return;
         }
 
-        $body = str_replace('</head>', $content . PHP_EOL . '</head>', $body);
+        $body = str_replace('</head>', $content.\PHP_EOL.'</head>', $body);
 
         $response->setContent($body);
-
     }
 }

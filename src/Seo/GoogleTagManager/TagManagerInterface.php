@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -8,8 +11,8 @@
  * For the full copyright and license information,
  * please view the LICENSE file that was distributed with this source code.
  */
-namespace Rami\SeoBundle\Seo\GoogleTagManager;
 
+namespace Rami\SeoBundle\Seo\GoogleTagManager;
 
 interface TagManagerInterface
 {

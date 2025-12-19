@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -35,227 +38,149 @@ class SeoMeta
 
     protected string $contentType = '';
 
-    /**
-     * @return string|null
-     */
+    protected ?string $contentSecurityPolicy = null;
+
     public function getContentType(): ?string
     {
         return $this->contentType;
     }
 
-    /**
-     * @param string $contentType
-     * @return $this
-     */
-    public function setContentType(string $contentType): SeoMeta
+    public function setContentType(string $contentType): self
     {
         $this->contentType = $contentType;
+
         return $this;
     }
 
-    protected ?string $contentSecurityPolicy = null;
-
-    /**
-     * @return string|null
-     */
     public function getContentSecurityPolicy(): ?string
     {
         return $this->contentSecurityPolicy;
     }
 
-    /**
-     * @param string|null $contentSecurityPolicy
-     * @return SeoMeta
-     */
-    public function setContentSecurityPolicy(?string $contentSecurityPolicy): SeoMeta
+    public function setContentSecurityPolicy(?string $contentSecurityPolicy): self
     {
         $this->contentSecurityPolicy = $contentSecurityPolicy;
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getCharset(): ?string
     {
         return $this->charset;
     }
 
-    /**
-     * @param string|null $charset
-     * @return SeoMeta
-     */
-    public function setCharset(?string $charset): SeoMeta
+    public function setCharset(?string $charset): self
     {
         $this->charset = $charset;
+
         return $this;
     }
 
-
-    /**
-     * @return string|null
-     */
     public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     * @return SeoMeta
-     */
-    public function setTitle(string $title): SeoMeta
+    public function setTitle(string $title): self
     {
         $this->title = $title;
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * @param string $description
-     * @return SeoMeta
-     */
-    public function setDescription(string $description): SeoMeta
+    public function setDescription(string $description): self
     {
         $this->description = $description;
+
         return $this;
     }
 
-    /**
-     * @return array|null
-     */
     public function getKeywords(): ?array
     {
         return $this->keywords;
     }
 
-    /**
-     * @param array $keywords
-     * @return SeoMeta
-     */
-    public function setKeywords(array $keywords): SeoMeta
+    public function setKeywords(array $keywords): self
     {
         $this->keywords = $keywords;
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getSubject(): ?string
     {
         return $this->subject;
     }
 
-    /**
-     * @param string $subject
-     * @return SeoMeta
-     */
-    public function setSubject(string $subject): SeoMeta
+    public function setSubject(string $subject): self
     {
         $this->subject = $subject;
+
         return $this;
     }
 
-    /**
-     * @return array|null
-     */
     public function getRobots(): ?array
     {
         return $this->robots;
     }
 
-    /**
-     * @param array|null $robots
-     * @return SeoMeta
-     */
-    public function setRobots(?array $robots): SeoMeta
+    public function setRobots(?array $robots): self
     {
         $this->robots = $robots;
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getCanonical(): ?string
     {
         return $this->canonical;
     }
 
-    /**
-     * @param string|null $canonical
-     * @return SeoMeta
-     */
-    public function setCanonical(?string $canonical): SeoMeta
+    public function setCanonical(?string $canonical): self
     {
         $this->canonical = $canonical;
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getCopyright(): ?string
     {
         return $this->copyright;
     }
 
-    /**
-     * @param string|null $copyright
-     * @return SeoMeta
-     */
-    public function setCopyright(?string $copyright): SeoMeta
+    public function setCopyright(?string $copyright): self
     {
         $this->copyright = $copyright;
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getViewport(): ?string
     {
         return $this->viewport;
     }
 
-    /**
-     * @param string $viewport
-     * @return $this
-     */
-    public function setViewport(string $viewport): SeoMeta
+    public function setViewport(string $viewport): self
     {
         $this->viewport = $viewport;
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getAuthor(): ?string
     {
         return $this->author;
     }
 
-    /**
-     * @param string|null $author
-     * @return SeoMeta
-     */
-    public function setAuthor(?string $author): SeoMeta
+    public function setAuthor(?string $author): self
     {
         $this->author = $author;
+
         return $this;
     }
-
-
-
-
-
 }

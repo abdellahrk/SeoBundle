@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rami\SeoBundle\Schema\Traits;
 
 use Rami\SeoBundle\Schema\Intangible\Service;
@@ -16,12 +18,14 @@ trait ThingTrait
     public function additionalType(string $additionalType): static
     {
         $this->setProperty('additionalType', $additionalType);
+
         return $this;
     }
 
     public function alternateName(string $alternateName): static
     {
         $this->setProperty('alternateName', $alternateName);
+
         return $this;
     }
 
@@ -32,12 +36,14 @@ trait ThingTrait
         } else {
             $this->setProperty('description', $description);
         }
+
         return $this;
     }
 
     public function disambiguatingDescription(string $description): static
     {
         $this->setProperty('disambiguatingDescription', $description);
+
         return $this;
     }
 
@@ -48,6 +54,7 @@ trait ThingTrait
         } else {
             $this->setProperty('identifier', $identifier);
         }
+
         return $this;
     }
 
@@ -58,6 +65,7 @@ trait ThingTrait
         } else {
             $this->setProperty('image', $image);
         }
+
         return $this;
     }
 
@@ -68,36 +76,42 @@ trait ThingTrait
         } else {
             $this->setProperty('mainEntityOfPage', $mainEntityOfPage);
         }
+
         return $this;
     }
 
     public function name(string $name): static
     {
         $this->setProperty('name', $name);
+
         return $this;
     }
 
     public function owner(Organization|Person $owner): static
     {
         $this->setProperty('owner', $this->parseChild($owner));
+
         return $this;
     }
 
     public function potentialAction(Action $action): static
     {
         $this->setProperty('potentialAction', $this->parseChild($action));
+
         return $this;
     }
 
     public function sameAs(string $sameAs): static
     {
         $this->setProperty('sameAs', $sameAs);
+
         return $this;
     }
 
     public function serviceOutput(Service $service): Service
     {
         $this->setProperty('serviceOutput', $this->parseChild($service));
+
         return $service;
     }
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -11,13 +14,14 @@
 
 namespace Rami\SeoBundle\Test\Integration\Schema;
 
+use DateTime;
 use PHPUnit\Framework\TestCase;
 use Rami\SeoBundle\Schema\Intangible\StructuredValue\ContactPoint\PostalAddress;
 use Rami\SeoBundle\Schema\Thing\Organization;
 use Rami\SeoBundle\Schema\Thing\Person;
 use Rami\SeoBundle\Schema\Thing\Place\AdministrativeArea\Country;
 
-class PersonTest extends TestCase
+final class PersonTest extends TestCase
 {
     private Person $person;
 
@@ -35,7 +39,7 @@ class PersonTest extends TestCase
 
     public function testGetTypeReturnsPerson(): void
     {
-        $this->assertEquals('Person', $this->person->getType());
+        $this->assertSame('Person', $this->person->getType());
     }
 
     public function testAdditionalNameSetsProperty(): void
@@ -58,7 +62,7 @@ class PersonTest extends TestCase
 
     public function testBirthDateFormatsCorrectly(): void
     {
-        $date = new \DateTime('1990-05-15');
+        $date = new DateTime('1990-05-15');
         $this->person->birthDate($date);
         $this->assertEquals('1990-05-15', $this->person->getProperty('birthDate'));
     }
@@ -101,10 +105,10 @@ class PersonTest extends TestCase
 
     public function testAddressWithPostalAddress(): void
     {
-        $address = new PostalAddress();
-        $address->name('Home Address');
+        $postalAddress = new PostalAddress();
+        $postalAddress->name('Home Address');
 
-        $this->person->address($address);
+        $this->person->address($postalAddress);
 
         $addressProperty = $this->person->getProperty('address');
         $this->assertIsArray($addressProperty);
@@ -133,10 +137,10 @@ class PersonTest extends TestCase
 
     public function testAlumniOfSetsOrganization(): void
     {
-        $university = new Organization();
-        $university->name('MIT');
+        $organization = new Organization();
+        $organization->name('MIT');
 
-        $this->person->alumniOf($university);
+        $this->person->alumniOf($organization);
 
         $alumniProperty = $this->person->getProperty('alumniOf');
         $this->assertIsArray($alumniProperty);
@@ -151,10 +155,10 @@ class PersonTest extends TestCase
 
     public function testChildrenWithSinglePerson(): void
     {
-        $child = new Person();
-        $child->name('Child Person');
+        $person = new Person();
+        $person->name('Child Person');
 
-        $this->person->children($child);
+        $this->person->children($person);
 
         $childrenProperty = $this->person->getProperty('children');
         $this->assertIsArray($childrenProperty);
@@ -178,10 +182,10 @@ class PersonTest extends TestCase
 
     public function testSpouseSetsPersonProperty(): void
     {
-        $spouse = new Person();
-        $spouse->name('Spouse Name');
+        $person = new Person();
+        $person->name('Spouse Name');
 
-        $this->person->spouse($spouse);
+        $this->person->spouse($person);
 
         $spouseProperty = $this->person->getProperty('spouse');
         $this->assertIsArray($spouseProperty);
@@ -190,10 +194,10 @@ class PersonTest extends TestCase
 
     public function testWorksForSetsOrganization(): void
     {
-        $company = new Organization();
-        $company->name('Tech Company');
+        $organization = new Organization();
+        $organization->name('Tech Company');
 
-        $this->person->worksFor($company);
+        $this->person->worksFor($organization);
 
         $worksForProperty = $this->person->getProperty('worksFor');
         $this->assertIsArray($worksForProperty);
@@ -214,24 +218,24 @@ class PersonTest extends TestCase
 
     public function testFluentInterface(): void
     {
-        $result = $this->person
+        $person = $this->person
             ->givenName('John')
             ->familyName('Doe')
             ->email('john@example.com')
             ->jobTitle('Developer');
 
-        $this->assertSame($this->person, $result);
+        $this->assertSame($this->person, $person);
     }
 
     public function testCompletePersonSchema(): void
     {
-        $address = new PostalAddress();
-        $address->name('Home');
+        $postalAddress = new PostalAddress();
+        $postalAddress->name('Home');
 
-        $company = new Organization();
-        $company->name('Tech Corp');
+        $organization = new Organization();
+        $organization->name('Tech Corp');
 
-        $birthDate = new \DateTime('1985-06-20');
+        $birthDate = new DateTime('1985-06-20');
 
         $this->person
             ->name('Dr. John Doe')
@@ -243,8 +247,8 @@ class PersonTest extends TestCase
             ->birthDate($birthDate)
             ->birthPlace('New York')
             ->jobTitle('Senior Software Engineer')
-            ->address($address)
-            ->worksFor($company);
+            ->address($postalAddress)
+            ->worksFor($organization);
 
         $properties = $this->person->getProperties();
 
@@ -265,9 +269,9 @@ class PersonTest extends TestCase
 
         $rendered = $this->person->render();
 
-        $this->assertStringContainsString('"@type": "Person"', $rendered);
-        $this->assertStringContainsString('John Doe', $rendered);
-        $this->assertStringContainsString('john@example.com', $rendered);
-        $this->assertStringContainsString('Developer', $rendered);
+        $this->assertStringContainsString('"@type": "Person"', (string) $rendered);
+        $this->assertStringContainsString('John Doe', (string) $rendered);
+        $this->assertStringContainsString('john@example.com', (string) $rendered);
+        $this->assertStringContainsString('Developer', (string) $rendered);
     }
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -16,7 +19,7 @@ use Rami\SeoBundle\Schema\BaseType;
 use Rami\SeoBundle\Schema\Thing;
 use Rami\SeoBundle\Schema\Thing\Person;
 
-class BaseTypeTest extends TestCase
+final class BaseTypeTest extends TestCase
 {
     private BaseType $baseType;
 
@@ -35,13 +38,13 @@ class BaseTypeTest extends TestCase
     public function testGetTypeReturnsShortClassName(): void
     {
         $type = $this->baseType->getType();
-        $this->assertEquals('Thing', $type);
+        $this->assertSame('Thing', $type);
     }
 
     public function testToStringReturnsFullClassName(): void
     {
         $className = (string) $this->baseType;
-        $this->assertEquals(Thing::class, $className);
+        $this->assertSame(Thing::class, $className);
     }
 
     public function testNameSetsProperty(): void
@@ -82,10 +85,10 @@ class BaseTypeTest extends TestCase
 
     public function testSubjectOfSetsPropertyWithBaseType(): void
     {
-        $subject = new Person();
-        $subject->name('Subject Person');
+        $person = new Person();
+        $person->name('Subject Person');
 
-        $this->baseType->subjectOf($subject);
+        $this->baseType->subjectOf($person);
 
         $subjectProperty = $this->baseType->getProperty('subjectOf');
         $this->assertIsArray($subjectProperty);
@@ -105,8 +108,8 @@ class BaseTypeTest extends TestCase
 
     public function testGetPropertiesReturnsEmptyArrayInitially(): void
     {
-        $baseType = new Thing();
-        $properties = $baseType->getProperties();
+        $thing = new Thing();
+        $properties = $thing->getProperties();
 
         $this->assertIsArray($properties);
         $this->assertEmpty($properties);
@@ -120,13 +123,13 @@ class BaseTypeTest extends TestCase
 
     public function testFluentInterface(): void
     {
-        $result = $this->baseType
+        $baseType = $this->baseType
             ->name('Test')
             ->id('123')
             ->url('https://example.com')
             ->inLanguage('en');
 
-        $this->assertSame($this->baseType, $result);
+        $this->assertSame($this->baseType, $baseType);
     }
 
     public function testRenderReturnsJsonLdScript(): void
@@ -151,9 +154,9 @@ class BaseTypeTest extends TestCase
 
         $rendered = $this->baseType->render();
 
-        $this->assertStringContainsString('Test Thing', $rendered);
-        $this->assertStringContainsString('test-123', $rendered);
-        $this->assertStringContainsString('https://example.com', $rendered);
+        $this->assertStringContainsString('Test Thing', (string) $rendered);
+        $this->assertStringContainsString('test-123', (string) $rendered);
+        $this->assertStringContainsString('https://example.com', (string) $rendered);
     }
 
     public function testRenderOutputsValidJson(): void
@@ -161,7 +164,7 @@ class BaseTypeTest extends TestCase
         $this->baseType->name('Test Thing');
         $rendered = $this->baseType->render();
 
-        preg_match('/<script[^>]*>(.*?)<\/script>/s', $rendered, $matches);
+        preg_match('/<script[^>]*>(.*?)<\/script>/s', (string) $rendered, $matches);
         $json = $matches[1] ?? '';
 
         $decoded = json_decode($json, true);
@@ -211,7 +214,7 @@ class BaseTypeTest extends TestCase
 
         $rendered = $this->baseType->render();
 
-        $this->assertStringContainsString('Main Thing', $rendered);
-        $this->assertStringContainsString('Person', $rendered);
+        $this->assertStringContainsString('Main Thing', (string) $rendered);
+        $this->assertStringContainsString('Person', (string) $rendered);
     }
 }

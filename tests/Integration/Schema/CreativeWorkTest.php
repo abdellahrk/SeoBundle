@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -11,13 +14,15 @@
 
 namespace Rami\SeoBundle\Test\Integration\Schema;
 
+use DateTime;
+use DateTimeZone;
 use PHPUnit\Framework\TestCase;
 use Rami\SeoBundle\Schema\Thing\CreativeWork;
 use Rami\SeoBundle\Schema\Thing\Organization;
 use Rami\SeoBundle\Schema\Thing\Person;
 use Rami\SeoBundle\Schema\Thing\Place\AdministrativeArea\Country;
 
-class CreativeWorkTest extends TestCase
+final class CreativeWorkTest extends TestCase
 {
     private CreativeWork $creativeWork;
 
@@ -35,7 +40,7 @@ class CreativeWorkTest extends TestCase
 
     public function testGetTypeReturnsCreativeWork(): void
     {
-        $this->assertEquals('CreativeWork', $this->creativeWork->getType());
+        $this->assertSame('CreativeWork', $this->creativeWork->getType());
     }
 
     public function testAbstractSetsProperty(): void
@@ -106,10 +111,10 @@ class CreativeWorkTest extends TestCase
 
     public function testAuthorWithPerson(): void
     {
-        $author = new Person();
-        $author->name('John Author');
+        $person = new Person();
+        $person->name('John Author');
 
-        $this->creativeWork->author($author);
+        $this->creativeWork->author($person);
 
         $authorProperty = $this->creativeWork->getProperty('author');
         $this->assertIsArray($authorProperty);
@@ -136,10 +141,10 @@ class CreativeWorkTest extends TestCase
 
     public function testCharacterSetsProperty(): void
     {
-        $character = new Person();
-        $character->name('Main Character');
+        $person = new Person();
+        $person->name('Main Character');
 
-        $this->creativeWork->character($character);
+        $this->creativeWork->character($person);
 
         $characterProperty = $this->creativeWork->getProperty('character');
         $this->assertIsArray($characterProperty);
@@ -154,10 +159,10 @@ class CreativeWorkTest extends TestCase
 
     public function testContributorSetsProperty(): void
     {
-        $contributor = new Person();
-        $contributor->name('Contributor Name');
+        $person = new Person();
+        $person->name('Contributor Name');
 
-        $this->creativeWork->contributor($contributor);
+        $this->creativeWork->contributor($person);
 
         $contributorProperty = $this->creativeWork->getProperty('contributor');
         $this->assertIsArray($contributorProperty);
@@ -166,10 +171,10 @@ class CreativeWorkTest extends TestCase
 
     public function testCreatorSetsProperty(): void
     {
-        $creator = new Person();
-        $creator->name('Content Creator');
+        $person = new Person();
+        $person->name('Content Creator');
 
-        $this->creativeWork->creator($creator);
+        $this->creativeWork->creator($person);
 
         $creatorProperty = $this->creativeWork->getProperty('creator');
         $this->assertIsArray($creatorProperty);
@@ -190,10 +195,10 @@ class CreativeWorkTest extends TestCase
 
     public function testCopyrightHolderSetsProperty(): void
     {
-        $holder = new Organization();
-        $holder->name('Copyright Holder Inc');
+        $organization = new Organization();
+        $organization->name('Copyright Holder Inc');
 
-        $this->creativeWork->copyrightHolder($holder);
+        $this->creativeWork->copyrightHolder($organization);
 
         $holderProperty = $this->creativeWork->getProperty('copyrightHolder');
         $this->assertIsArray($holderProperty);
@@ -226,10 +231,10 @@ class CreativeWorkTest extends TestCase
 
     public function testMaintainerSetsProperty(): void
     {
-        $maintainer = new Person();
-        $maintainer->name('Content Maintainer');
+        $person = new Person();
+        $person->name('Content Maintainer');
 
-        $this->creativeWork->maintainer($maintainer);
+        $this->creativeWork->maintainer($person);
 
         $maintainerProperty = $this->creativeWork->getProperty('maintainer');
         $this->assertIsArray($maintainerProperty);
@@ -253,10 +258,10 @@ class CreativeWorkTest extends TestCase
 
     public function testEditorSetsProperty(): void
     {
-        $editor = new Person();
-        $editor->name('Editor Name');
+        $person = new Person();
+        $person->name('Editor Name');
 
-        $this->creativeWork->editor($editor);
+        $this->creativeWork->editor($person);
 
         $editorProperty = $this->creativeWork->getProperty('editor');
         $this->assertIsArray($editorProperty);
@@ -265,10 +270,10 @@ class CreativeWorkTest extends TestCase
 
     public function testFunderSetsProperty(): void
     {
-        $funder = new Organization();
-        $funder->name('Research Foundation');
+        $organization = new Organization();
+        $organization->name('Research Foundation');
 
-        $this->creativeWork->funder($funder);
+        $this->creativeWork->funder($organization);
 
         $funderProperty = $this->creativeWork->getProperty('funder');
         $this->assertIsArray($funderProperty);
@@ -277,10 +282,10 @@ class CreativeWorkTest extends TestCase
 
     public function testPublisherSetsProperty(): void
     {
-        $publisher = new Organization();
-        $publisher->name('Publishing Company');
+        $organization = new Organization();
+        $organization->name('Publishing Company');
 
-        $this->creativeWork->publisher($publisher);
+        $this->creativeWork->publisher($organization);
 
         $publisherProperty = $this->creativeWork->getProperty('publisher');
         $this->assertIsArray($publisherProperty);
@@ -289,10 +294,10 @@ class CreativeWorkTest extends TestCase
 
     public function testSponsorSetsProperty(): void
     {
-        $sponsor = new Organization();
-        $sponsor->name('Sponsor Corp');
+        $organization = new Organization();
+        $organization->name('Sponsor Corp');
 
-        $this->creativeWork->sponsor($sponsor);
+        $this->creativeWork->sponsor($organization);
 
         $sponsorProperty = $this->creativeWork->getProperty('sponsor');
         $this->assertIsArray($sponsorProperty);
@@ -319,7 +324,7 @@ class CreativeWorkTest extends TestCase
 
     public function testDateCreatedFormatsCorrectly(): void
     {
-        $date = new \DateTime('2025-01-15 10:00:00');
+        $date = new DateTime('2025-01-15 10:00:00');
         $this->creativeWork->dateCreated($date);
 
         $dateCreated = $this->creativeWork->getProperty('dateCreated');
@@ -329,10 +334,10 @@ class CreativeWorkTest extends TestCase
 
     public function testDateCreatedWithTimezone(): void
     {
-        $date = new \DateTime('2025-01-15 10:00:00', new \DateTimeZone('UTC'));
-        $timezone = new \DateTimeZone('Europe/Berlin');
+        $date = new DateTime('2025-01-15 10:00:00', new DateTimeZone('UTC'));
+        $dateTimeZone = new DateTimeZone('Europe/Berlin');
 
-        $this->creativeWork->dateCreated($date, $timezone);
+        $this->creativeWork->dateCreated($date, $dateTimeZone);
 
         $dateCreated = $this->creativeWork->getProperty('dateCreated');
         $this->assertIsString($dateCreated);
@@ -340,7 +345,7 @@ class CreativeWorkTest extends TestCase
 
     public function testDateModifiedFormatsCorrectly(): void
     {
-        $date = new \DateTime('2025-02-20 14:30:00');
+        $date = new DateTime('2025-02-20 14:30:00');
         $this->creativeWork->dateModified($date);
 
         $dateModified = $this->creativeWork->getProperty('dateModified');
@@ -350,7 +355,7 @@ class CreativeWorkTest extends TestCase
 
     public function testDatePublishedFormatsCorrectly(): void
     {
-        $date = new \DateTime('2025-03-10 09:00:00');
+        $date = new DateTime('2025-03-10 09:00:00');
         $this->creativeWork->datePublished($date);
 
         $datePublished = $this->creativeWork->getProperty('datePublished');
@@ -360,31 +365,31 @@ class CreativeWorkTest extends TestCase
 
     public function testFluentInterface(): void
     {
-        $result = $this->creativeWork
+        $creativeWork = $this->creativeWork
             ->headline('Test Headline')
             ->abstract('Test Abstract')
             ->keywords('test, keywords')
             ->isFamilyFriendly(true);
 
-        $this->assertSame($this->creativeWork, $result);
+        $this->assertSame($this->creativeWork, $creativeWork);
     }
 
     public function testCompleteCreativeWorkSchema(): void
     {
-        $author = new Person();
-        $author->name('Jane Author');
+        $person = new Person();
+        $person->name('Jane Author');
 
-        $publisher = new Organization();
-        $publisher->name('Publishing House Ltd');
+        $organization = new Organization();
+        $organization->name('Publishing House Ltd');
 
-        $datePublished = new \DateTime('2025-06-01');
+        $datePublished = new DateTime('2025-06-01');
 
         $this->creativeWork
             ->name('Complete Creative Work')
             ->headline('Main Headline')
             ->abstract('This is the abstract')
-            ->author($author)
-            ->publisher($publisher)
+            ->author($person)
+            ->publisher($organization)
             ->datePublished($datePublished)
             ->copyrightYear(2025)
             ->copyrightNotice('© 2025 Publishing House')
@@ -402,18 +407,18 @@ class CreativeWorkTest extends TestCase
 
     public function testRenderOutputsValidJsonLd(): void
     {
-        $author = new Person();
-        $author->name('Test Author');
+        $person = new Person();
+        $person->name('Test Author');
 
         $this->creativeWork
             ->name('Test Creative Work')
             ->headline('Test Headline')
-            ->author($author);
+            ->author($person);
 
         $rendered = $this->creativeWork->render();
 
-        $this->assertStringContainsString('"@type": "CreativeWork"', $rendered);
-        $this->assertStringContainsString('Test Creative Work', $rendered);
-        $this->assertStringContainsString('Test Headline', $rendered);
+        $this->assertStringContainsString('"@type": "CreativeWork"', (string) $rendered);
+        $this->assertStringContainsString('Test Creative Work', (string) $rendered);
+        $this->assertStringContainsString('Test Headline', (string) $rendered);
     }
 }

@@ -1,26 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rami\SeoBundle\Schema;
 
 use Rami\SeoBundle\Schema\Thing\CreativeWork;
 use Rami\SeoBundle\Schema\Thing\Event;
-use AllowDynamicProperties;
+use ReflectionClass;
+use Stringable;
 
-class BaseType
+use function is_string;
+
+class BaseType implements Stringable
 {
-     private array $properties = [];
+    private array $properties = [];
+
     public function __toString(): string
     {
-        return get_class($this);
+        return static::class;
     }
 
     public function getType(): string
     {
-        return (new \ReflectionClass($this))->getShortName();
-    }
-    protected function setProperty(string $name, string|array|object|int|bool $value): void
-    {
-        $this->properties[$name] = $value;
+        return (new ReflectionClass($this))->getShortName();
     }
 
     public function getProperties(): array
@@ -36,83 +38,85 @@ class BaseType
     public function name(string $value): static
     {
         $this->setProperty('name', $value);
+
         return $this;
     }
 
     public function id(string $value): static
     {
         $this->setProperty('id', $value);
+
         return $this;
     }
 
     public function alternateName(string $value): static
     {
         $this->setProperty('alternateName', $value);
+
         return $this;
     }
 
-    public function url(string $value): BaseType
+    public function url(string $value): self
     {
         $this->setProperty('url', $value);
+
         return $this;
     }
 
     public function inLanguage(string $isLanguage): static
     {
         $this->setProperty('inLanguage', $isLanguage);
+
         return $this;
     }
 
     public function setDescription(string $value): static
     {
         $this->setProperty('description', $value);
+
         return $this;
     }
 
-    public function subjectOf(Event|CreativeWork|BaseType $subjectOf): static
+    public function subjectOf(Event|CreativeWork|self $subjectOf): static
     {
         $this->setProperty('subjectOf', $this->parseChild($subjectOf));
+
         return $this;
     }
 
-    public function render(): string|null
+    public function render(): ?string
     {
         return '<script type="application/ld+json">'.
-            json_encode($this->parse(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT).
+            json_encode($this->parse(), \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE | \JSON_PRETTY_PRINT).
            '</script>';
     }
 
-    private function parse(): array
+    protected function setProperty(string $name, string|array|object|int|bool $value): void
+    {
+        $this->properties[$name] = $value;
+    }
+
+    protected function parseChild(self $baseType): array
     {
         return [
-            "@context" => stripslashes("https://schema.org"),
-            "@type" =>  $this->getType(),]+
-            $this->getProperties()
+            '@type' => $baseType->getType(), ] +
+            $baseType->getProperties()
         ;
     }
 
-    protected function parseChild(BaseType $child): array
+    protected function parseChildWithId(self $baseType): array
     {
-        $properties = get_class_vars($child);
-        return [
-                "@type" =>  $child->getType(),]+
-            $child->getProperties()
-            ;
-    }
-
-    protected function parseChildWithId(BaseType $child): array
-    {
-        $properties = $child->getProperties();
+        $properties = $baseType->getProperties();
 
         // Replace "id" with "@id" if present and non-empty
-        if (isset($properties['id']) && \is_string($properties['id']) && '' !== $properties['id']) {
+        if (isset($properties['id']) && is_string($properties['id']) && '' !== $properties['id']) {
             $properties['@id'] = $properties['id'];
             unset($properties['id']);
         }
 
         return [
-                '@type' => $child->getType(),
-            ] + $properties;
+            '@type' => $baseType->getType(),
+        ] + $properties;
     }
 
     protected function parseArray(array $children): array
@@ -120,7 +124,7 @@ class BaseType
         $properties = [];
 
         foreach ($children as $child) {
-            if (!$child instanceof BaseType) {
+            if (!$child instanceof self) {
                 continue;
             }
 
@@ -132,5 +136,14 @@ class BaseType
         }
 
         return $properties;
+    }
+
+    private function parse(): array
+    {
+        return [
+            '@context' => stripslashes('https://schema.org'),
+            '@type' => $this->getType(), ] +
+            $this->getProperties()
+        ;
     }
 }

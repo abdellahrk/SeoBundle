@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -15,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 use Rami\SeoBundle\Metas\MetaTagsManager;
 use Rami\SeoBundle\Metas\Model\SeoMeta;
 
-class MetaTagsControllerTest extends TestCase
+final class MetaTagsControllerTest extends TestCase
 {
     private MetaTagsManager $metaTagsManager;
 
@@ -37,7 +40,7 @@ class MetaTagsControllerTest extends TestCase
         $this->metaTagsManager->setTitle($title);
 
         $seoMeta = $this->metaTagsManager->getSeoMeta();
-        $this->assertEquals($title, $seoMeta->getTitle());
+        $this->assertSame($title, $seoMeta->getTitle());
     }
 
     public function testSetAndGetDescription(): void
@@ -46,7 +49,7 @@ class MetaTagsControllerTest extends TestCase
         $this->metaTagsManager->setDescription($description);
 
         $seoMeta = $this->metaTagsManager->getSeoMeta();
-        $this->assertEquals($description, $seoMeta->getDescription());
+        $this->assertSame($description, $seoMeta->getDescription());
     }
 
     public function testSetAndGetKeywords(): void
@@ -55,7 +58,7 @@ class MetaTagsControllerTest extends TestCase
         $this->metaTagsManager->setKeywords($keywords);
 
         $seoMeta = $this->metaTagsManager->getSeoMeta();
-        $this->assertEquals($keywords, $seoMeta->getKeywords());
+        $this->assertSame($keywords, $seoMeta->getKeywords());
     }
 
     public function testSetAndGetSubject(): void
@@ -64,7 +67,7 @@ class MetaTagsControllerTest extends TestCase
         $this->metaTagsManager->setSubject($subject);
 
         $seoMeta = $this->metaTagsManager->getSeoMeta();
-        $this->assertEquals($subject, $seoMeta->getSubject());
+        $this->assertSame($subject, $seoMeta->getSubject());
     }
 
     public function testSetAndGetCopyright(): void
@@ -73,7 +76,7 @@ class MetaTagsControllerTest extends TestCase
         $this->metaTagsManager->setCopyright($copyright);
 
         $seoMeta = $this->metaTagsManager->getSeoMeta();
-        $this->assertEquals($copyright, $seoMeta->getCopyright());
+        $this->assertSame($copyright, $seoMeta->getCopyright());
     }
 
     public function testSetAndGetRobots(): void
@@ -82,7 +85,7 @@ class MetaTagsControllerTest extends TestCase
         $this->metaTagsManager->setRobots($robots);
 
         $seoMeta = $this->metaTagsManager->getSeoMeta();
-        $this->assertEquals($robots, $seoMeta->getRobots());
+        $this->assertSame($robots, $seoMeta->getRobots());
     }
 
     public function testSetAndGetViewPort(): void
@@ -91,7 +94,7 @@ class MetaTagsControllerTest extends TestCase
         $this->metaTagsManager->setViewPort($viewport);
 
         $seoMeta = $this->metaTagsManager->getSeoMeta();
-        $this->assertEquals($viewport, $seoMeta->getViewport());
+        $this->assertSame($viewport, $seoMeta->getViewport());
     }
 
     public function testSetAndGetCanonical(): void
@@ -100,7 +103,7 @@ class MetaTagsControllerTest extends TestCase
         $this->metaTagsManager->setCanonical($canonical);
 
         $seoMeta = $this->metaTagsManager->getSeoMeta();
-        $this->assertEquals($canonical, $seoMeta->getCanonical());
+        $this->assertSame($canonical, $seoMeta->getCanonical());
     }
 
     public function testSetAndGetCharacterEncoding(): void
@@ -109,7 +112,7 @@ class MetaTagsControllerTest extends TestCase
         $this->metaTagsManager->setCharacterEncoding($charset);
 
         $seoMeta = $this->metaTagsManager->getSeoMeta();
-        $this->assertEquals($charset, $seoMeta->getCharset());
+        $this->assertSame($charset, $seoMeta->getCharset());
     }
 
     public function testSetCharacterEncodingWithDefaultValue(): void
@@ -117,7 +120,7 @@ class MetaTagsControllerTest extends TestCase
         $this->metaTagsManager->setCharacterEncoding();
 
         $seoMeta = $this->metaTagsManager->getSeoMeta();
-        $this->assertEquals('UTF-8', $seoMeta->getCharset());
+        $this->assertSame('UTF-8', $seoMeta->getCharset());
     }
 
     public function testSetAndGetAuthor(): void
@@ -126,7 +129,7 @@ class MetaTagsControllerTest extends TestCase
         $this->metaTagsManager->setAuthor($author);
 
         $seoMeta = $this->metaTagsManager->getSeoMeta();
-        $this->assertEquals($author, $seoMeta->getAuthor());
+        $this->assertSame($author, $seoMeta->getAuthor());
     }
 
     public function testSetAndGetContentSecurityPolicy(): void
@@ -135,7 +138,7 @@ class MetaTagsControllerTest extends TestCase
         $this->metaTagsManager->setContentSecurityPolicy($csp);
 
         $seoMeta = $this->metaTagsManager->getSeoMeta();
-        $this->assertEquals($csp, $seoMeta->getContentSecurityPolicy());
+        $this->assertSame($csp, $seoMeta->getContentSecurityPolicy());
     }
 
     public function testSetAndGetContentType(): void
@@ -144,19 +147,19 @@ class MetaTagsControllerTest extends TestCase
         $this->metaTagsManager->setContentType($contentType);
 
         $seoMeta = $this->metaTagsManager->getSeoMeta();
-        $this->assertEquals($contentType, $seoMeta->getContentType());
+        $this->assertSame($contentType, $seoMeta->getContentType());
     }
 
     public function testFluentInterface(): void
     {
-        $result = $this->metaTagsManager
+        $metaTagsManager = $this->metaTagsManager
             ->setTitle('Test Title')
             ->setDescription('Test Description')
             ->setKeywords(['test', 'seo'])
             ->setAuthor('Test Author');
 
-        $this->assertInstanceOf(MetaTagsManager::class, $result);
-        $this->assertSame($this->metaTagsManager, $result);
+        $this->assertInstanceOf(MetaTagsManager::class, $metaTagsManager);
+        $this->assertSame($this->metaTagsManager, $metaTagsManager);
     }
 
     public function testSetCustomMetaTag(): void
@@ -306,11 +309,11 @@ class MetaTagsControllerTest extends TestCase
             ->setCustomMetaTag('og:price:amount', '99.99');
 
         $seoMeta = $this->metaTagsManager->getSeoMeta();
-        $this->assertEquals('E-Commerce Product Page', $seoMeta->getTitle());
-        $this->assertEquals('Buy the best products online with free shipping', $seoMeta->getDescription());
+        $this->assertSame('E-Commerce Product Page', $seoMeta->getTitle());
+        $this->assertSame('Buy the best products online with free shipping', $seoMeta->getDescription());
         $this->assertCount(4, $seoMeta->getKeywords());
-        $this->assertEquals('Shop Team', $seoMeta->getAuthor());
-        $this->assertEquals(['index', 'follow'], $seoMeta->getRobots());
+        $this->assertSame('Shop Team', $seoMeta->getAuthor());
+        $this->assertSame(['index', 'follow'], $seoMeta->getRobots());
 
         $metaTags = $this->metaTagsManager->getMetaTags();
         $this->assertArrayHasKey('x-ua-compatible', $metaTags);

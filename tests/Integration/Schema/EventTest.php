@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -11,6 +14,8 @@
 
 namespace Rami\SeoBundle\Test\Integration\Schema;
 
+use DateTime;
+use DateTimeZone;
 use PHPUnit\Framework\TestCase;
 use Rami\SeoBundle\Schema\Intangible\Offer;
 use Rami\SeoBundle\Schema\Intangible\StructuredValue\ContactPoint\PostalAddress;
@@ -22,7 +27,7 @@ use Rami\SeoBundle\Schema\Thing\Organization;
 use Rami\SeoBundle\Schema\Thing\Person;
 use Rami\SeoBundle\Schema\Thing\Place;
 
-class EventTest extends TestCase
+final class EventTest extends TestCase
 {
     private Event $event;
 
@@ -40,12 +45,12 @@ class EventTest extends TestCase
 
     public function testGetTypeReturnsEvent(): void
     {
-        $this->assertEquals('Event', $this->event->getType());
+        $this->assertSame('Event', $this->event->getType());
     }
 
     public function testStartDateFormatsCorrectly(): void
     {
-        $date = new \DateTime('2025-06-15 10:00:00');
+        $date = new DateTime('2025-06-15 10:00:00');
         $this->event->startDate($date);
 
         $startDate = $this->event->getProperty('startDate');
@@ -55,10 +60,10 @@ class EventTest extends TestCase
 
     public function testStartDateWithTimezone(): void
     {
-        $date = new \DateTime('2025-06-15 10:00:00', new \DateTimeZone('UTC'));
-        $timezone = new \DateTimeZone('Europe/Berlin');
+        $date = new DateTime('2025-06-15 10:00:00', new DateTimeZone('UTC'));
+        $dateTimeZone = new DateTimeZone('Europe/Berlin');
 
-        $this->event->startDate($date, $timezone);
+        $this->event->startDate($date, $dateTimeZone);
 
         $startDate = $this->event->getProperty('startDate');
         $this->assertIsString($startDate);
@@ -67,7 +72,7 @@ class EventTest extends TestCase
 
     public function testEndDateFormatsCorrectly(): void
     {
-        $date = new \DateTime('2025-06-15 18:00:00');
+        $date = new DateTime('2025-06-15 18:00:00');
         $this->event->endDate($date);
 
         $endDate = $this->event->getProperty('endDate');
@@ -77,10 +82,10 @@ class EventTest extends TestCase
 
     public function testEndDateWithTimezone(): void
     {
-        $date = new \DateTime('2025-06-15 18:00:00', new \DateTimeZone('UTC'));
-        $timezone = new \DateTimeZone('America/New_York');
+        $date = new DateTime('2025-06-15 18:00:00', new DateTimeZone('UTC'));
+        $dateTimeZone = new DateTimeZone('America/New_York');
 
-        $this->event->endDate($date, $timezone);
+        $this->event->endDate($date, $dateTimeZone);
 
         $endDate = $this->event->getProperty('endDate');
         $this->assertIsString($endDate);
@@ -88,10 +93,10 @@ class EventTest extends TestCase
 
     public function testFunderWithPerson(): void
     {
-        $funder = new Person();
-        $funder->name('Funding Person');
+        $person = new Person();
+        $person->name('Funding Person');
 
-        $this->event->funder($funder);
+        $this->event->funder($person);
 
         $funderProperty = $this->event->getProperty('funder');
         $this->assertIsArray($funderProperty);
@@ -100,10 +105,10 @@ class EventTest extends TestCase
 
     public function testFunderWithOrganization(): void
     {
-        $funder = new Organization();
-        $funder->name('Funding Organization');
+        $organization = new Organization();
+        $organization->name('Funding Organization');
 
-        $this->event->funder($funder);
+        $this->event->funder($organization);
 
         $funderProperty = $this->event->getProperty('funder');
         $this->assertIsArray($funderProperty);
@@ -112,10 +117,10 @@ class EventTest extends TestCase
 
     public function testOrganizerSetsProperty(): void
     {
-        $organizer = new Organization();
-        $organizer->name('Event Organizer Inc');
+        $organization = new Organization();
+        $organization->name('Event Organizer Inc');
 
-        $this->event->organizer($organizer);
+        $this->event->organizer($organization);
 
         $organizerProperty = $this->event->getProperty('organizer');
         $this->assertIsArray($organizerProperty);
@@ -124,10 +129,10 @@ class EventTest extends TestCase
 
     public function testPerformerSetsProperty(): void
     {
-        $performer = new Person();
-        $performer->name('Famous Performer');
+        $person = new Person();
+        $person->name('Famous Performer');
 
-        $this->event->performer($performer);
+        $this->event->performer($person);
 
         $performerProperty = $this->event->getProperty('performer');
         $this->assertIsArray($performerProperty);
@@ -168,10 +173,10 @@ class EventTest extends TestCase
 
     public function testLocationWithPostalAddress(): void
     {
-        $address = new PostalAddress();
-        $address->name('Event Venue');
+        $postalAddress = new PostalAddress();
+        $postalAddress->name('Event Venue');
 
-        $this->event->location($address);
+        $this->event->location($postalAddress);
 
         $locationProperty = $this->event->getProperty('location');
         $this->assertIsArray($locationProperty);
@@ -192,10 +197,10 @@ class EventTest extends TestCase
 
     public function testSponsorSetsProperty(): void
     {
-        $sponsor = new Organization();
-        $sponsor->name('Sponsor Company');
+        $organization = new Organization();
+        $organization->name('Sponsor Company');
 
-        $this->event->sponsor($sponsor);
+        $this->event->sponsor($organization);
 
         $sponsorProperty = $this->event->getProperty('sponsor');
         $this->assertIsArray($sponsorProperty);
@@ -204,10 +209,10 @@ class EventTest extends TestCase
 
     public function testDirectorSetsProperty(): void
     {
-        $director = new Person();
-        $director->name('Event Director');
+        $person = new Person();
+        $person->name('Event Director');
 
-        $this->event->director($director);
+        $this->event->director($person);
 
         $directorProperty = $this->event->getProperty('director');
         $this->assertIsArray($directorProperty);
@@ -216,10 +221,10 @@ class EventTest extends TestCase
 
     public function testAttendeeSetsProperty(): void
     {
-        $attendee = new Person();
-        $attendee->name('Attendee Name');
+        $person = new Person();
+        $person->name('Attendee Name');
 
-        $this->event->attendee($attendee);
+        $this->event->attendee($person);
 
         $attendeeProperty = $this->event->getProperty('attendee');
         $this->assertIsArray($attendeeProperty);
@@ -228,10 +233,10 @@ class EventTest extends TestCase
 
     public function testComposerSetsProperty(): void
     {
-        $composer = new Person();
-        $composer->name('Music Composer');
+        $person = new Person();
+        $person->name('Music Composer');
 
-        $this->event->composer($composer);
+        $this->event->composer($person);
 
         $composerProperty = $this->event->getProperty('composer');
         $this->assertIsArray($composerProperty);
@@ -282,18 +287,18 @@ class EventTest extends TestCase
 
     public function testFluentInterface(): void
     {
-        $result = $this->event
+        $event = $this->event
             ->name('Tech Conference')
             ->eventStatus('https://schema.org/EventScheduled')
             ->eventAttendanceMode('https://schema.org/OfflineEventAttendanceMode');
 
-        $this->assertSame($this->event, $result);
+        $this->assertSame($this->event, $event);
     }
 
     public function testCompleteEventSchema(): void
     {
-        $organizer = new Organization();
-        $organizer->name('Tech Events Inc');
+        $organization = new Organization();
+        $organization->name('Tech Events Inc');
 
         $place = new Place();
         $place->name('Convention Center Berlin');
@@ -301,8 +306,8 @@ class EventTest extends TestCase
         $offer = new Offer();
         $offer->name('Standard Ticket');
 
-        $startDate = new \DateTime('2025-09-15 09:00:00');
-        $endDate = new \DateTime('2025-09-15 18:00:00');
+        $startDate = new DateTime('2025-09-15 09:00:00');
+        $endDate = new DateTime('2025-09-15 18:00:00');
 
         $this->event
             ->name('Annual Tech Conference 2025')
@@ -310,7 +315,7 @@ class EventTest extends TestCase
             ->startDate($startDate)
             ->endDate($endDate)
             ->location($place)
-            ->organizer($organizer)
+            ->organizer($organization)
             ->offers($offer)
             ->eventStatus('https://schema.org/EventScheduled')
             ->eventAttendanceMode('https://schema.org/OfflineEventAttendanceMode');
@@ -326,7 +331,7 @@ class EventTest extends TestCase
 
     public function testRenderOutputsValidJsonLd(): void
     {
-        $startDate = new \DateTime('2025-10-01 10:00:00');
+        $startDate = new DateTime('2025-10-01 10:00:00');
 
         $this->event
             ->name('Workshop')
@@ -335,8 +340,8 @@ class EventTest extends TestCase
 
         $rendered = $this->event->render();
 
-        $this->assertStringContainsString('"@type": "Event"', $rendered);
-        $this->assertStringContainsString('Workshop', $rendered);
-        $this->assertStringContainsString('2025-10-01', $rendered);
+        $this->assertStringContainsString('"@type": "Event"', (string) $rendered);
+        $this->assertStringContainsString('Workshop', (string) $rendered);
+        $this->assertStringContainsString('2025-10-01', (string) $rendered);
     }
 }

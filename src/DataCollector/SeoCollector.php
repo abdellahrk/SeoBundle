@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -17,13 +20,14 @@ use Symfony\Bundle\FrameworkBundle\DataCollector\AbstractDataCollector;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Throwable;
 
 class SeoCollector extends AbstractDataCollector
 {
     public function __construct(
-        private MetaTagsManagerInterface $metaTagsManager,
-        private NormalizerInterface $normalizer,
-        private OpenGraphManagerInterface $openGraphManager,
+        private readonly MetaTagsManagerInterface $metaTagsManager,
+        private readonly NormalizerInterface $normalizer,
+        private readonly OpenGraphManagerInterface $openGraphManager,
     ) {
     }
 
@@ -32,7 +36,7 @@ class SeoCollector extends AbstractDataCollector
         return 'templates/seo/data_collector.html.twig';
     }
 
-    public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
+    public function collect(Request $request, Response $response, ?Throwable $exception = null): void
     {
         $this->data['seo_metas'] = $this->normalizer->normalize(
             $this->metaTagsManager->getSeoMeta(),
@@ -65,10 +69,8 @@ class SeoCollector extends AbstractDataCollector
         return $this->data['open_graph'];
     }
 
-
     public function reset(): void
     {
         $this->data = [];
     }
-
 }

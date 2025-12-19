@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rami\SeoBundle\Schema\Thing\Product;
 
-use Rami\SeoBundle\Schema\BaseType;
 use Rami\SeoBundle\Schema\Thing;
 use Rami\SeoBundle\Schema\Traits\ProductTrait;
 
@@ -13,6 +14,7 @@ class IndividualProduct extends Thing
     public function serialNumber(string $serialNumber): static
     {
         $this->setProperty('serialNumber', $serialNumber);
+
         return $this;
     }
 }

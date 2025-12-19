@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rami\SeoBundle\Schema\Traits;
 
 use Rami\SeoBundle\Schema\Thing\CreativeWork;
@@ -9,12 +11,14 @@ trait ArticleTrait
     public function articleBody(string $body): static
     {
         $this->setProperty('articleBody', $body);
+
         return $this;
     }
 
     public function articleSection(string $section): static
     {
         $this->setProperty('articleSection', $section);
+
         return $this;
     }
 
@@ -25,30 +29,35 @@ trait ArticleTrait
         } else {
             $this->setProperty('backstory', $backstory);
         }
+
         return $this;
     }
 
     public function pageEnd(string|int $pageEnd): static
     {
         $this->setProperty('pageEnd', $pageEnd);
+
         return $this;
     }
 
     public function pageStart(string|int $pageStart): static
     {
         $this->setProperty('pageStart', $pageStart);
+
         return $this;
     }
 
     public function pagination(string $pagination): static
     {
         $this->setProperty('pagination', $pagination);
+
         return $this;
     }
 
     public function wordCount(int $count): static
     {
         $this->setProperty('wordCount', $count);
+
         return $this;
     }
 }
