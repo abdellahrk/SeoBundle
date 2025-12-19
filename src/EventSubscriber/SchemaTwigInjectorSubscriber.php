@@ -89,9 +89,7 @@ readonly class SchemaTwigInjectorSubscriber implements EventSubscriberInterface
         $ttl = $config['cache_ttl'] ?? 604800;
         assert(is_int($ttl) || is_float($ttl));
 
-        $content = $this->cache->get($cacheKey, function () use ($type): string {
-            return $type->render() ?? '';
-        }, (float) $ttl);
+        $content = $this->cache->get($cacheKey, fn (): string => $type->render() ?? '', (float) $ttl);
 
         if ('' === $content) {
             return;
