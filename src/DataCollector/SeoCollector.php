@@ -68,8 +68,10 @@ class SeoCollector extends AbstractDataCollector
         $data = $this->data['seo_metas'] ?? [];
         assert(is_array($data));
 
-        /* @var array<string, mixed> $data */
-        return $data;
+        /** @var array<string, mixed> $returnData */
+        $returnData = $data;
+
+        return $returnData;
     }
 
     /**
@@ -80,8 +82,10 @@ class SeoCollector extends AbstractDataCollector
         $data = $this->data['open_graph'] ?? [];
         assert(is_array($data));
 
-        /* @var array<string, mixed> $data */
-        return $data;
+        /** @var array<string, mixed> $returnData */
+        $returnData = $data;
+
+        return $returnData;
     }
 
     public function reset(): void
