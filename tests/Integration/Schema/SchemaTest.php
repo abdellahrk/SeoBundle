@@ -406,12 +406,6 @@ final class SchemaTest extends TestCase
         $this->assertInstanceOf(BaseType::class, $type);
     }
 
-    public function testGetTypeReturnsNullableBaseType(): void
-    {
-        $type = $this->schema->getType();
-        $this->assertTrue($type instanceof BaseType || null === $type);
-    }
-
     public function testMultipleFactoryMethodCalls(): void
     {
         $person1 = $this->schema->person();
