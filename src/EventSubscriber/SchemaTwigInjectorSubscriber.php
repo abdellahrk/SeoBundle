@@ -20,9 +20,16 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Contracts\Cache\CacheInterface;
 
 use function assert;
 use function is_array;
+use function is_float;
+use function is_int;
+use function is_string;
+use function md5;
+use function serialize;
+use function sprintf;
 
 readonly class SchemaTwigInjectorSubscriber implements EventSubscriberInterface
 {
@@ -31,6 +38,7 @@ readonly class SchemaTwigInjectorSubscriber implements EventSubscriberInterface
     public function __construct(
         private SchemaInterface $schema,
         private ParameterBagInterface $parameterBag,
+        private CacheInterface $cache,
     ) {
     }
 
@@ -62,9 +70,30 @@ readonly class SchemaTwigInjectorSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $content = $this->schema->getType() instanceof BaseType ? $this->schema->getType()->render() : null;
+        $type = $this->schema->getType();
+        if (!$type instanceof BaseType) {
+            return;
+        }
 
-        if (null === $content) {
+        $route = $responseEvent->getRequest()->attributes->get('_route', 'unknown');
+        assert(is_string($route));
+
+        $properties = $type->getProperties();
+        $cacheKey = sprintf(
+            'schema_render_%s_%s',
+            $route,
+            md5(serialize($properties))
+        );
+
+        // default ttl 1 week
+        $ttl = $config['cache_ttl'] ?? 604800;
+        assert(is_int($ttl) || is_float($ttl));
+
+        $content = $this->cache->get($cacheKey, function () use ($type): string {
+            return $type->render() ?? '';
+        }, (float) $ttl);
+
+        if ('' === $content) {
             return;
         }
 
