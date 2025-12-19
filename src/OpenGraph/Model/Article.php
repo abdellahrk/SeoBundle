@@ -26,6 +26,9 @@ class Article
 
     protected string $section = '';
 
+    /**
+     * @var array<int, string>
+     */
     protected array $tags = [];
 
     public function getPublishedTime(): ?DateTime
@@ -76,11 +79,17 @@ class Article
         return $this;
     }
 
+    /**
+     * @return array<int, string>
+     */
     public function getTags(): array
     {
         return $this->tags;
     }
 
+    /**
+     * @param array<int, string> $tags
+     */
     public function setTags(array $tags): self
     {
         $this->tags = $tags;

@@ -38,16 +38,28 @@ class OpenGraph
 
     protected string $video = '';
 
+    /**
+     * @var array<string, mixed>
+     */
     protected array $structuredProperty = [
         'type' => null,
         'property' => null,
         'content' => null,
     ];
 
+    /**
+     * @var array<int|string, mixed>
+     */
     protected array $structuredProperties = [];
 
+    /**
+     * @var array<string, mixed>
+     */
     protected array $musicProperties = [];
 
+    /**
+     * @var array<int, array<string, mixed>>
+     */
     protected array $twitterCardProperties = [];
 
     public function getTitle(): string
@@ -146,11 +158,17 @@ class OpenGraph
         return $this;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getStructuredProperty(): array
     {
         return $this->structuredProperty;
     }
 
+    /**
+     * @param array<string, mixed> $structuredProperty
+     */
     public function setStructuredProperty(array $structuredProperty): self
     {
         $this->structuredProperty = $structuredProperty;
@@ -158,11 +176,17 @@ class OpenGraph
         return $this;
     }
 
+    /**
+     * @return array<int|string, mixed>
+     */
     public function getStructuredProperties(): array
     {
         return $this->structuredProperties;
     }
 
+    /**
+     * @param array<int|string, mixed> $structuredProperties
+     */
     public function setStructuredProperties(array $structuredProperties): self
     {
         $this->structuredProperties = $structuredProperties;
@@ -170,11 +194,17 @@ class OpenGraph
         return $this;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getMusicProperties(): array
     {
         return $this->musicProperties;
     }
 
+    /**
+     * @param array<string, mixed> $musicProperties
+     */
     public function setMusicProperties(array $musicProperties): self
     {
         $this->musicProperties = $musicProperties;
@@ -182,11 +212,17 @@ class OpenGraph
         return $this;
     }
 
+    /**
+     * @return array<int, array<string, mixed>>
+     */
     public function getTwitterCardProperties(): array
     {
         return $this->twitterCardProperties;
     }
 
+    /**
+     * @param array<string, mixed> $twitterCardProperties
+     */
     public function setTwitterCardProperties(array $twitterCardProperties): self
     {
         $this->twitterCardProperties[] = $twitterCardProperties;

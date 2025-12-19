@@ -22,6 +22,9 @@ class Book
 
     protected string $releaseDate = '';
 
+    /**
+     * @var array<string>
+     */
     protected array $tags = [];
 
     public function getAuthor(): string
@@ -60,11 +63,17 @@ class Book
         return $this;
     }
 
+    /**
+     * @return array<string>
+     */
     public function getTags(): array
     {
         return $this->tags;
     }
 
+    /**
+     * @param array<string> $tags
+     */
     public function setTags(array $tags): self
     {
         $this->tags = $tags;
