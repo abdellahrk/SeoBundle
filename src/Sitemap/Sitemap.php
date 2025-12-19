@@ -90,6 +90,7 @@ final readonly class Sitemap implements SitemapInterface
                 continue;
             }
             $controller = explode(':', $controllerValue)[0];
+            /** @var class-string $controller */
             $ref = new ReflectionClass($controller);
             foreach ($ref->getMethods() as $method) {
                 $attributes = $method->getAttributes();
@@ -128,7 +129,9 @@ final readonly class Sitemap implements SitemapInterface
         }
 
         $allRoutes = array_unique($allRoutes, \SORT_REGULAR);
-        $this->addRoutesToXml($allRoutes, $baseUrl);
+        /** @var array<Route> $filteredRoutes */
+        $filteredRoutes = array_filter($allRoutes, fn($route) => $route instanceof Route);
+        $this->addRoutesToXml($filteredRoutes, $baseUrl);
     }
 
     /**
@@ -140,13 +143,16 @@ final readonly class Sitemap implements SitemapInterface
         $sitemap = null;
         $request = $this->requestStack->getCurrentRequest();
         foreach ($attributes as $attribute) {
-            $attribute = $attribute->newInstance();
-            if ($attribute instanceof Route || $attribute instanceof \Symfony\Component\Routing\Annotation\Route) {
-                $route = $attribute;
+            if (!$attribute instanceof \ReflectionAttribute) {
+                continue;
+            }
+            $instance = $attribute->newInstance();
+            if ($instance instanceof Route) {
+                $route = $instance;
             }
 
-            if ($attribute instanceof Attributes\Sitemap) {
-                $sitemap = $attribute;
+            if ($instance instanceof Attributes\Sitemap) {
+                $sitemap = $instance;
             }
         }
 
@@ -164,7 +170,13 @@ final readonly class Sitemap implements SitemapInterface
         $domDocument = new DOMDocument('1.0', 'UTF-8');
         $domDocument->formatOutput = true;
 
-        $entityManagerRegistery = $this->managerRegistry->getManagerForClass($sitemap->entityClass);
+        if (null === $sitemap->entityClass) {
+            return;
+        }
+
+        /** @var class-string $entityClass */
+        $entityClass = $sitemap->entityClass;
+        $entityManagerRegistery = $this->managerRegistry->getManagerForClass($entityClass);
 
         if (!$entityManagerRegistery instanceof ObjectManager) {
             return;
@@ -173,13 +185,21 @@ final readonly class Sitemap implements SitemapInterface
         $rootElement = $domDocument->createElementNS('http://www.sitemaps.org/schemas/sitemap/0.9', 'urlset');
         $domDocument->appendChild($rootElement);
 
-        $entities = $entityManagerRegistery->getRepository($sitemap->entityClass)->findBy($sitemap->fetchCriteria);
+        /** @var array<string, mixed> $criteria */
+        $criteria = $sitemap->fetchCriteria ?? [];
+        $entities = $entityManagerRegistery->getRepository($entityClass)->findBy($criteria);
 
         $urlGenerationAttribute = [];
         foreach ($entities as $entity) {
+            if (!is_array($sitemap->urlGenerationAttributes)) {
+                continue;
+            }
             foreach ($sitemap->urlGenerationAttributes as $key) {
+                if (!is_string($key)) {
+                    continue;
+                }
                 if (property_exists($entity, $key)) {
-                    $method = 'get'.ucfirst((string) $key);
+                    $method = 'get'.ucfirst($key);
                     if (method_exists($entity, $method)) {
                         $urlGenerationAttribute[$key] = $entity->$method();
                     }
@@ -187,7 +207,11 @@ final readonly class Sitemap implements SitemapInterface
             }
 
             $modifiedDate = null;
-            $locationElement = $domDocument->createElement('loc', $this->urlGenerator->generate($route->getName(), $urlGenerationAttribute, UrlGeneratorInterface::ABSOLUTE_URL));
+            $routeName = $route->getName();
+            if (null === $routeName) {
+                continue;
+            }
+            $locationElement = $domDocument->createElement('loc', $this->urlGenerator->generate($routeName, $urlGenerationAttribute, UrlGeneratorInterface::ABSOLUTE_URL));
             $urlElement = $domDocument->createElement('url');
             $urlElement->appendChild($locationElement);
             if ($sitemap->lastModifiedField && property_exists($entity, $sitemap->lastModifiedField)) {
@@ -199,8 +223,7 @@ final readonly class Sitemap implements SitemapInterface
                     }
 
                     if ($date instanceof DateTimeImmutable) {
-                        $modifiedDate = $date::createFromFormat('Y-m-d', $date->format('Y-m-d'));
-                        $modifiedDate = $modifiedDate->format('Y-m-d');
+                        $modifiedDate = $date->format('Y-m-d');
                     }
                 }
 
@@ -238,11 +261,12 @@ final readonly class Sitemap implements SitemapInterface
         $rootElement = $domDocument->createElementNS('http://www.sitemaps.org/schemas/sitemap/0.9', 'urlset');
         $domDocument->appendChild($rootElement);
         foreach ($routes as $route) {
-            if (!$route instanceof Route) {
+            $routeName = $route->getName();
+            if (null === $routeName) {
                 continue;
             }
 
-            $locationElement = $domDocument->createElement('loc', $this->urlGenerator->generate($route->getName(), [], UrlGeneratorInterface::ABSOLUTE_URL));
+            $locationElement = $domDocument->createElement('loc', $this->urlGenerator->generate($routeName, [], UrlGeneratorInterface::ABSOLUTE_URL));
             $urlElement = $domDocument->createElement('url');
             $urlElement->appendChild($locationElement);
             $rootElement->appendChild($urlElement);
@@ -271,21 +295,37 @@ final readonly class Sitemap implements SitemapInterface
 
         $nodes = $domxPath->query(sprintf("//sm:sitemap/sm:loc[text()='%s']", $xmlPath));
 
+        if (false === $nodes) {
+            return;
+        }
+
         $now = new DateTimeImmutable();
 
         if (0 === $nodes->length) {
             $location = $domDocument->createElement(localName: 'loc', value: $xmlPath);
             $sitemapRoot = $domDocument->createElement(localName: 'sitemap');
-            $domNodeList->item(0)->appendChild($sitemapRoot);
+            $firstItem = $domNodeList->item(0);
+            if (null === $firstItem) {
+                return;
+            }
+            $firstItem->appendChild($sitemapRoot);
             $lastMod = $domDocument->createElement('lastmod', $now->format('Y-m-d'));
             $sitemapRoot->appendChild($location);
             $sitemapRoot->appendChild($lastMod);
             $nodes = $domxPath->query(sprintf("//sm:sitemap/sm:loc[text()='%s']", $xmlPath));
+            if (false === $nodes) {
+                return;
+            }
         }
 
         foreach ($nodes as $node) {
+            if (!$node instanceof \DOMElement) {
+                continue;
+            }
             $sitemapNode = $node->parentNode;
-            $locNode = $node->nextSibling;
+            if (null === $sitemapNode) {
+                continue;
+            }
             $lastmod = null;
 
             foreach ($sitemapNode->childNodes as $child) {
@@ -312,7 +352,8 @@ final readonly class Sitemap implements SitemapInterface
             try {
                 $domDocument = new DOMDocument('1.0', 'UTF-8');
                 $domDocument->formatOutput = true;
-                $ns = $domDocument->createElementNS('http://www.sitemaps.org/schemas/sitemap/0.9', $name);
+                $elementName = $name ?? 'urlset';
+                $ns = $domDocument->createElementNS('http://www.sitemaps.org/schemas/sitemap/0.9', $elementName);
                 $domDocument->appendChild($ns);
                 $domDocument->save($filename.'.xml');
             } catch (Exception $exception) {
