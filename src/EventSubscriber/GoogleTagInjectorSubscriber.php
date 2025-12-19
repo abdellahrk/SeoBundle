@@ -21,6 +21,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 readonly class GoogleTagInjectorSubscriber implements EventSubscriberInterface
 {
+    use HtmlResponseValidationTrait;
+
     public function __construct(
         private TagManagerInterface $tagManager,
     ) {
@@ -38,20 +40,8 @@ readonly class GoogleTagInjectorSubscriber implements EventSubscriberInterface
 
     public function onKernelResponse(ResponseEvent $responseEvent): void
     {
-        $response = $responseEvent->getResponse();
-        $request = $responseEvent->getRequest();
-
-        $acceptHeader = $request->headers->get('accept', '');
-        if (!is_string($acceptHeader) || !str_contains($acceptHeader, 'text/html')) {
-            return;
-        }
-
-        $body = $response->getContent();
-        if (false === $body) {
-            return;
-        }
-
-        if (!$responseEvent->isMainRequest() || $request->isXmlHttpRequest()) {
+        $body = $this->getProcessableHtmlBody($responseEvent);
+        if (null === $body) {
             return;
         }
 
@@ -66,6 +56,6 @@ readonly class GoogleTagInjectorSubscriber implements EventSubscriberInterface
             $body = str_replace('</body>', $bodyTag."\n</body>", $body);
         }
 
-        $response->setContent($body);
+        $responseEvent->getResponse()->setContent($body);
     }
 }

@@ -23,6 +23,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 readonly class SchemaTwigInjectorSubscriber implements EventSubscriberInterface
 {
+    use HtmlResponseValidationTrait;
+
     public function __construct(
         private SchemaInterface $schema,
         private ParameterBagInterface $parameterBag,
@@ -52,20 +54,8 @@ readonly class SchemaTwigInjectorSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $response = $responseEvent->getResponse();
-        $request = $responseEvent->getRequest();
-
-        $acceptHeader = $request->headers->get('accept', '');
-        if (!is_string($acceptHeader) || !str_contains($acceptHeader, 'text/html')) {
-            return;
-        }
-
-        $body = $response->getContent();
-        if (false === $body) {
-            return;
-        }
-
-        if (!$responseEvent->isMainRequest() || $request->isXmlHttpRequest()) {
+        $body = $this->getProcessableHtmlBody($responseEvent);
+        if (null === $body) {
             return;
         }
 
@@ -77,6 +67,6 @@ readonly class SchemaTwigInjectorSubscriber implements EventSubscriberInterface
 
         $body = str_replace('</head>', $content.\PHP_EOL.'</head>', $body);
 
-        $response->setContent($body);
+        $responseEvent->getResponse()->setContent($body);
     }
 }

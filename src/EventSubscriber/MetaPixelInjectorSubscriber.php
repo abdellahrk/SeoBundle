@@ -21,8 +21,10 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 readonly class MetaPixelInjectorSubscriber implements EventSubscriberInterface
 {
+    use HtmlResponseValidationTrait;
+
     public function __construct(
-        private readonly MetaPixelInterface $metaPixel
+        private MetaPixelInterface $metaPixel
     ) {
     }
 
@@ -35,20 +37,8 @@ readonly class MetaPixelInjectorSubscriber implements EventSubscriberInterface
 
     public function onKernelResponse(ResponseEvent $responseEvent): void
     {
-        $response = $responseEvent->getResponse();
-        $request = $responseEvent->getRequest();
-
-        $acceptHeader = $request->headers->get('accept', '');
-        if (!is_string($acceptHeader) || !str_contains($acceptHeader, 'text/html')) {
-            return;
-        }
-
-        $body = $response->getContent();
-        if (false === $body) {
-            return;
-        }
-
-        if (!$responseEvent->isMainRequest() || $request->isXmlHttpRequest()) {
+        $body = $this->getProcessableHtmlBody($responseEvent);
+        if (null === $body) {
             return;
         }
 
@@ -58,6 +48,6 @@ readonly class MetaPixelInjectorSubscriber implements EventSubscriberInterface
             $body = str_replace('</head>', $headerContent.\PHP_EOL.'</head>', $body);
         }
 
-        $response->setContent($body);
+        $responseEvent->getResponse()->setContent($body);
     }
 }
