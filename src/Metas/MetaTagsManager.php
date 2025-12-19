@@ -11,6 +11,9 @@ class MetaTagsManager implements MetaTagsManagerInterface, ResettableInterface
 {
     public SeoMeta $seoMeta;
 
+    /**
+     * @var array<string, mixed>
+     */
     private array $metaTags = [];
 
     public function __construct()
@@ -18,6 +21,9 @@ class MetaTagsManager implements MetaTagsManagerInterface, ResettableInterface
         $this->seoMeta = new SeoMeta();
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getMetaTags(): array
     {
         return $this->metaTags;
@@ -56,7 +62,7 @@ class MetaTagsManager implements MetaTagsManagerInterface, ResettableInterface
     }
 
     /**
-     * @param array<string> $keywords
+     * @param array<int, string> $keywords
      *
      * @return $this
      */
@@ -88,7 +94,7 @@ class MetaTagsManager implements MetaTagsManagerInterface, ResettableInterface
     }
 
     /**
-     * @param array<string> $robots
+     * @param array<int, string> $robots
      *
      * @return $this
      */
