@@ -22,10 +22,10 @@ use function is_array;
 use function is_string;
 use function sprintf;
 
-class MetaTagsExtension extends AbstractExtension
+readonly class MetaTagsExtension
 {
     public function __construct(
-        private readonly MetaTagsManagerInterface $metaTagsManager
+        private MetaTagsManagerInterface $metaTagsManager
     ) {
     }
 
