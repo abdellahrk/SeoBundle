@@ -11,6 +11,7 @@ declare(strict_types=1);
  * For the full copyright and license information,
  * please view the LICENSE file that was distributed with this source code.
  */
+
 namespace Rami\SeoBundle\Breadcrumb;
 
 use Symfony\Component\Cache\ResettableInterface;
@@ -26,7 +27,6 @@ class BreadcrumbManager implements BreadcrumbManagerInterface, ResettableInterfa
         $this->options['active_item'] = 'active';
     }
 
-
     public function addItem(string $label, ?string $url = null): static
     {
         $this->items[] = [
@@ -37,9 +37,6 @@ class BreadcrumbManager implements BreadcrumbManagerInterface, ResettableInterfa
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function reset(): void
     {
         $this->items = [];
@@ -47,7 +44,7 @@ class BreadcrumbManager implements BreadcrumbManagerInterface, ResettableInterfa
 
     public function getItems(): array
     {
-       return $this->items;
+        return $this->items;
     }
 
     public function getOptions(): array
@@ -58,6 +55,7 @@ class BreadcrumbManager implements BreadcrumbManagerInterface, ResettableInterfa
     public function setOptions(array $options): static
     {
         $this->options = $options;
+
         return $this;
     }
 }

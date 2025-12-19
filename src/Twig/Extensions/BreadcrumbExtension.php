@@ -11,10 +11,11 @@ declare(strict_types=1);
  * For the full copyright and license information,
  * please view the LICENSE file that was distributed with this source code.
  */
+
 namespace Rami\SeoBundle\Twig\Extensions;
 
-use Twig\Attribute\AsTwigFunction;
 use Rami\SeoBundle\Breadcrumb\BreadcrumbManagerInterface;
+use Twig\Attribute\AsTwigFunction;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;

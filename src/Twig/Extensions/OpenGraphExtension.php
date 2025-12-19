@@ -32,10 +32,10 @@ final readonly class OpenGraphExtension
 {
     public function __construct(
         private OpenGraphManagerInterface $openGraphManager,
-        private OGImageManagerInterface   $ogImageManager,
-        private OGVideoManagerInterface   $ogVideoManager,
+        private OGImageManagerInterface $ogImageManager,
+        private OGVideoManagerInterface $ogVideoManager,
         private OGArticleManagerInterface $ogArticleManager,
-        private ParameterBagInterface     $parameterBag
+        private ParameterBagInterface $parameterBag
     ) {
     }
 
