@@ -21,6 +21,7 @@ use Rami\SeoBundle\OpenGraph\OGVideoManagerInterface;
 use Rami\SeoBundle\OpenGraph\OpenGraphManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Twig\Attribute\AsTwigFunction;
+use Twig\Extension\AbstractExtension;
 
 use function array_key_exists;
 use function assert;
@@ -28,14 +29,14 @@ use function is_array;
 use function is_string;
 use function sprintf;
 
-final readonly class OpenGraphExtension
+final class OpenGraphExtension extends AbstractExtension
 {
     public function __construct(
-        private OpenGraphManagerInterface $openGraphManager,
-        private OGImageManagerInterface $ogImageManager,
-        private OGVideoManagerInterface $ogVideoManager,
-        private OGArticleManagerInterface $ogArticleManager,
-        private ParameterBagInterface $parameterBag
+        private readonly OpenGraphManagerInterface $openGraphManager,
+        private readonly OGImageManagerInterface $ogImageManager,
+        private readonly OGVideoManagerInterface $ogVideoManager,
+        private readonly OGArticleManagerInterface $ogArticleManager,
+        private readonly ParameterBagInterface $parameterBag
     ) {
     }
 
