@@ -16,7 +16,6 @@ namespace Rami\SeoBundle\Twig\Extensions;
 
 use Rami\SeoBundle\Metas\MetaTagsManagerInterface;
 use Twig\Attribute\AsTwigFunction;
-use Twig\Extension\AbstractExtension;
 
 use function is_array;
 use function is_string;

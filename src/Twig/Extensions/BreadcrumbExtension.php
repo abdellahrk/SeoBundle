@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -8,30 +11,21 @@
  * For the full copyright and license information,
  * please view the LICENSE file that was distributed with this source code.
  */
-
 namespace Rami\SeoBundle\Twig\Extensions;
 
+use Twig\Attribute\AsTwigFunction;
 use Rami\SeoBundle\Breadcrumb\BreadcrumbManagerInterface;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
 
-class BreadcrumbExtension extends AbstractExtension
+readonly class BreadcrumbExtension
 {
     public function __construct(
-        private readonly BreadcrumbManagerInterface $breadcrumbManager,
-        private readonly Environment $twig
+        private BreadcrumbManagerInterface $breadcrumbManager,
+        private Environment $twigEnvironment
     ) {
-    }
-
-    public function getFunctions(): array
-    {
-       return [
-            new TwigFunction('seo_breadcrumb', [$this, 'renderBreadcrumb'], ['needs_environment' => true, 'is_safe' => ['html']]),
-       ];
     }
 
     /**
@@ -39,12 +33,13 @@ class BreadcrumbExtension extends AbstractExtension
      * @throws RuntimeError
      * @throws LoaderError
      */
+    #[AsTwigFunction('seo_breadcrumb', needsEnvironment: true, isSafe: ['html'])]
     public function renderBreadcrumb(): string
     {
         /** @var $item[] $items */
         $items = $this->breadcrumbManager->getItems();
 
-        return $this->twig->render('@Seo/breadcrumb.html.twig', [
+        return $this->twigEnvironment->render('@Seo/breadcrumb.html.twig', [
             'breadcrumb' => $items,
             'options' => $this->breadcrumbManager->getOptions(),
         ]);

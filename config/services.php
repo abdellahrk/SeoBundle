@@ -142,6 +142,5 @@ return static function (ContainerConfigurator $container) {
         ->alias(BreadcrumbManagerInterface::class, 'seo.breadcrumb')->public();
     $services
         ->set(BreadcrumbExtension::class, BreadcrumbExtension::class)
-        ->autowire()
-        ->tag('twig.extension');
+        ->autowire();
 };

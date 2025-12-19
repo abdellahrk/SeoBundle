@@ -21,7 +21,6 @@ use Rami\SeoBundle\OpenGraph\OGVideoManagerInterface;
 use Rami\SeoBundle\OpenGraph\OpenGraphManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Twig\Attribute\AsTwigFunction;
-use Twig\Extension\AbstractExtension;
 
 use function array_key_exists;
 use function assert;
