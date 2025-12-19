@@ -57,16 +57,28 @@ class SeoCollector extends AbstractDataCollector
         );
     }
 
-    /** @return [] */
+    /**
+     * @return array<string, mixed>
+     */
     public function getSeoMetas(): array
     {
-        return $this->data['seo_metas'];
+        $data = $this->data['seo_metas'] ?? [];
+        assert(is_array($data));
+
+        /** @var array<string, mixed> $data */
+        return $data;
     }
 
-    /** @return [] */
+    /**
+     * @return array<string, mixed>
+     */
     public function getOpenGraph(): array
     {
-        return $this->data['open_graph'];
+        $data = $this->data['open_graph'] ?? [];
+        assert(is_array($data));
+
+        /** @var array<string, mixed> $data */
+        return $data;
     }
 
     public function reset(): void
