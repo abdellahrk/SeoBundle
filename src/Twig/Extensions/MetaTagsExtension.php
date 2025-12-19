@@ -33,6 +33,11 @@ class MetaTagsExtension
         return 'lang="'.$lang.'"';
     }
 
+    /**
+     * @param array<int, string>|null $keywords
+     * @param array<int, string>|null $robots
+     * @param array<string, mixed>|null $customMetaTags
+     */
     #[AsTwigFunction('meta_tags', isSafe: ['html'])]
     public function renderMetaTags(
         ?string $title = '',
