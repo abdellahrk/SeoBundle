@@ -19,7 +19,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class MetaPixelInjectorSubscriber implements EventSubscriberInterface
+readonly class MetaPixelInjectorSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private readonly MetaPixelInterface $metaPixel
@@ -38,11 +38,15 @@ class MetaPixelInjectorSubscriber implements EventSubscriberInterface
         $response = $responseEvent->getResponse();
         $request = $responseEvent->getRequest();
 
-        if (!str_contains($request->headers->get('accept', ''), 'text/html')) {
+        $acceptHeader = $request->headers->get('accept', '');
+        if (!is_string($acceptHeader) || !str_contains($acceptHeader, 'text/html')) {
             return;
         }
 
         $body = $response->getContent();
+        if (false === $body) {
+            return;
+        }
 
         if (!$responseEvent->isMainRequest() || $request->isXmlHttpRequest()) {
             return;

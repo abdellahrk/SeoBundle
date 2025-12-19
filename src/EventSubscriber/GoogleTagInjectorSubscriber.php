@@ -19,15 +19,15 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class GoogleTagInjectorSubscriber implements EventSubscriberInterface
+readonly class GoogleTagInjectorSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly TagManagerInterface $tagManager,
+        private TagManagerInterface $tagManager,
     ) {
     }
 
     /**
-     * @return array[]|array[][]|string[]
+     * @return array<string, string|array<int|string, string|int>>
      */
     public static function getSubscribedEvents(): array
     {
@@ -41,11 +41,15 @@ class GoogleTagInjectorSubscriber implements EventSubscriberInterface
         $response = $responseEvent->getResponse();
         $request = $responseEvent->getRequest();
 
-        if (!str_contains($request->headers->get('accept', ''), 'text/html')) {
+        $acceptHeader = $request->headers->get('accept', '');
+        if (!is_string($acceptHeader) || !str_contains($acceptHeader, 'text/html')) {
             return;
         }
 
         $body = $response->getContent();
+        if (false === $body) {
+            return;
+        }
 
         if (!$responseEvent->isMainRequest() || $request->isXmlHttpRequest()) {
             return;

@@ -21,16 +21,16 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class SchemaTwigInjectorSubscriber implements EventSubscriberInterface
+readonly class SchemaTwigInjectorSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly SchemaInterface $schema,
-        private readonly ParameterBagInterface $parameterBag,
+        private SchemaInterface $schema,
+        private ParameterBagInterface $parameterBag,
     ) {
     }
 
     /**
-     * @return array[]|array[][]|string[]
+     * @return array<string, string|array<int|string, string|int>>
      */
     public static function getSubscribedEvents(): array
     {
@@ -45,18 +45,25 @@ class SchemaTwigInjectorSubscriber implements EventSubscriberInterface
             return;
         }
 
-        if (!$this->parameterBag->get('seo.schema')['enabled']) {
+        $config = $this->parameterBag->get('seo.schema');
+        assert(is_array($config));
+
+        if (!$config['enabled']) {
             return;
         }
 
         $response = $responseEvent->getResponse();
         $request = $responseEvent->getRequest();
 
-        if (!str_contains($request->headers->get('accept', ''), 'text/html')) {
+        $acceptHeader = $request->headers->get('accept', '');
+        if (!is_string($acceptHeader) || !str_contains($acceptHeader, 'text/html')) {
             return;
         }
 
         $body = $response->getContent();
+        if (false === $body) {
+            return;
+        }
 
         if (!$responseEvent->isMainRequest() || $request->isXmlHttpRequest()) {
             return;
