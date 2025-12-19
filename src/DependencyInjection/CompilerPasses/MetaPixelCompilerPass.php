@@ -32,8 +32,11 @@ class MetaPixelCompilerPass implements CompilerPassInterface
         }
 
         foreach ($container->findTaggedServiceIds('seo.meta_pixel') as $tags) {
+            $config = $container->getParameter('seo.meta_pixel');
+            assert(is_array($config));
+
             $definition->addMethodCall('enableMetaPixel', [
-                $container->getParameter('seo.meta_pixel')['pixel_id'],
+                $config['pixel_id'],
             ]);
         }
     }

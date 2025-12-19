@@ -32,8 +32,11 @@ class GoogleTagCompilerPass implements CompilerPassInterface
         }
 
         foreach ($container->findTaggedServiceIds('seo.google_tag_manager') as $tags) {
+            $config = $container->getParameter('seo.google_tag_manager');
+            assert(is_array($config));
+
             $definition->addMethodCall('enableGoogleTagManager', [
-                $container->getParameter('seo.google_tag_manager')['tag_manager_id'],
+                $config['tag_manager_id'],
             ]);
         }
     }
