@@ -64,7 +64,10 @@ class SeoBundle extends AbstractBundle
     {
         $reflectionObject = new ReflectionObject($this);
 
-        return dirname($reflectionObject->getFileName(), 2);
+        /** @var string $fileName */
+        $fileName = $reflectionObject->getFileName();
+
+        return dirname($fileName, 2);
     }
 
     public function build(ContainerBuilder $container): void
