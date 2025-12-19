@@ -31,7 +31,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 class GenerateSitemapCommand extends Command
 {
     public function __construct(
-        private MessageBusInterface $messageBus
+        private readonly MessageBusInterface $messageBus
     ) {
         parent::__construct();
     }
@@ -43,7 +43,10 @@ class GenerateSitemapCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->messageBus->dispatch(new GenerateSitemapMessage($input->getArgument('baseUrl')));
+        $baseUrl = $input->getArgument('baseUrl');
+        assert(is_string($baseUrl) || $baseUrl === null);
+
+        $this->messageBus->dispatch(new GenerateSitemapMessage($baseUrl));
         $output->writeln('<info>Generating Sitemap</info>');
 
         return Command::SUCCESS;
