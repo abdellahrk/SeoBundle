@@ -1,6 +1,18 @@
 <?php
+/*
+ * Copyright (c) 2025.
+ *
+ * This file is part of the SEO Bundle project
+ * @author Abdellah Ramadan <ramadanabdel24@gmail.com>
+ *
+ * For the full copyright and license information,
+ * please view the LICENSE file that was distributed with this source code.
+ */
 
+use Rami\SeoBundle\Breadcrumb\BreadcrumbManager;
+use Rami\SeoBundle\Breadcrumb\BreadcrumbManagerInterface;
 use Rami\SeoBundle\EventSubscriber\MetaPixelInjectorSubscriber;
+use Rami\SeoBundle\Schema\BaseType;
 use Rami\SeoBundle\Seo\GoogleTagManager\TagManager;
 use Rami\SeoBundle\Seo\GoogleTagManager\TagManagerInterface;
 use Rami\SeoBundle\Seo\MetaPixel\MetaPixel;
@@ -27,6 +39,7 @@ use Rami\SeoBundle\Sitemap\EventHandler\UpdateSitemapEventListener;
 use Rami\SeoBundle\Sitemap\MessageHandler\GenerateSitemapMessageHandler;
 use Rami\SeoBundle\Sitemap\Sitemap;
 use Rami\SeoBundle\Sitemap\SitemapInterface;
+use Rami\SeoBundle\Twig\Extensions\BreadcrumbExtension;
 use Rami\SeoBundle\Twig\Extensions\MetaTagsExtension;
 use Rami\SeoBundle\Twig\Extensions\OpenGraphExtension;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -46,9 +59,10 @@ return static function (ContainerConfigurator $container) {
         ->set(SchemaTwigInjectorSubscriber::class)
         ->args([new Reference(SchemaInterface::class)])
         ->tag('kernel.event_subscriber');
-    $services->set(\Rami\SeoBundle\Schema\BaseType::class);
+    $services->set(BaseType::class);
     // End Schema Org
 
+    // Meta Tags
     $services->set('seo.meta.tags', MetaTagsManager::class)->tag('kernel.reset', ['method' => 'reset']);
     $services->alias(MetaTagsManagerInterface::class, 'seo.meta.tags');
     $services->set(MetaTagsExtension::class, MetaTagsExtension::class)
@@ -98,7 +112,7 @@ return static function (ContainerConfigurator $container) {
         ->tag('data_collector',
             [
                 'id' => SeoCollector::class,
-                'template' => '@Seo/seo/data_collector.html.twig'
+                'template' => '@Seo/data_collector.html.twig'
             ]);
 
     $services
@@ -120,4 +134,14 @@ return static function (ContainerConfigurator $container) {
         ->set(MetaPixelInjectorSubscriber::class)
         ->arg('$metaPixel', new Reference(MetaPixelInterface::class))
         ->tag('kernel.event_subscriber');
+
+    $services
+        ->set('seo.breadcrumb', BreadcrumbManager::class)
+        ->tag('seo.breadcrumb');
+    $services
+        ->alias(BreadcrumbManagerInterface::class, 'seo.breadcrumb')->public();
+    $services
+        ->set(BreadcrumbExtension::class, BreadcrumbExtension::class)
+        ->autowire()
+        ->tag('twig.extension');
 };
