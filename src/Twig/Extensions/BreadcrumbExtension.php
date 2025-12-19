@@ -37,7 +37,7 @@ readonly class BreadcrumbExtension
     #[AsTwigFunction('seo_breadcrumb', needsEnvironment: true, isSafe: ['html'])]
     public function renderBreadcrumb(): string
     {
-        /** @var $item[] $items */
+        /** @var array<int, array{label: string, url: string|null}> $items */
         $items = $this->breadcrumbManager->getItems();
 
         return $this->twigEnvironment->render('@Seo/breadcrumb.html.twig', [
