@@ -83,7 +83,7 @@ trait OrganizationTrait
     }
 
     /**
-     * @param array<string, Person> $alumni Person[]
+     * @param array<int, Person> $alumni Person[]
      *
      * @return $this
      */
@@ -95,7 +95,7 @@ trait OrganizationTrait
     }
 
     /**
-     * @param array<string, Person> $employee Person[]
+     * @param array<int, Person> $employee Person[]
      *
      * @return $this
      */
@@ -107,7 +107,7 @@ trait OrganizationTrait
     }
 
     /**
-     * @param array<string, Person> $member Person[]
+     * @param array<int, Person> $member Person[]
      *
      * @return $this
      */
@@ -126,7 +126,7 @@ trait OrganizationTrait
     }
 
     /**
-     * @param array<string, Person|Organization> $founders Person[] | Organization[]
+     * @param array<int, Person|Organization> $founders Person[] | Organization[]
      *
      * @return $this
      */

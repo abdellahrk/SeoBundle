@@ -13,6 +13,9 @@ use function is_string;
 
 class BaseType implements Stringable
 {
+    /**
+     * @var array<string, mixed>
+     */
     private array $properties = [];
 
     public function __toString(): string
@@ -25,6 +28,9 @@ class BaseType implements Stringable
         return (new ReflectionClass($this))->getShortName();
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getProperties(): array
     {
         return $this->properties;
@@ -91,11 +97,17 @@ class BaseType implements Stringable
            '</script>';
     }
 
-    protected function setProperty(string $name, string|array|object|int|bool $value): void
+    /**
+     * @param string|array<int|string, mixed>|object|int|bool|float $value
+     */
+    protected function setProperty(string $name, string|array|object|int|bool|float $value): void
     {
         $this->properties[$name] = $value;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     protected function parseChild(self $baseType): array
     {
         return [
@@ -104,6 +116,9 @@ class BaseType implements Stringable
         ;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     protected function parseChildWithId(self $baseType): array
     {
         $properties = $baseType->getProperties();
@@ -119,6 +134,10 @@ class BaseType implements Stringable
         ] + $properties;
     }
 
+    /**
+     * @param array<int, mixed> $children
+     * @return array<int, array<string, mixed>>
+     */
     protected function parseArray(array $children): array
     {
         $properties = [];
@@ -138,6 +157,9 @@ class BaseType implements Stringable
         return $properties;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function parse(): array
     {
         return [
