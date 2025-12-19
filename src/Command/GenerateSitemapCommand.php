@@ -15,11 +15,10 @@ declare(strict_types=1);
 namespace Rami\SeoBundle\Command;
 
 use Rami\SeoBundle\Sitemap\Message\GenerateSitemapMessage;
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 #[AsCommand(
@@ -28,26 +27,20 @@ use Symfony\Component\Messenger\MessageBusInterface;
     aliases: ['seo:sitemap:generate'],
     hidden: false,
 )]
-class GenerateSitemapCommand extends Command
+readonly class GenerateSitemapCommand
 {
     public function __construct(
-        private readonly MessageBusInterface $messageBus
+        private MessageBusInterface $messageBus
     ) {
-        parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this->addArgument('baseUrl', InputArgument::REQUIRED, 'The base url to generate sitemap');
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $baseUrl = $input->getArgument('baseUrl');
-        assert(is_string($baseUrl) || $baseUrl === null);
-
+    public function __invoke(
+        #[Argument(description: 'The base url to generate sitemap', name: 'Base Url')]
+        string $baseUrl,
+        SymfonyStyle $symfonyStyle
+    ): int {
         $this->messageBus->dispatch(new GenerateSitemapMessage($baseUrl));
-        $output->writeln('<info>Generating Sitemap</info>');
+        $symfonyStyle->success('Generating Sitemap');
 
         return Command::SUCCESS;
     }

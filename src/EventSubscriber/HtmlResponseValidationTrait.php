@@ -16,6 +16,8 @@ namespace Rami\SeoBundle\EventSubscriber;
 
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
+use function is_string;
+
 trait HtmlResponseValidationTrait
 {
     /**

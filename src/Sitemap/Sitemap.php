@@ -19,10 +19,12 @@ use DateTimeImmutable;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use DOMDocument;
+use DOMElement;
 use DOMException;
 use DOMXPath;
 use Exception;
 use Psr\Log\LoggerInterface;
+use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionException;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -33,6 +35,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 use function count;
+use function is_array;
+use function is_string;
 use function sprintf;
 
 final readonly class Sitemap implements SitemapInterface
@@ -86,9 +90,14 @@ final readonly class Sitemap implements SitemapInterface
 
             $defaults = $route->getDefaults();
             $controllerValue = $defaults['_controller'] ?? null;
-            if (!is_string($controllerValue) || $controllerValue === '') {
+            if (!is_string($controllerValue)) {
                 continue;
             }
+
+            if ('' === $controllerValue) {
+                continue;
+            }
+
             $controller = explode(':', $controllerValue)[0];
             /** @var class-string $controller */
             $ref = new ReflectionClass($controller);
@@ -130,7 +139,7 @@ final readonly class Sitemap implements SitemapInterface
 
         $allRoutes = array_unique($allRoutes, \SORT_REGULAR);
         /** @var array<Route> $filteredRoutes */
-        $filteredRoutes = array_filter($allRoutes, fn($route) => $route instanceof Route);
+        $filteredRoutes = array_filter($allRoutes, fn (?Route $route): bool => $route instanceof Route);
         $this->addRoutesToXml($filteredRoutes, $baseUrl);
     }
 
@@ -143,9 +152,10 @@ final readonly class Sitemap implements SitemapInterface
         $sitemap = null;
         $request = $this->requestStack->getCurrentRequest();
         foreach ($attributes as $attribute) {
-            if (!$attribute instanceof \ReflectionAttribute) {
+            if (!$attribute instanceof ReflectionAttribute) {
                 continue;
             }
+
             $instance = $attribute->newInstance();
             if ($instance instanceof Route) {
                 $route = $instance;
@@ -194,10 +204,12 @@ final readonly class Sitemap implements SitemapInterface
             if (!is_array($sitemap->urlGenerationAttributes)) {
                 continue;
             }
+
             foreach ($sitemap->urlGenerationAttributes as $key) {
                 if (!is_string($key)) {
                     continue;
                 }
+
                 if (property_exists($entity, $key)) {
                     $method = 'get'.ucfirst($key);
                     if (method_exists($entity, $method)) {
@@ -211,6 +223,7 @@ final readonly class Sitemap implements SitemapInterface
             if (null === $routeName) {
                 continue;
             }
+
             $locationElement = $domDocument->createElement('loc', $this->urlGenerator->generate($routeName, $urlGenerationAttribute, UrlGeneratorInterface::ABSOLUTE_URL));
             $urlElement = $domDocument->createElement('url');
             $urlElement->appendChild($locationElement);
@@ -308,6 +321,7 @@ final readonly class Sitemap implements SitemapInterface
             if (null === $firstItem) {
                 return;
             }
+
             $firstItem->appendChild($sitemapRoot);
             $lastMod = $domDocument->createElement('lastmod', $now->format('Y-m-d'));
             $sitemapRoot->appendChild($location);
@@ -319,13 +333,15 @@ final readonly class Sitemap implements SitemapInterface
         }
 
         foreach ($nodes as $node) {
-            if (!$node instanceof \DOMElement) {
+            if (!$node instanceof DOMElement) {
                 continue;
             }
+
             $sitemapNode = $node->parentNode;
             if (null === $sitemapNode) {
                 continue;
             }
+
             $lastmod = null;
 
             foreach ($sitemapNode->childNodes as $child) {

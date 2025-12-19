@@ -18,6 +18,7 @@ use Rami\SeoBundle\Metas\MetaTagsManagerInterface;
 use Twig\Attribute\AsTwigFunction;
 
 use function is_array;
+use function is_string;
 use function sprintf;
 
 class MetaTagsExtension
@@ -34,8 +35,8 @@ class MetaTagsExtension
     }
 
     /**
-     * @param array<int, string>|null $keywords
-     * @param array<int, string>|null $robots
+     * @param array<int, string>|null   $keywords
+     * @param array<int, string>|null   $robots
      * @param array<string, mixed>|null $customMetaTags
      */
     #[AsTwigFunction('meta_tags', isSafe: ['html'])]

@@ -21,6 +21,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
+use function assert;
+use function is_array;
+
 readonly class SchemaTwigInjectorSubscriber implements EventSubscriberInterface
 {
     use HtmlResponseValidationTrait;

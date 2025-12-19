@@ -22,7 +22,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
+use function assert;
 use function dirname;
+use function is_array;
 
 class SeoBundle extends AbstractBundle
 {
@@ -38,19 +40,19 @@ class SeoBundle extends AbstractBundle
 
         $googleTagManager = $config['google_tag_manager'] ?? [];
         assert(is_array($googleTagManager));
-        if (($googleTagManager['enabled'] ?? false)) {
+        if ($googleTagManager['enabled'] ?? false) {
             $container->parameters()->set('seo.google_tag_manager', $googleTagManager);
         }
 
         $schema = $config['schema'] ?? [];
         assert(is_array($schema));
-        if (($schema['enabled'] ?? false)) {
+        if ($schema['enabled'] ?? false) {
             $container->parameters()->set('seo.schema', $schema);
         }
 
         $metaPixel = $config['meta_pixel'] ?? [];
         assert(is_array($metaPixel));
-        if (($metaPixel['enabled'] ?? false)) {
+        if ($metaPixel['enabled'] ?? false) {
             $container->parameters()->set('seo.meta_pixel', $metaPixel);
         }
     }

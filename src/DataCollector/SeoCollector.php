@@ -22,6 +22,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Throwable;
 
+use function assert;
+use function is_array;
+
 class SeoCollector extends AbstractDataCollector
 {
     public function __construct(
@@ -65,7 +68,7 @@ class SeoCollector extends AbstractDataCollector
         $data = $this->data['seo_metas'] ?? [];
         assert(is_array($data));
 
-        /** @var array<string, mixed> $data */
+        /* @var array<string, mixed> $data */
         return $data;
     }
 
@@ -77,7 +80,7 @@ class SeoCollector extends AbstractDataCollector
         $data = $this->data['open_graph'] ?? [];
         assert(is_array($data));
 
-        /** @var array<string, mixed> $data */
+        /* @var array<string, mixed> $data */
         return $data;
     }
 

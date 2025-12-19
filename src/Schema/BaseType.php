@@ -136,6 +136,7 @@ class BaseType implements Stringable
 
     /**
      * @param array<int, mixed> $children
+     *
      * @return array<int, array<string, mixed>>
      */
     protected function parseArray(array $children): array

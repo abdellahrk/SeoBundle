@@ -23,6 +23,9 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Twig\Attribute\AsTwigFunction;
 
 use function array_key_exists;
+use function assert;
+use function is_array;
+use function is_string;
 use function sprintf;
 
 final readonly class OpenGraphExtension
@@ -212,6 +215,7 @@ final readonly class OpenGraphExtension
                 if (is_array($value) && isset($value[0]) && is_array($value[0]) && isset($value[0]['type'], $value[0]['content']) && is_string($value[0]['type']) && is_string($value[0]['content'])) {
                     $openGraphString .= sprintf('<meta property="og:%s" content="%s" />', $value[0]['type'], $value[0]['content']);
                 }
+
                 if (is_array($value)) {
                     foreach ($value as $structuredProperty) {
                         if (is_array($structuredProperty) && isset($structuredProperty['type'], $structuredProperty['property'], $structuredProperty['content']) && is_string($structuredProperty['type']) && is_string($structuredProperty['property']) && is_string($structuredProperty['content'])) {

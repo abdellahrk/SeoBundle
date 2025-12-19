@@ -17,6 +17,9 @@ namespace Rami\SeoBundle\DependencyInjection\CompilerPasses;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
+use function assert;
+use function is_array;
+
 class MetaPixelCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void

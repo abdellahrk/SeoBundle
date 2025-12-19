@@ -18,6 +18,9 @@ use PHPUnit\Framework\TestCase;
 use Rami\SeoBundle\Metas\MetaTagsManager;
 use Rami\SeoBundle\Metas\Model\SeoMeta;
 
+use function assert;
+use function is_array;
+
 final class MetaTagsControllerTest extends TestCase
 {
     private MetaTagsManager $metaTagsManager;

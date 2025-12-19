@@ -96,6 +96,7 @@ class OGArticleManager implements OGArticleManagerInterface
 
     /**
      * @param array<int, string> $tags
+     *
      * @return $this
      */
     public function setTags(array $tags): static
