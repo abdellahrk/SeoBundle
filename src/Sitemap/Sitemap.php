@@ -71,15 +71,19 @@ final readonly class Sitemap implements SitemapInterface
             if (str_starts_with($name, '_profiler')) {
                 continue;
             }
+
             if (str_starts_with($name, '_preview_error')) {
                 continue;
             }
+
             if (str_starts_with($name, '_wdt')) {
                 continue;
             }
+
             if (str_starts_with($name, '_debug')) {
                 continue;
             }
+
             $controller = explode(':', (string) $route->getDefaults()['_controller'])[0];
             $ref = new ReflectionClass($controller);
             foreach ($ref->getMethods() as $method) {
@@ -104,9 +108,11 @@ final readonly class Sitemap implements SitemapInterface
                             $currentRoute = $instance;
                         }
                     }
+
                     if (!$sitemapAttribute) {
                         continue;
                     }
+
                     if (!$routerExists) {
                         continue;
                     }
@@ -192,6 +198,7 @@ final readonly class Sitemap implements SitemapInterface
                         $modifiedDate = $modifiedDate->format('Y-m-d');
                     }
                 }
+
                 if ($modifiedDate) {
                     $lastMod = $domDocument->createElement('lastmod', $modifiedDate);
                     $urlElement->appendChild($lastMod);

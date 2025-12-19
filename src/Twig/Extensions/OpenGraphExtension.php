@@ -25,14 +25,14 @@ use Twig\Attribute\AsTwigFunction;
 use function array_key_exists;
 use function sprintf;
 
-final class OpenGraphExtension
+final readonly class OpenGraphExtension
 {
     public function __construct(
-        private readonly OpenGraphManagerInterface $openGraphManager,
-        private readonly OGImageManagerInterface $ogImageManager,
-        private readonly OGVideoManagerInterface $ogVideoManager,
-        private readonly OGArticleManagerInterface $ogArticleManager,
-        private readonly ParameterBagInterface $parameterBag
+        private OpenGraphManagerInterface $openGraphManager,
+        private OGImageManagerInterface $ogImageManager,
+        private OGVideoManagerInterface $ogVideoManager,
+        private OGArticleManagerInterface $ogArticleManager,
+        private ParameterBagInterface $parameterBag
     ) {
     }
 

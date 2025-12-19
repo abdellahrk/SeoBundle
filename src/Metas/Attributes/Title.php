@@ -9,7 +9,7 @@ use Attribute;
 #[Attribute(Attribute::TARGET_METHOD | Attribute::TARGET_FUNCTION)]
 readonly class Title
 {
-    public function __construct(public readonly string $title)
+    public function __construct(public string $title)
     {
     }
 }

@@ -49,18 +49,18 @@ class MetaTagsExtension
         bool $xuaCompatible = false,
         ?array $customMetaTags = []
     ): string {
-        $seo = $this->metaTagsManager->getSeoMeta();
-        $this->metaTagsManager->setTitle($title ?: $seo->getTitle())
-            ->setDescription($description ?: $seo->getDescription())
-            ->setKeywords($keywords ?: $seo->getKeywords())
-            ->setSubject($subject ?: $seo->getSubject())
-            ->setCharacterEncoding($charset ?: $seo->getCharset())
-            ->setRobots($robots ?: $seo->getRobots())
-            ->setCanonical($canonical ?: $seo->getCanonical())
-            ->setCopyright($copyright ?: $seo->getCopyright())
-            ->setViewport($viewport ?: $seo->getViewport())
-            ->setAuthor($author ?: $seo->getAuthor())
-            ->setContentType($contentType ?: $seo->getContentType());
+        $seoMeta = $this->metaTagsManager->getSeoMeta();
+        $this->metaTagsManager->setTitle($title ?: $seoMeta->getTitle())
+            ->setDescription($description ?: $seoMeta->getDescription())
+            ->setKeywords($keywords ?: $seoMeta->getKeywords())
+            ->setSubject($subject ?: $seoMeta->getSubject())
+            ->setCharacterEncoding($charset ?: $seoMeta->getCharset())
+            ->setRobots($robots ?: $seoMeta->getRobots())
+            ->setCanonical($canonical ?: $seoMeta->getCanonical())
+            ->setCopyright($copyright ?: $seoMeta->getCopyright())
+            ->setViewport($viewport ?: $seoMeta->getViewport())
+            ->setAuthor($author ?: $seoMeta->getAuthor())
+            ->setContentType($contentType ?: $seoMeta->getContentType());
 
         if ($xuaCompatible) {
             $this->metaTagsManager->setXUACompatible();
