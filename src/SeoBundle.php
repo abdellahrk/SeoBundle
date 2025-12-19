@@ -26,6 +26,9 @@ use function dirname;
 
 class SeoBundle extends AbstractBundle
 {
+    /**
+     * @param array<string, mixed> $config
+     */
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
         $container->import('../config/services.php');
@@ -33,16 +36,22 @@ class SeoBundle extends AbstractBundle
         $container->parameters()->set('seo.open_graph', $config['open_graph'] ?? null);
         $container->parameters()->set('seo.sitemap', $config['sitemap'] ?? null);
 
-        if ($config['google_tag_manager']['enabled']) {
-            $container->parameters()->set('seo.google_tag_manager', $config['google_tag_manager']);
+        $googleTagManager = $config['google_tag_manager'] ?? [];
+        assert(is_array($googleTagManager));
+        if (($googleTagManager['enabled'] ?? false)) {
+            $container->parameters()->set('seo.google_tag_manager', $googleTagManager);
         }
 
-        if ($config['schema']['enabled']) {
-            $container->parameters()->set('seo.schema', $config['schema']);
+        $schema = $config['schema'] ?? [];
+        assert(is_array($schema));
+        if (($schema['enabled'] ?? false)) {
+            $container->parameters()->set('seo.schema', $schema);
         }
 
-        if ($config['meta_pixel']['enabled']) {
-            $container->parameters()->set('seo.meta_pixel', $config['meta_pixel']);
+        $metaPixel = $config['meta_pixel'] ?? [];
+        assert(is_array($metaPixel));
+        if (($metaPixel['enabled'] ?? false)) {
+            $container->parameters()->set('seo.meta_pixel', $metaPixel);
         }
     }
 
