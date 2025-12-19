@@ -20,11 +20,17 @@ class SeoMeta
 
     protected string $description = '';
 
-    protected ?array $keywords = [];
+    /**
+     * @var array<int, string>
+     */
+    protected array $keywords = [];
 
     protected string $subject = '';
 
-    protected ?array $robots = [];
+    /**
+     * @var array<int, string>|null
+     */
+    protected array $robots = [];
 
     protected string $canonical = '';
 
@@ -100,11 +106,17 @@ class SeoMeta
         return $this;
     }
 
-    public function getKeywords(): ?array
+    /**
+     * @return array<int, string>
+     */
+    public function getKeywords(): array
     {
         return $this->keywords;
     }
 
+    /**
+     * @param array<int, string> $keywords
+     */
     public function setKeywords(array $keywords): self
     {
         $this->keywords = $keywords;
@@ -124,11 +136,17 @@ class SeoMeta
         return $this;
     }
 
+    /**
+     * @return array<int, string>|null
+     */
     public function getRobots(): ?array
     {
         return $this->robots;
     }
 
+    /**
+     * @param array<int, string>|null $robots
+     */
     public function setRobots(?array $robots): self
     {
         $this->robots = $robots;
