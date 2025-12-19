@@ -101,7 +101,6 @@ final class BaseTypeTest extends TestCase
         $this->baseType->name('Test')->id('123');
         $properties = $this->baseType->getProperties();
 
-        $this->assertIsArray($properties);
         $this->assertArrayHasKey('name', $properties);
         $this->assertArrayHasKey('id', $properties);
     }
@@ -111,7 +110,6 @@ final class BaseTypeTest extends TestCase
         $thing = new Thing();
         $properties = $thing->getProperties();
 
-        $this->assertIsArray($properties);
         $this->assertEmpty($properties);
     }
 
