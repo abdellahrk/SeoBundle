@@ -156,6 +156,9 @@ class OpenGraphManager implements OpenGraphManagerInterface, ResettableInterface
         return $this;
     }
 
+    /**
+     * @return array<int|string, mixed>
+     */
     public function getStructuredProperties(): array
     {
         return $this->openGraph->getStructuredProperties();
@@ -194,6 +197,9 @@ class OpenGraphManager implements OpenGraphManagerInterface, ResettableInterface
         return $this;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getMusicProperties(): array
     {
         return $this->openGraph->getMusicProperties();
@@ -212,6 +218,9 @@ class OpenGraphManager implements OpenGraphManagerInterface, ResettableInterface
         return $this;
     }
 
+    /**
+     * @return array<int, array<string, mixed>>
+     */
     public function getTwitterCardProperties(): array
     {
         return $this->openGraph->getTwitterCardProperties();

@@ -30,6 +30,9 @@ interface OpenGraphManagerInterface
 
     public function addStructuredProperty(string $type, string $property, string $content): static;
 
+    /**
+     * @return array<int|string, mixed>
+     */
     public function getStructuredProperties(): array;
 
     public function setSiteName(string $siteName): static;
@@ -46,10 +49,16 @@ interface OpenGraphManagerInterface
 
     public function addMusicProperty(string $property, string $content): static;
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getMusicProperties(): array;
 
     public function addTwitterCardProperty(string $name, string $content): static;
 
+    /**
+     * @return array<int, array<string, mixed>>
+     */
     public function getTwitterCardProperties(): array;
 
     public function getAudio(): string;
