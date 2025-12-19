@@ -24,6 +24,7 @@ use DOMException;
 use DOMXPath;
 use Exception;
 use Psr\Log\LoggerInterface;
+use Rami\SeoBundle\Sitemap\Attributes\Sitemap as SitemapAttribute;
 use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionException;
@@ -110,7 +111,7 @@ final readonly class Sitemap implements SitemapInterface
 
                     foreach ($attributes as $attribute) {
                         $instance = $attribute->newInstance();
-                        if ($instance instanceof Attributes\Sitemap) {
+                        if ($instance instanceof SitemapAttribute) {
                             $sitemapAttribute = true;
                             if (null !== $instance->entityClass) {
                                 $this->generateDynamicSitemap($attributes, $baseUrl);
@@ -161,7 +162,7 @@ final readonly class Sitemap implements SitemapInterface
                 $route = $instance;
             }
 
-            if ($instance instanceof Attributes\Sitemap) {
+            if ($instance instanceof SitemapAttribute) {
                 $sitemap = $instance;
             }
         }
@@ -170,7 +171,7 @@ final readonly class Sitemap implements SitemapInterface
             return;
         }
 
-        if (!$sitemap instanceof Attributes\Sitemap) {
+        if (!$sitemap instanceof SitemapAttribute) {
             return;
         }
 
