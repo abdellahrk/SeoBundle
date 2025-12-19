@@ -18,9 +18,18 @@ interface BreadcrumbManagerInterface
 {
     public function addItem(string $label, ?string $url = null): static;
 
+    /**
+     * @return array<int, array{label: string, url: string|null}>
+     */
     public function getItems(): array;
 
+    /**
+     * @return array<string, string>
+     */
     public function getOptions(): array;
 
+    /**
+     * @param array<string, string> $options
+     */
     public function setOptions(array $options): static;
 }

@@ -18,6 +18,10 @@ use Symfony\Component\Cache\ResettableInterface;
 
 class BreadcrumbManager implements BreadcrumbManagerInterface, ResettableInterface
 {
+    /**
+     * @param array<int, array{label: string, url: string|null}> $items
+     * @param array<string, string> $options
+     */
     public function __construct(
         public array $items = [],
         public array $options = [],
@@ -42,16 +46,25 @@ class BreadcrumbManager implements BreadcrumbManagerInterface, ResettableInterfa
         $this->items = [];
     }
 
+    /**
+     * @return array<int, array{label: string, url: string|null}>
+     */
     public function getItems(): array
     {
         return $this->items;
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function getOptions(): array
     {
         return $this->options;
     }
 
+    /**
+     * @param array<string, string> $options
+     */
     public function setOptions(array $options): static
     {
         $this->options = $options;
