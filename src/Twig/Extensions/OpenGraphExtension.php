@@ -161,16 +161,25 @@ final readonly class OpenGraphExtension
                 $openGraph->setDescription($description);
             }
 
-            if ((null === $openGraph->getSiteName() || '' === $openGraph->getSiteName()) && array_key_exists('sitename', $defaults)) {
-                $openGraph->setSiteName($defaults['sitename']);
+            if ('' === $openGraph->getSiteName() && array_key_exists('sitename', $defaults)) {
+                $sitename = $defaults['sitename'];
+                if (is_string($sitename)) {
+                    $openGraph->setSiteName($sitename);
+                }
             }
 
-            if ((null === $openGraph->getUrl() || '' === $openGraph->getUrl()) && array_key_exists('url', $defaults)) {
-                $openGraph->setUrl($defaults['url']);
+            if ('' === $openGraph->getUrl() && array_key_exists('url', $defaults)) {
+                $url = $defaults['url'];
+                if (is_string($url)) {
+                    $openGraph->setUrl($url);
+                }
             }
 
-            if ((null === $openGraph->getType() || '' === $openGraph->getType()) && array_key_exists('type', $defaults)) {
-                $openGraph->setType($defaults['type']);
+            if ('' === $openGraph->getType() && array_key_exists('type', $defaults)) {
+                $type = $defaults['type'];
+                if (is_string($type)) {
+                    $openGraph->setType($type);
+                }
             }
         }
 
@@ -200,9 +209,15 @@ final readonly class OpenGraphExtension
 
         if ($openGraph->getStructuredProperties()) {
             foreach ($openGraph->getStructuredProperties() as $value) {
-                $openGraphString .= sprintf('<meta property="og:%s" content="%s" />', $value[0]['type'], $value[0]['content']);
-                foreach ($value as $structuredProperty) {
-                    $openGraphString .= sprintf('<meta property="og:%s:%s" content="%s" />', $structuredProperty['type'], $structuredProperty['property'], $structuredProperty['content']);
+                if (is_array($value) && isset($value[0]) && is_array($value[0]) && isset($value[0]['type'], $value[0]['content']) && is_string($value[0]['type']) && is_string($value[0]['content'])) {
+                    $openGraphString .= sprintf('<meta property="og:%s" content="%s" />', $value[0]['type'], $value[0]['content']);
+                }
+                if (is_array($value)) {
+                    foreach ($value as $structuredProperty) {
+                        if (is_array($structuredProperty) && isset($structuredProperty['type'], $structuredProperty['property'], $structuredProperty['content']) && is_string($structuredProperty['type']) && is_string($structuredProperty['property']) && is_string($structuredProperty['content'])) {
+                            $openGraphString .= sprintf('<meta property="og:%s:%s" content="%s" />', $structuredProperty['type'], $structuredProperty['property'], $structuredProperty['content']);
+                        }
+                    }
                 }
             }
         }
@@ -211,13 +226,17 @@ final readonly class OpenGraphExtension
             $contents = $openGraph->getMusicProperties();
 
             foreach ($contents as $content) {
-                $openGraphString .= sprintf('<meta property="music:%s" content="%s" />', $content['property'], $content['content']);
+                if (is_array($content) && isset($content['property'], $content['content']) && is_string($content['property']) && is_string($content['content'])) {
+                    $openGraphString .= sprintf('<meta property="music:%s" content="%s" />', $content['property'], $content['content']);
+                }
             }
         }
 
         foreach ($openGraph->getTwitterCardProperties() as $twitterCardProperty) {
             foreach ($twitterCardProperty as $name => $content) {
-                $openGraphString .= sprintf('<meta property=twitter:"%s" content="%s" />', $name, $content);
+                if (is_string($content)) {
+                    $openGraphString .= sprintf('<meta property=twitter:"%s" content="%s" />', $name, $content);
+                }
             }
         }
 

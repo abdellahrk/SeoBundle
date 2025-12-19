@@ -44,9 +44,9 @@ class SeoMeta
 
     protected string $contentType = '';
 
-    protected ?string $contentSecurityPolicy = null;
+    protected string $contentSecurityPolicy = '';
 
-    public function getContentType(): ?string
+    public function getContentType(): string
     {
         return $this->contentType;
     }
@@ -58,12 +58,12 @@ class SeoMeta
         return $this;
     }
 
-    public function getContentSecurityPolicy(): ?string
+    public function getContentSecurityPolicy(): string
     {
         return $this->contentSecurityPolicy;
     }
 
-    public function setContentSecurityPolicy(?string $contentSecurityPolicy): self
+    public function setContentSecurityPolicy(string $contentSecurityPolicy): self
     {
         $this->contentSecurityPolicy = $contentSecurityPolicy;
 
