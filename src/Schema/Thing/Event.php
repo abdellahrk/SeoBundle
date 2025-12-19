@@ -17,6 +17,9 @@ use function is_string;
 
 class Event extends Thing
 {
+    /**
+     * @var array<string, mixed>
+     */
     public array $properties = [];
 
     public function startDate(DateTime $startDate, ?DateTimeZone $dateTimeZone = null): static

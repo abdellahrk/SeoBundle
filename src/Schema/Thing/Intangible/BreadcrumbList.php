@@ -8,6 +8,9 @@ use Rami\SeoBundle\Schema\BaseType;
 
 class BreadcrumbList extends BaseType
 {
+    /**
+     * @param array<int, mixed> $items
+     */
     public function itemListElement(array $items): static
     {
         $this->setProperty('itemListElement', $this->parseArray($items));

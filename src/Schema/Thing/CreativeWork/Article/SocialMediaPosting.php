@@ -11,5 +11,8 @@ class SocialMediaPosting extends Article
 {
     use SocialMediaPostingTrait;
 
+    /**
+     * @var array<string, mixed>
+     */
     public array $properties = [];
 }

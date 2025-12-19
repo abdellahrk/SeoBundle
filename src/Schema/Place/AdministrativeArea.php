@@ -8,6 +8,9 @@ use Rami\SeoBundle\Schema\Thing\Place;
 
 class AdministrativeArea extends Place
 {
+    /**
+     * @var array<string, mixed>
+     */
     public array $properties = [];
 
     /**

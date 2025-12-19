@@ -127,6 +127,9 @@ class Person extends Thing
         return $this;
     }
 
+    /**
+     * @param array<int, mixed>|self $children
+     */
     public function children(array|self $children): static
     {
         if (is_array($children)) {

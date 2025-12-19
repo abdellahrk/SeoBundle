@@ -8,6 +8,9 @@ use Rami\SeoBundle\Schema\BaseType;
 
 class SpeakableSpecification extends BaseType
 {
+    /**
+     * @param array<int, string>|string $selector
+     */
     public function cssSelector(array|string $selector): static
     {
         $this->setProperty('cssSelector', $selector);
@@ -15,6 +18,9 @@ class SpeakableSpecification extends BaseType
         return $this;
     }
 
+    /**
+     * @param array<int, string>|string $xpath
+     */
     public function xpath(array|string $xpath): static
     {
         $this->setProperty('xpath', $xpath);
