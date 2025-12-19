@@ -28,7 +28,7 @@ class SeoMeta
     protected string $subject = '';
 
     /**
-     * @var array<int, string>|null
+     * @var array<int, string>
      */
     protected array $robots = [];
 
@@ -70,19 +70,19 @@ class SeoMeta
         return $this;
     }
 
-    public function getCharset(): ?string
+    public function getCharset(): string
     {
         return $this->charset;
     }
 
-    public function setCharset(?string $charset): self
+    public function setCharset(string $charset): self
     {
         $this->charset = $charset;
 
         return $this;
     }
 
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -94,7 +94,7 @@ class SeoMeta
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -124,7 +124,7 @@ class SeoMeta
         return $this;
     }
 
-    public function getSubject(): ?string
+    public function getSubject(): string
     {
         return $this->subject;
     }
@@ -137,48 +137,48 @@ class SeoMeta
     }
 
     /**
-     * @return array<int, string>|null
+     * @return array<int, string>
      */
-    public function getRobots(): ?array
+    public function getRobots(): array
     {
         return $this->robots;
     }
 
     /**
-     * @param array<int, string>|null $robots
+     * @param array<int, string> $robots
      */
-    public function setRobots(?array $robots): self
+    public function setRobots(array $robots): self
     {
         $this->robots = $robots;
 
         return $this;
     }
 
-    public function getCanonical(): ?string
+    public function getCanonical(): string
     {
         return $this->canonical;
     }
 
-    public function setCanonical(?string $canonical): self
+    public function setCanonical(string $canonical): self
     {
         $this->canonical = $canonical;
 
         return $this;
     }
 
-    public function getCopyright(): ?string
+    public function getCopyright(): string
     {
         return $this->copyright;
     }
 
-    public function setCopyright(?string $copyright): self
+    public function setCopyright(string $copyright): self
     {
         $this->copyright = $copyright;
 
         return $this;
     }
 
-    public function getViewport(): ?string
+    public function getViewport(): string
     {
         return $this->viewport;
     }
@@ -190,12 +190,12 @@ class SeoMeta
         return $this;
     }
 
-    public function getAuthor(): ?string
+    public function getAuthor(): string
     {
         return $this->author;
     }
 
-    public function setAuthor(?string $author): self
+    public function setAuthor(string $author): self
     {
         $this->author = $author;
 
