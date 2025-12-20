@@ -34,7 +34,7 @@ readonly class BreadcrumbExtension
      * @throws RuntimeError
      * @throws LoaderError
      */
-    #[AsTwigFunction('seo_breadcrumb', needsEnvironment: true, isSafe: ['html'])]
+    #[AsTwigFunction('seo_breadcrumb', isSafe: ['html'])]
     public function renderBreadcrumb(): string
     {
         /** @var array<int, array{label: string, url: string|null}> $items */
