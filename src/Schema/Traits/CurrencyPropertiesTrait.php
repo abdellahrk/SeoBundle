@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rami\SeoBundle\Schema\Traits;
 
 trait CurrencyPropertiesTrait
@@ -7,6 +9,7 @@ trait CurrencyPropertiesTrait
     public function currency(string $currency): static
     {
         $this->setProperty('currency', $currency);
+
         return $this;
     }
 }

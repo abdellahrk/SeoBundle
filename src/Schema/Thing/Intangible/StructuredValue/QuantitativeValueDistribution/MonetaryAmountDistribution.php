@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rami\SeoBundle\Schema\Thing\Intangible\StructuredValue\QuantitativeValueDistribution;
 
 use Rami\SeoBundle\Schema\BaseType;

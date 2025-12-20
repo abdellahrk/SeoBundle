@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -12,12 +15,12 @@
 namespace Rami\SeoBundle\OpenGraph;
 
 use Rami\SeoBundle\OpenGraph\Model\Audio;
-use Rami\SeoBundle\OpenGraph\Model\Image;
 use Symfony\Component\Cache\ResettableInterface;
 
 class OGAudioManager implements OGAudioManagerInterface, ResettableInterface
 {
     public Audio $audio;
+
     public function __construct()
     {
         $this->audio = new Audio();
@@ -28,63 +31,51 @@ class OGAudioManager implements OGAudioManagerInterface, ResettableInterface
         return $this->audio;
     }
 
-    /**
-     * @return string
-     */
     public function getUrl(): string
     {
         return $this->audio->getUrl();
     }
 
     /**
-     * @param string $url
      * @return $this
      */
     public function setUrl(string $url): static
     {
         $this->audio->setUrl($url);
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSecureUrl(): string
     {
         return $this->audio->getSecureUrl();
     }
 
     /**
-     * @param string $secureUrl
      * @return $this
      */
     public function setSecureUrl(string $secureUrl): static
     {
         $this->audio->setSecureUrl($secureUrl);
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         return $this->audio->getType();
     }
 
     /**
-     * @param string $type
      * @return $this
      */
     public function setType(string $type): static
     {
         $this->audio->setType($type);
+
         return $this;
     }
 
-    /**
-     * @return void
-     */
     public function reset(): void
     {
         $this->audio = new Audio();

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -15,6 +18,10 @@ use Symfony\Component\Cache\ResettableInterface;
 
 class BreadcrumbManager implements BreadcrumbManagerInterface, ResettableInterface
 {
+    /**
+     * @param array<int, array{label: string, url: string|null}> $items
+     * @param array<string, string>                              $options
+     */
     public function __construct(
         public array $items = [],
         public array $options = [],
@@ -23,7 +30,6 @@ class BreadcrumbManager implements BreadcrumbManagerInterface, ResettableInterfa
         $this->options['list_item_class'] = 'breadcrumb-item';
         $this->options['active_item'] = 'active';
     }
-
 
     public function addItem(string $label, ?string $url = null): static
     {
@@ -35,27 +41,34 @@ class BreadcrumbManager implements BreadcrumbManagerInterface, ResettableInterfa
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function reset(): void
     {
         $this->items = [];
     }
 
+    /**
+     * @return array<int, array{label: string, url: string|null}>
+     */
     public function getItems(): array
     {
-       return $this->items;
+        return $this->items;
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function getOptions(): array
     {
         return $this->options;
     }
 
+    /**
+     * @param array<string, string> $options
+     */
     public function setOptions(array $options): static
     {
         $this->options = $options;
+
         return $this;
     }
 }

@@ -66,8 +66,7 @@ return static function (ContainerConfigurator $container) {
     $services->set('seo.meta.tags', MetaTagsManager::class)->tag('kernel.reset', ['method' => 'reset']);
     $services->alias(MetaTagsManagerInterface::class, 'seo.meta.tags');
     $services->set(MetaTagsExtension::class, MetaTagsExtension::class)
-        ->autowire()
-        ->tag('twig.extension');
+        ->autowire();
 
     $services->set('seo.sitemap', Sitemap::class);
     $services->alias(SitemapInterface::class, 'seo.sitemap')->public();
@@ -76,8 +75,7 @@ return static function (ContainerConfigurator $container) {
     $services->set('open.graph.bundle', OpenGraphManager::class);
     $services->alias(OpenGraphManagerInterface::class, 'open.graph.bundle')->public();
 
-    $services->set('open.graph.bundle.twig.extension', OpenGraphExtension::class)
-        ->tag('twig.extension');
+    $services->set('open.graph.bundle.twig.extension', OpenGraphExtension::class);
 
     $services->set('open.graph', OpenGraphManager::class)->tag('kernel.reset', ['method' => 'reset']);
 
@@ -144,6 +142,5 @@ return static function (ContainerConfigurator $container) {
         ->alias(BreadcrumbManagerInterface::class, 'seo.breadcrumb')->public();
     $services
         ->set(BreadcrumbExtension::class, BreadcrumbExtension::class)
-        ->autowire()
-        ->tag('twig.extension');
+        ->autowire();
 };

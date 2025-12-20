@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rami\SeoBundle\Schema\Thing\CreativeWork\Article;
 
 use Rami\SeoBundle\Schema\Thing\CreativeWork\Article;
@@ -9,5 +11,8 @@ class SocialMediaPosting extends Article
 {
     use SocialMediaPostingTrait;
 
+    /**
+     * @var array<string, mixed>
+     */
     public array $properties = [];
 }

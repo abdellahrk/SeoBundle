@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -11,11 +14,12 @@
 
 namespace Rami\SeoBundle\Sitemap\Message;
 
-final class GenerateSitemapMessage
+final readonly class GenerateSitemapMessage
 {
     public function __construct(
         private ?string $baseUrl = null,
-    ) {}
+    ) {
+    }
 
     public function getBaseUrl(): ?string
     {

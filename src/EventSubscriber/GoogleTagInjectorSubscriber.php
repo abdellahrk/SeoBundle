@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -16,14 +19,17 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class GoogleTagInjectorSubscriber implements EventSubscriberInterface
+readonly class GoogleTagInjectorSubscriber implements EventSubscriberInterface
 {
+    use HtmlResponseValidationTrait;
+
     public function __construct(
         private TagManagerInterface $tagManager,
-    ) {}
+    ) {
+    }
 
     /**
-     * @return array[]|\array[][]|string[]
+     * @return array<string, string|array<int|string, string|int>>
      */
     public static function getSubscribedEvents(): array
     {
@@ -32,30 +38,24 @@ class GoogleTagInjectorSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onKernelResponse(ResponseEvent $event): void
+    public function onKernelResponse(ResponseEvent $responseEvent): void
     {
-        $response = $event->getResponse();
-        $request = $event->getRequest();
-
-        if (!str_contains($request->headers->get('accept', ''), 'text/html' )) return;
-
-        $body = $response->getContent();
-
-        if (!$event->isMainRequest() || $request->isXmlHttpRequest()) {
+        $body = $this->getProcessableHtmlBody($responseEvent);
+        if (null === $body) {
             return;
         }
 
         $headerTag = $this->tagManager->renderHeadTag();
         $bodyTag = $this->tagManager->renderBodyTag();
 
-        if ($headerTag) {
-            $body = str_replace('</head>', $headerTag . PHP_EOL . '</head>', $body);
+        if ('' !== $headerTag && '0' !== $headerTag) {
+            $body = str_replace('</head>', $headerTag.\PHP_EOL.'</head>', $body);
         }
 
-        if ($bodyTag) {
-            $body = str_replace('</body>', $bodyTag . "\n</body>", $body);
+        if ('' !== $bodyTag && '0' !== $bodyTag) {
+            $body = str_replace('</body>', $bodyTag."\n</body>", $body);
         }
 
-        $response->setContent($body);
+        $responseEvent->getResponse()->setContent($body);
     }
 }

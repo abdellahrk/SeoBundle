@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -11,31 +14,28 @@
 
 namespace Rami\SeoBundle\Test\Util\App;
 
+use Exception;
 use Rami\SeoBundle\SeoBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel as HttpKernel;
+
 class Kernel extends HttpKernel
 {
-
-    /**
-     * @inheritDoc
-     */
     public function registerBundles(): iterable
     {
-       return [
-           new FrameworkBundle(),
-           new SeoBundle(),
-       ];
+        return [
+            new FrameworkBundle(),
+            new SeoBundle(),
+        ];
     }
 
     /**
-     * @inheritDoc
-     * @throws \Exception
+     * @throws Exception
      */
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
-        $loader->load(__DIR__ . '/config/config.yaml');
+        $loader->load(__DIR__.'/config/config.yaml');
     }
 
     public function getCacheDir(): string

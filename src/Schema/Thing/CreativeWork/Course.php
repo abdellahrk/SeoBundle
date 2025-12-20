@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rami\SeoBundle\Schema\Thing\CreativeWork;
 
 use Rami\SeoBundle\Schema\Thing\CreativeWork;
@@ -10,12 +12,14 @@ class Course extends CreativeWork
     public function courseCode(string $courseCode): static
     {
         $this->setProperty('courseCode', $courseCode);
+
         return $this;
     }
 
     public function totalHistoricalEnrollment(string $totalHistoricalEnrollment): static
     {
         $this->setProperty('totalHistoricalEnrollment', $totalHistoricalEnrollment);
+
         return $this;
     }
 
@@ -23,8 +27,9 @@ class Course extends CreativeWork
     {
         if ($financialAidEligible instanceof DefinedTerm) {
             $this->setProperty('financialAidEligible', $this->parseChild($financialAidEligible));
-        } else  {
+        } else {
             $this->setProperty('financialAidEligible', $financialAidEligible);
+
             return $this;
         }
 
@@ -34,6 +39,7 @@ class Course extends CreativeWork
     public function availableLanguage(string $availableLanguage): static
     {
         $this->setProperty('availableLanguage', $availableLanguage);
+
         return $this;
     }
 }

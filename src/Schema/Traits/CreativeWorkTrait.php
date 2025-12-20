@@ -1,63 +1,77 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rami\SeoBundle\Schema\Traits;
 
-use Rami\SeoBundle\Schema\BaseType;
+use DateTime;
+use DateTimeZone;
 use Rami\SeoBundle\Schema\DataType\Text\Url;
-use Rami\SeoBundle\Schema\Intangible\ItemList;
 use Rami\SeoBundle\Schema\Thing;
 use Rami\SeoBundle\Schema\Thing\CreativeWork;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\MediaObject\ImageObject;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage;
 use Rami\SeoBundle\Schema\Thing\Organization;
 use Rami\SeoBundle\Schema\Thing\Person;
 use Rami\SeoBundle\Schema\Thing\Place\AdministrativeArea\Country;
+
+use function is_string;
 
 trait CreativeWorkTrait
 {
     public function abstract(string $abstract): static
     {
         $this->setProperty('abstract', $abstract);
+
         return $this;
     }
 
     public function accessMode(string $accessMode): static
     {
         $this->setProperty('accessMode', $accessMode);
+
         return $this;
     }
 
     public function accessibilityAPI(string $accessibilityAPI): static
     {
         $this->setProperty('accessibilityAPI', $accessibilityAPI);
+
         return $this;
     }
 
     public function accessibilityControl(string $accessibilityControl): static
     {
         $this->setProperty('accessibilityControl', $accessibilityControl);
+
         return $this;
     }
 
     public function accessibilityFeature(string $accessibilityFeature): static
     {
         $this->setProperty('accessibilityFeature', $accessibilityFeature);
+
         return $this;
     }
 
     public function accessibilityHazard(string $accessibilityHazard): static
     {
         $this->setProperty('accessibilityHazard', $accessibilityHazard);
+
         return $this;
     }
 
     public function accessibilitySummary(string $accessibilitySummary): static
     {
         $this->setProperty('accessibilitySummary', $accessibilitySummary);
+
         return $this;
     }
 
     public function accountablePerson(Person $person): static
     {
         $this->setProperty('accountablePerson', $this->parseChild($person));
+
         return $this;
     }
 
@@ -65,45 +79,53 @@ trait CreativeWorkTrait
     {
         if (is_string($acquireLicensePage)) {
             $this->setProperty('acquireLicensePage', $acquireLicensePage);
+
             return $this;
         }
 
         $this->setProperty('acquireLicensePage', $this->parseChild($acquireLicensePage));
+
         return $this;
     }
 
     public function alternativeHeadline(string $alternativeHeadline): static
     {
         $this->setProperty('alternativeHeadline', $alternativeHeadline);
+
         return $this;
     }
 
-    public function archivedAt(Url|CreativeWork\WebPage $archivedAt): static
+    public function archivedAt(Url|WebPage $archivedAt): static
     {
         if ($archivedAt instanceof Url) {
             $this->setProperty('archivedAt', $this->parseChild($archivedAt));
+
             return $this;
         }
 
         $this->setProperty('archivedAt', $this->parseChild($archivedAt));
+
         return $this;
     }
 
     public function author(Person|Organization $author): static
     {
         $this->setProperty('author', $this->parseChild($author));
+
         return $this;
     }
 
     public function award(string $award): static
     {
         $this->setProperty('award', $award);
+
         return $this;
     }
 
-    public function character(Person $character): static
+    public function character(Person $person): static
     {
-        $this->setProperty('character', $this->parseChild($character));
+        $this->setProperty('character', $this->parseChild($person));
+
         return $this;
     }
 
@@ -111,181 +133,208 @@ trait CreativeWorkTrait
     {
         if (is_string($citation)) {
             $this->setProperty('citation', $citation);
+
             return $this;
         }
 
         $this->setProperty('citation', $this->parseChild($citation));
+
         return $this;
     }
 
     public function contributor(Person|Organization $contributor): static
     {
         $this->setProperty('contributor', $this->parseChild($contributor));
+
         return $this;
     }
 
     public function creator(Person|Organization $creator): static
     {
         $this->setProperty('creator', $this->parseChild($creator));
+
         return $this;
     }
 
-    public function countryOfOrigin(Country $countryOfOrigin): static
+    public function countryOfOrigin(Country $country): static
     {
-        $this->setProperty('countryOfOrigin', $this->parseChild($countryOfOrigin));
+        $this->setProperty('countryOfOrigin', $this->parseChild($country));
+
         return $this;
     }
 
-    public function expires(\DateTime $dateTime): static
+    public function expires(DateTime $dateTime): static
     {
         $this->setProperty('expires', $dateTime);
+
         return $this;
     }
 
     public function copyrightHolder(Person|Organization $copyrightHolder): static
     {
         $this->setProperty('copyrightHolder', $this->parseChild($copyrightHolder));
+
         return $this;
     }
 
     public function copyrightNotice(string $copyrightNotice): static
     {
         $this->setProperty('copyrightNotice', $copyrightNotice);
+
         return $this;
     }
 
     public function copyrightYear(int $copyrightYear): static
     {
         $this->setProperty('copyrightYear', $copyrightYear);
+
         return $this;
     }
 
     public function headline(string $headline): static
     {
         $this->setProperty('headline', $headline);
+
         return $this;
     }
 
     public function keywords(string $keywords): static
     {
         $this->setProperty('keywords', $keywords);
+
         return $this;
     }
 
     public function maintainer(Person|Organization $maintainer): static
     {
         $this->setProperty('maintainer', $this->parseChild($maintainer));
+
         return $this;
     }
 
     public function isFamilyFriendly(bool $isFamilyFriendly): static
     {
         $this->setProperty('isFamilyFriendly', $isFamilyFriendly);
+
         return $this;
     }
 
     public function creditText(string $creditText): static
     {
         $this->setProperty('creditText', $creditText);
+
         return $this;
     }
 
-    public function editor(Person $editor): static
+    public function editor(Person $person): static
     {
-        $this->setProperty('editor', $this->parseChild($editor));
+        $this->setProperty('editor', $this->parseChild($person));
+
         return $this;
     }
 
     public function funder(Person|Organization $funder): static
     {
         $this->setProperty('funder', $this->parseChild($funder));
+
         return $this;
     }
 
     public function publisher(Person|Organization $publisher): static
     {
         $this->setProperty('publisher', $this->parseChild($publisher));
+
         return $this;
     }
 
     public function sponsor(Person|Organization $sponsor): static
     {
         $this->setProperty('sponsor', $this->parseChild($sponsor));
+
         return $this;
     }
 
     public function text(string $text): static
     {
         $this->setProperty('text', $text);
+
         return $this;
     }
 
     public function conditionsOfAccess(string $conditions): static
     {
         $this->setProperty('conditionsOfAccess', $conditions);
+
         return $this;
     }
 
-    public function mainEntity(Thing $entity): static
+    public function mainEntity(Thing $thing): static
     {
-        $this->setProperty('mainEntity', $this->parseChild($entity));
+        $this->setProperty('mainEntity', $this->parseChild($thing));
+
         return $this;
     }
 
-    public function thumbnail(CreativeWork\MediaObject\ImageObject $thumbnail): static
+    public function thumbnail(ImageObject $imageObject): static
     {
-        $this->setProperty('thumbnail', $this->parseChild($thumbnail));
+        $this->setProperty('thumbnail', $this->parseChild($imageObject));
+
         return $this;
     }
 
     public function thumbnailUrl(Url $thumbnailUrl): static
     {
         $this->setProperty('thumbnailUrl', $this->parseChild($thumbnailUrl));
+
         return $this;
     }
 
     public function version(string $version): static
     {
         $this->setProperty('version', $version);
+
         return $this;
     }
 
-    public function dateCreated(\DateTime $date, \DateTimeZone $dateTimeZone = null): static
+    public function dateCreated(DateTime $date, ?DateTimeZone $dateTimeZone = null): static
     {
         $this->setDateTimeProperty(
             name: 'dateCreated',
             date: $date,
             dateTimeZone: $dateTimeZone
         );
+
         return $this;
     }
 
-    public function dateModified(\DateTime $date, \DateTimeZone $dateTimeZone = null): static
+    public function dateModified(DateTime $date, ?DateTimeZone $dateTimeZone = null): static
     {
         $this->setDateTimeProperty(
             name: 'dateModified',
             date: $date,
             dateTimeZone: $dateTimeZone
         );
+
         return $this;
     }
 
-    public function datePublished(\DateTime $date, \DateTimeZone $dateTimeZone = null): static
+    public function datePublished(DateTime $date, ?DateTimeZone $dateTimeZone = null): static
     {
         $this->setDateTimeProperty(
             name: 'datePublished',
             date: $date,
             dateTimeZone: $dateTimeZone
         );
+
         return $this;
     }
 
-    private function setDateTimeProperty(string $name, \DateTime $date, \DateTimeZone $dateTimeZone = null): void
+    private function setDateTimeProperty(string $name, DateTime $date, ?DateTimeZone $dateTimeZone = null): void
     {
-        if ($dateTimeZone instanceof \DateTimeZone) {
+        if ($dateTimeZone instanceof DateTimeZone) {
             $date->setTimezone($dateTimeZone);
         }
 
-        $this->setProperty($name, $date->format(DATE_ATOM));
+        $this->setProperty($name, $date->format(\DATE_ATOM));
     }
 }

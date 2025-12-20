@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -17,6 +20,6 @@ use Rami\SeoBundle\Schema\Traits\OrganizationTrait;
 
 class TravelAgency extends BaseType
 {
-    use OrganizationTrait;
     use LocalBusinessServiceTrait;
+    use OrganizationTrait;
 }

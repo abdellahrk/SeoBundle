@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -11,34 +14,32 @@
 
 namespace Rami\SeoBundle\Twig\Extensions;
 
+use DateTime;
 use Rami\SeoBundle\OpenGraph\OGArticleManagerInterface;
 use Rami\SeoBundle\OpenGraph\OGImageManagerInterface;
 use Rami\SeoBundle\OpenGraph\OGVideoManagerInterface;
 use Rami\SeoBundle\OpenGraph\OpenGraphManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
+use Twig\Attribute\AsTwigFunction;
 
-final class OpenGraphExtension extends AbstractExtension
+use function array_key_exists;
+use function assert;
+use function is_array;
+use function is_string;
+use function sprintf;
+
+final readonly class OpenGraphExtension
 {
-    
     public function __construct(
         private OpenGraphManagerInterface $openGraphManager,
         private OGImageManagerInterface $ogImageManager,
         private OGVideoManagerInterface $ogVideoManager,
         private OGArticleManagerInterface $ogArticleManager,
-        private readonly ParameterBagInterface $parameterBag
-    ) {}
-    public function getFunctions(): array
-    {
-        return [
-            new TwigFunction('open_graph', [$this, 'renderOpenGraph'], ['is_safe' => ['html']]),
-            new TwigFunction('og_image', [$this, 'renderOgImage'], ['is_safe' => ['html']]),
-            new TwigFunction('og_video', [$this, 'renderOgVideo'], ['is_safe' => ['html']]),
-            new TwigFunction('og_article', [$this, 'renderOgArticle'], ['is_safe' => ['html']]),
-        ];
+        private ParameterBagInterface $parameterBag
+    ) {
     }
 
+    #[AsTwigFunction('open_graph', isSafe: ['html'])]
     public function renderOpenGraph(
         ?string $title = '',
         ?string $description = '',
@@ -51,23 +52,24 @@ final class OpenGraphExtension extends AbstractExtension
         ?string $alternateLocale = '',
         ?string $audio = '',
         ?string $video = '',
-    ): string
-    {
-        $og = $this->openGraphManager->getOpenGraph();
-        $og->setTitle($title ?: $og->getTitle())
-            ->setDescription($description ?: $og->getDescription())
-            ->setSiteName($siteName ?: $og->getSiteName())
-            ->setImageUrl($imageUrl ?: $og->getImageUrl())
-            ->setImageAlt($imageAlt ?: $og->getImageAlt())
-            ->setUrl($url ?: $og->getUrl())
-            ->setType($type ?: $og->getType())
-            ->setLocale($locale ?: $og->getLocale())
-            ->setAlternateLocale($alternateLocale ?: $og->getAlternateLocale())
-            ->setAudio($audio ?: $og->getAudio())
-            ->setVideo($video ?: $og->getVideo());
+    ): string {
+        $openGraph = $this->openGraphManager->getOpenGraph();
+        $openGraph->setTitle($title ?: $openGraph->getTitle())
+            ->setDescription($description ?: $openGraph->getDescription())
+            ->setSiteName($siteName ?: $openGraph->getSiteName())
+            ->setImageUrl($imageUrl ?: $openGraph->getImageUrl())
+            ->setImageAlt($imageAlt ?: $openGraph->getImageAlt())
+            ->setUrl($url ?: $openGraph->getUrl())
+            ->setType($type ?: $openGraph->getType())
+            ->setLocale($locale ?: $openGraph->getLocale())
+            ->setAlternateLocale($alternateLocale ?: $openGraph->getAlternateLocale())
+            ->setAudio($audio ?: $openGraph->getAudio())
+            ->setVideo($video ?: $openGraph->getVideo());
+
         return $this->getOG();
     }
 
+    #[AsTwigFunction('og_image', isSafe: ['html'])]
     public function renderOgImage(
         ?string $url = '',
         ?string $secureUrl = '',
@@ -75,22 +77,22 @@ final class OpenGraphExtension extends AbstractExtension
         ?string $type = '',
         ?string $width = '',
         ?string $height = '',
-    ): string
-    {
-        $og = $this->ogImageManager->getImage();
+    ): string {
+        $image = $this->ogImageManager->getImage();
 
-        $og
-            ->setUrl($url ?: $og->getUrl())
-            ->setSecureUrl($secureUrl ?: $og->getSecureUrl())
-            ->setAlt($alt ?: $og->getAlt())
-            ->setType($type ?: $og->getType())
-            ->setWidth($width ?: $og->getWidth())
-            ->setHeight($height ?: $og->getHeight())
+        $image
+            ->setUrl($url ?: $image->getUrl())
+            ->setSecureUrl($secureUrl ?: $image->getSecureUrl())
+            ->setAlt($alt ?: $image->getAlt())
+            ->setType($type ?: $image->getType())
+            ->setWidth($width ?: $image->getWidth())
+            ->setHeight($height ?: $image->getHeight())
         ;
 
         return $this->getOgImage();
     }
 
+    #[AsTwigFunction('og_video', isSafe: ['html'])]
     public function renderOgVideo(
         ?string $url = '',
         ?string $secureUrl = '',
@@ -98,45 +100,44 @@ final class OpenGraphExtension extends AbstractExtension
         ?string $type = '',
         ?string $width = '',
         ?string $height = '',
-    ): string
-    {
-        $og = $this->ogVideoManager->getVideo();
+    ): string {
+        $video = $this->ogVideoManager->getVideo();
 
-        $og
-            ->setUrl($url ?: $og->getUrl())
-            ->setSecureUrl($secureUrl ?: $og->getSecureUrl())
-            ->setType($type ?: $og->getType())
-            ->setWidth($width ?: $og->getWidth())
-            ->setHeight($height ?: $og->getHeight())
+        $video
+            ->setUrl($url ?: $video->getUrl())
+            ->setSecureUrl($secureUrl ?: $video->getSecureUrl())
+            ->setType($type ?: $video->getType())
+            ->setWidth($width ?: $video->getWidth())
+            ->setHeight($height ?: $video->getHeight())
         ;
 
         return $this->getOgVideo();
     }
 
+    /**
+     * @param array<int, string>|null $tags
+     */
+    #[AsTwigFunction('og_article', isSafe: ['html'])]
     public function renderOgArticle(
-        ?\DateTime $publishedTime = null,
-        ?\DateTime $modifiedTime = null,
+        ?DateTime $publishedTime = null,
+        ?DateTime $modifiedTime = null,
         ?string $author = '',
         ?string $section = '',
         ?array $tags = []
-    ): string
-    {
-        $og = $this->ogArticleManager->getArticle();
+    ): string {
+        $article = $this->ogArticleManager->getArticle();
 
-        $og
-            ->setPublishedTime($publishedTime ?: $og->getPublishedTime())
-            ->setModifiedTime($modifiedTime ?: $og->getModifiedTime())
-            ->setAuthor($author ?: $og->getAuthor())
-            ->setSection($section ?: $og->getSection())
-            ->setTags($tags ?: $og->getTags())
+        $article
+            ->setPublishedTime($publishedTime ?: $article->getPublishedTime())
+            ->setModifiedTime($modifiedTime ?: $article->getModifiedTime())
+            ->setAuthor($author ?: $article->getAuthor())
+            ->setSection($section ?: $article->getSection())
+            ->setTags($tags ?: $article->getTags())
         ;
 
         return $this->getOgArticle();
     }
 
-    /**
-     * @return string
-     */
     private function getOG(): string
     {
         $openGraphString = '';
@@ -150,56 +151,77 @@ final class OpenGraphExtension extends AbstractExtension
 
         if ($hasDefaultConfig) {
             $defaults = $this->parameterBag->get('seo.open_graph');
-            if ((null === $openGraph->getTitle() || '' === $openGraph->getTitle()) && array_key_exists('title', $defaults)) {
-                $openGraph->setTitle($defaults['title']);
+            assert(is_array($defaults));
+            if ('' === $openGraph->getTitle() && array_key_exists('title', $defaults)) {
+                $title = $defaults['title'];
+                assert(is_string($title));
+                $openGraph->setTitle($title);
             }
 
-            if ((null === $openGraph->getDescription() || '' === $openGraph->getDescription()) && array_key_exists('description', $defaults)) {
-                $openGraph->setDescription($defaults['description']);
+            if ('' === $openGraph->getDescription() && array_key_exists('description', $defaults)) {
+                $description = $defaults['description'];
+                assert(is_string($description));
+                $openGraph->setDescription($description);
             }
 
-            if ((null === $openGraph->getSiteName() || '' === $openGraph->getSiteName()) && array_key_exists('sitename', $defaults)) {
-                $openGraph->setSiteName($defaults['sitename']);
+            if ('' === $openGraph->getSiteName() && array_key_exists('sitename', $defaults)) {
+                $sitename = $defaults['sitename'];
+                if (is_string($sitename)) {
+                    $openGraph->setSiteName($sitename);
+                }
             }
 
-            if ((null === $openGraph->getUrl() || '' === $openGraph->getUrl()) && array_key_exists('url', $defaults)) {
-                $openGraph->setUrl($defaults['url']);
+            if ('' === $openGraph->getUrl() && array_key_exists('url', $defaults)) {
+                $url = $defaults['url'];
+                if (is_string($url)) {
+                    $openGraph->setUrl($url);
+                }
             }
 
-            if ((null === $openGraph->getType() || '' === $openGraph->getType()) && array_key_exists('type', $defaults)) {
-                $openGraph->setType($defaults['type']);
+            if ('' === $openGraph->getType() && array_key_exists('type', $defaults)) {
+                $type = $defaults['type'];
+                if (is_string($type)) {
+                    $openGraph->setType($type);
+                }
             }
         }
 
-        if (null !== $openGraph->getTitle() && '' !== $openGraph->getTitle()) {
-            $openGraphString .=  sprintf('<meta property="og:title" content="%s" />', strip_tags($openGraph->getTitle()));
+        if ('' !== $openGraph->getTitle()) {
+            $openGraphString .= sprintf('<meta property="og:title" content="%s" />', strip_tags($openGraph->getTitle()));
         }
 
-        if (null !== $openGraph->getDescription() && '' !== $openGraph->getDescription()) {
+        if ('' !== $openGraph->getDescription()) {
             $openGraphString .= sprintf('<meta property="og:description" content="%s" />', strip_tags($openGraph->getDescription()));
         }
 
-        if (null !== $openGraph->getImageUrl() && '' !== $openGraph->getImageUrl()) {
+        if ('' !== $openGraph->getImageUrl()) {
             $openGraphString .= sprintf('<meta property="og:image" content="%s" />', strip_tags($openGraph->getImageUrl()));
         }
 
-        if (null !== $openGraph->getUrl() && '' !== $openGraph->getUrl()) {
+        if ('' !== $openGraph->getUrl()) {
             $openGraphString .= sprintf('<meta property="og:url" content="%s" />', strip_tags($openGraph->getUrl()));
         }
 
-        if (null !== $openGraph->getType() && '' !== $openGraph->getType()) {
-            $openGraphString .= sprintf('<meta property="og:type" content="%s" />',  strip_tags($openGraph->getType()));
+        if ('' !== $openGraph->getType()) {
+            $openGraphString .= sprintf('<meta property="og:type" content="%s" />', strip_tags($openGraph->getType()));
         }
 
-        if (null !== $openGraph->getSiteName() && '' !== $openGraph->getSiteName()) {
+        if ('' !== $openGraph->getSiteName()) {
             $openGraphString .= sprintf('<meta property="og:site_name" content="%s" />', $openGraph->getSiteName());
         }
 
         if ($openGraph->getStructuredProperties()) {
-            foreach ($openGraph->getStructuredProperties() as $property => $value) {
-                $openGraphString .= sprintf('<meta property="og:%s" content="%s" />', $value[0]['type'], $value[0]['content']);
-                foreach ($value as $index => $structuredProperty) {
-                    $openGraphString .= sprintf('<meta property="og:%s:%s" content="%s" />', $structuredProperty['type'], $structuredProperty['property'], $structuredProperty['content']);
+            foreach ($openGraph->getStructuredProperties() as $value) {
+                if (is_array($value) && isset($value[0]) && is_array($value[0]) && isset($value[0]['type'], $value[0]['content']) && is_string($value[0]['type']) && is_string($value[0]['content'])) {
+                    $openGraphString .= sprintf('<meta property="og:%s" content="%s" />', $value[0]['type'], $value[0]['content']);
+                }
+
+                if (is_array($value)) {
+                    foreach ($value as $structuredProperty) {
+                        if (is_array($structuredProperty) && isset($structuredProperty['type'], $structuredProperty['property'], $structuredProperty['content']) && is_string($structuredProperty['type']) && is_string($structuredProperty['property']) && is_string($structuredProperty['content'])) {
+                            $openGraphString .= sprintf('<meta property="og:%s:%s" content="%s" />', $structuredProperty['type'], $structuredProperty['property'], $structuredProperty['content']);
+                        }
+                    }
                 }
             }
         }
@@ -208,13 +230,15 @@ final class OpenGraphExtension extends AbstractExtension
             $contents = $openGraph->getMusicProperties();
 
             foreach ($contents as $content) {
-                $openGraphString .= sprintf('<meta property="music:%s" content="%s" />', $content['property'], $content['content']);
+                if (is_array($content) && isset($content['property'], $content['content']) && is_string($content['property']) && is_string($content['content'])) {
+                    $openGraphString .= sprintf('<meta property="music:%s" content="%s" />', $content['property'], $content['content']);
+                }
             }
         }
 
-        if ([] !== $openGraph->getTwitterCardProperties()) {
-            foreach ($openGraph->getTwitterCardProperties() as $twitterCardProperty) {
-                foreach ($twitterCardProperty as $name => $content) {
+        foreach ($openGraph->getTwitterCardProperties() as $twitterCardProperty) {
+            foreach ($twitterCardProperty as $name => $content) {
+                if (is_string($content)) {
                     $openGraphString .= sprintf('<meta property=twitter:"%s" content="%s" />', $name, $content);
                 }
             }
@@ -229,27 +253,27 @@ final class OpenGraphExtension extends AbstractExtension
 
         $ogString = '';
 
-        if (null !== $ogImage->getUrl() && '' !== $ogImage->getUrl()) {
+        if ('' !== $ogImage->getUrl()) {
             $ogString .= sprintf('<meta property="og:image" content="%s" />', $ogImage->getUrl());
         }
 
-        if (null !== $ogImage->getSecureUrl() && '' !== $ogImage->getSecureUrl()) {
+        if ('' !== $ogImage->getSecureUrl()) {
             $ogString .= sprintf('<meta property="og:image:secure_url" content="%s">', $ogImage->getSecureUrl());
         }
 
-        if (null !== $ogImage->getType() && '' !== $ogImage->getType()) {
+        if ('' !== $ogImage->getType()) {
             $ogString .= sprintf('<meta property="og:image:type" content="%s" />', $ogImage->getType());
         }
 
-        if (null !== $ogImage->getWidth() && '' !== $ogImage->getWidth()) {
+        if ('' !== $ogImage->getWidth()) {
             $ogString .= sprintf('<meta property="og:image:width" content="%s" />', $ogImage->getWidth());
         }
 
-        if (null !== $ogImage->getHeight() && '' !== $ogImage->getHeight()) {
+        if ('' !== $ogImage->getHeight()) {
             $ogString .= sprintf('<meta property="og:image:height" content="%s" />', $ogImage->getHeight());
         }
 
-        if (null !== $ogImage->getAlt() && '' !== $ogImage->getAlt()) {
+        if ('' !== $ogImage->getAlt()) {
             $ogString .= sprintf('<meta property="og:image:alt" content="%s" />', $ogImage->getAlt());
         }
 
@@ -262,23 +286,23 @@ final class OpenGraphExtension extends AbstractExtension
 
         $ogString = '';
 
-        if (null !== $ogVideo->getUrl() && '' !== $ogVideo->getUrl()) {
+        if ('' !== $ogVideo->getUrl()) {
             $ogString .= sprintf('<meta property="og:video" content="%s" />', $ogVideo->getUrl());
         }
 
-        if (null !== $ogVideo->getSecureUrl() && '' !== $ogVideo->getSecureUrl()) {
+        if ('' !== $ogVideo->getSecureUrl()) {
             $ogString .= sprintf('<meta property="og:video:secure_url" content="%s">', $ogVideo->getSecureUrl());
         }
 
-        if (null !== $ogVideo->getType() && '' !== $ogVideo->getType()) {
+        if ('' !== $ogVideo->getType()) {
             $ogString .= sprintf('<meta property="og:video:type" content="%s" />', $ogVideo->getType());
         }
 
-        if (null !== $ogVideo->getWidth() && '' !== $ogVideo->getWidth()) {
+        if ('' !== $ogVideo->getWidth()) {
             $ogString .= sprintf('<meta property="og:video:width" content="%s" />', $ogVideo->getWidth());
         }
 
-        if (null !== $ogVideo->getHeight() && '' !== $ogVideo->getHeight()) {
+        if ('' !== $ogVideo->getHeight()) {
             $ogString .= sprintf('<meta property="og:video:height" content="%s" />', $ogVideo->getHeight());
         }
 
@@ -291,26 +315,24 @@ final class OpenGraphExtension extends AbstractExtension
 
         $articleString = '';
 
-        if (null !== $article->getPublishedTime()) {
+        if ($article->getPublishedTime() instanceof DateTime) {
             $articleString .= sprintf('<meta property="article:published_time" content="%s" />', $article->getPublishedTime()->format('Y-md-m-Y-H-i-s'));
         }
 
-        if (null !== $article->getModifiedTime()) {
+        if ($article->getModifiedTime() instanceof DateTime) {
             $articleString .= sprintf('<meta property="article:modified_time" content="%s" />', $article->getModifiedTime()->format('Y-m-d-m-Y-H-i-s'));
         }
 
-        if (null !== $article->getAuthor() && '' !== $article->getAuthor()) {
+        if ('' !== $article->getAuthor()) {
             $articleString .= sprintf('<meta property="article:author" content="%s" />', $article->getAuthor());
         }
 
-        if (null !== $article->getSection() && '' !== $article->getSection()) {
+        if ('' !== $article->getSection()) {
             $articleString .= sprintf('<meta property="article:section" content="%s" />', $article->getSection());
         }
 
-        if (null !== $article->getTags() && [] !== $article->getTags()) {
-            foreach ($article->getTags() as $tag) {
-                $articleString .= sprintf('<meta property="article:tag" content="%s" />', $tag);
-            }
+        foreach ($article->getTags() as $tag) {
+            $articleString .= sprintf('<meta property="article:tag" content="%s" />', $tag);
         }
 
         return $articleString;

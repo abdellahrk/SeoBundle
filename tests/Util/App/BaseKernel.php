@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -13,7 +16,7 @@ namespace Rami\SeoBundle\Test\Util\App;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class BaseKernel extends WebTestCase
+final class BaseKernel extends WebTestCase
 {
     protected function setUp(): void
     {

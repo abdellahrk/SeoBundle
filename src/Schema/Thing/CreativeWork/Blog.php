@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -17,22 +20,22 @@ use Rami\SeoBundle\Schema\Thing\CreativeWork\Article\SocialMediaPosting\BlogPost
 class Blog extends CreativeWork
 {
     /**
-     * @param BlogPosting $blogPosting
      * @return $this
      */
     public function blogPost(BlogPosting $blogPosting): static
     {
         $this->setProperty('blogPost', $this->parseChild($blogPosting));
+
         return $this;
     }
 
     /**
-     * @param string $issn
      * @return $this
      */
     public function issn(string $issn): static
     {
         $this->setProperty('issn', $issn);
+
         return $this;
     }
 }

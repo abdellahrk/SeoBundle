@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -11,21 +14,36 @@
 
 namespace Rami\SeoBundle\EventSubscriber;
 
+use Rami\SeoBundle\Schema\BaseType;
 use Rami\SeoBundle\Schema\SchemaInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Contracts\Cache\CacheInterface;
 
-class SchemaTwigInjectorSubscriber implements EventSubscriberInterface
+use function assert;
+use function is_array;
+use function is_float;
+use function is_int;
+use function is_string;
+use function md5;
+use function serialize;
+use function sprintf;
+
+readonly class SchemaTwigInjectorSubscriber implements EventSubscriberInterface
 {
+    use HtmlResponseValidationTrait;
+
     public function __construct(
-        private readonly SchemaInterface $schema,
-        private readonly ParameterBagInterface $parameterBag,
-    ){}
+        private SchemaInterface $schema,
+        private ParameterBagInterface $parameterBag,
+        private CacheInterface $cache,
+    ) {
+    }
 
     /**
-     * @return array[]|\array[][]|string[]
+     * @return array<string, string|array<int|string, string|int>>
      */
     public static function getSubscribedEvents(): array
     {
@@ -34,36 +52,51 @@ class SchemaTwigInjectorSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onKernelResponse(ResponseEvent $event): void
+    public function onKernelResponse(ResponseEvent $responseEvent): void
     {
         if (!$this->parameterBag->has('seo.schema')) {
             return;
         }
 
-        if (!$this->parameterBag->get('seo.schema')['enabled']) {
+        $config = $this->parameterBag->get('seo.schema');
+        assert(is_array($config));
+
+        if (!$config['enabled']) {
             return;
         }
 
-        $response = $event->getResponse();
-        $request = $event->getRequest();
-
-        if (!str_contains($request->headers->get('accept', ''), 'text/html' )) return;
-
-        $body = $response->getContent();
-
-        if (!$event->isMainRequest() || $request->isXmlHttpRequest()) {
+        $body = $this->getProcessableHtmlBody($responseEvent);
+        if (null === $body) {
             return;
         }
 
-        $content = $this->schema->getType() ? $this->schema->getType()->render() : null;
-
-        if (null === $content) {
+        $type = $this->schema->getType();
+        if (!$type instanceof BaseType) {
             return;
         }
 
-        $body = str_replace('</head>', $content . PHP_EOL . '</head>', $body);
+        $route = $responseEvent->getRequest()->attributes->get('_route', 'unknown');
+        assert(is_string($route));
 
-        $response->setContent($body);
+        $properties = $type->getProperties();
+        $cacheKey = sprintf(
+            'schema_render_%s_%s',
+            $route,
+            md5(serialize($properties))
+        );
 
+        // default ttl 1 week
+        $ttl = $config['cache_ttl'] ?? 604800;
+        assert(is_int($ttl) || is_float($ttl));
+
+        $content = $this->cache->get($cacheKey, fn (): string => $type->render() ?? '', (float) $ttl);
+
+        if ('' === $content) {
+            return;
+        }
+
+        $body = str_replace('</head>', $content.\PHP_EOL.'</head>', $body);
+
+        $responseEvent->getResponse()->setContent($body);
     }
 }

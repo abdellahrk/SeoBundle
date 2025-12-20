@@ -1,58 +1,74 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rami\SeoBundle\Schema\Thing;
 
+use DateTime;
+use DateTimeZone;
 use Rami\SeoBundle\Schema\Intangible\Offer;
 use Rami\SeoBundle\Schema\Intangible\StructuredValue\ContactPoint\PostalAddress;
 use Rami\SeoBundle\Schema\Thing;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\MediaObject\ImageObject;
 use Rami\SeoBundle\Schema\Thing\Intangible\Audience;
 use Rami\SeoBundle\Schema\Thing\Intangible\VirtualLocation;
 
+use function is_string;
+
 class Event extends Thing
 {
+    /**
+     * @var array<string, mixed>
+     */
     public array $properties = [];
 
-    public function startDate(\DateTime $startDate, \DateTimeZone $dateTimeZone = null): static
+    public function startDate(DateTime $startDate, ?DateTimeZone $dateTimeZone = null): static
     {
-        if ($dateTimeZone instanceof \DateTimeZone) {
+        if ($dateTimeZone instanceof DateTimeZone) {
             $startDate->setTimezone($dateTimeZone);
         }
 
-        $this->setProperty('startDate', $startDate->format(DATE_ATOM));
+        $this->setProperty('startDate', $startDate->format(\DATE_ATOM));
+
         return $this;
     }
 
-    public function endDate(\DateTime $endDate, \DateTimeZone $dateTimeZone = null): static
+    public function endDate(DateTime $endDate, ?DateTimeZone $dateTimeZone = null): static
     {
-        if ($dateTimeZone instanceof \DateTimeZone) {
+        if ($dateTimeZone instanceof DateTimeZone) {
             $endDate->setTimezone($dateTimeZone);
         }
 
-        $this->setProperty('endDate', $endDate->format(DATE_ATOM));
+        $this->setProperty('endDate', $endDate->format(\DATE_ATOM));
+
         return $this;
     }
 
     public function funder(Person|Organization $funder): static
     {
         $this->setProperty('funder', $this->parseChild($funder));
+
         return $this;
     }
 
     public function organizer(Person|Organization $organizer): static
     {
         $this->setProperty('organizer', $this->parseChild($organizer));
+
         return $this;
     }
 
     public function performer(Person|Organization $performer): static
     {
         $this->setProperty('performer', $this->parseChild($performer));
+
         return $this;
     }
 
     public function offers(Offer $offer): static
     {
         $this->setProperty('offers', $this->parseChild($offer));
+
         return $this;
     }
 
@@ -66,53 +82,62 @@ class Event extends Thing
     public function sponsor(Person|Organization $sponsor): static
     {
         $this->setProperty('sponsor', $this->parseChild($sponsor));
+
         return $this;
     }
 
-    public function director(Person $director): static
+    public function director(Person $person): static
     {
-        $this->setProperty('director', $this->parseChild($director));
+        $this->setProperty('director', $this->parseChild($person));
+
         return $this;
     }
 
     public function attendee(Person|Organization $attendee): static
     {
         $this->setProperty('attendee', $this->parseChild($attendee));
+
         return $this;
     }
 
-    public function composer(Person $composer): static
+    public function composer(Person $person): static
     {
-        $this->setProperty('composer', $this->parseChild($composer));
+        $this->setProperty('composer', $this->parseChild($person));
+
         return $this;
     }
 
-    public function audience(Audience $audience):static
+    public function audience(Audience $audience): static
     {
         $this->setProperty('audience', $this->parseChild($audience));
+
         return $this;
     }
 
-    public function eventAttendanceMode(string $eventAttendanceMode):static
+    public function eventAttendanceMode(string $eventAttendanceMode): static
     {
         $this->setProperty('eventAttendanceMode', $eventAttendanceMode);
+
         return $this;
     }
 
-    public function eventStatus(string $eventStatus):static
+    public function eventStatus(string $eventStatus): static
     {
         $this->setProperty('eventStatus', $eventStatus);
+
         return $this;
     }
 
-    public function image(string|Thing\CreativeWork\MediaObject\ImageObject $image):static
+    public function image(string|ImageObject $image): static
     {
-        if ($image instanceof Thing\CreativeWork\MediaObject\ImageObject) {
+        if ($image instanceof ImageObject) {
             $this->setProperty('image', $this->parseChild($image));
+
             return $this;
         }
 
         $this->setProperty('image', $image);
+
         return $this;
     }
 }

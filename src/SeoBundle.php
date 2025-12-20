@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -11,15 +14,23 @@
 
 namespace Rami\SeoBundle;
 
-use Rami\SeoBundle\DependencyInjection\CompilerPasses\MetaPixelCompilerPass;
 use Rami\SeoBundle\DependencyInjection\CompilerPasses\GoogleTagCompilerPass;
+use Rami\SeoBundle\DependencyInjection\CompilerPasses\MetaPixelCompilerPass;
+use ReflectionObject;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
+use function assert;
+use function dirname;
+use function is_array;
+
 class SeoBundle extends AbstractBundle
 {
+    /**
+     * @param array<string, mixed> $config
+     */
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
         $container->import('../config/services.php');
@@ -27,16 +38,22 @@ class SeoBundle extends AbstractBundle
         $container->parameters()->set('seo.open_graph', $config['open_graph'] ?? null);
         $container->parameters()->set('seo.sitemap', $config['sitemap'] ?? null);
 
-        if ($config['google_tag_manager']['enabled']) {
-            $container->parameters()->set('seo.google_tag_manager',  $config['google_tag_manager']);
+        $googleTagManager = $config['google_tag_manager'] ?? [];
+        assert(is_array($googleTagManager));
+        if ($googleTagManager['enabled'] ?? false) {
+            $container->parameters()->set('seo.google_tag_manager', $googleTagManager);
         }
 
-        if ($config['schema']['enabled']) {
-            $container->parameters()->set('seo.schema', $config['schema']);
+        $schema = $config['schema'] ?? [];
+        assert(is_array($schema));
+        if ($schema['enabled'] ?? false) {
+            $container->parameters()->set('seo.schema', $schema);
         }
 
-        if ($config['meta_pixel']['enabled']) {
-            $container->parameters()->set('seo.meta_pixel', $config['meta_pixel']);
+        $metaPixel = $config['meta_pixel'] ?? [];
+        assert(is_array($metaPixel));
+        if ($metaPixel['enabled'] ?? false) {
+            $container->parameters()->set('seo.meta_pixel', $metaPixel);
         }
     }
 
@@ -47,9 +64,12 @@ class SeoBundle extends AbstractBundle
 
     public function getPath(): string
     {
-        $reflected = new \ReflectionObject($this);
+        $reflectionObject = new ReflectionObject($this);
 
-        return \dirname($reflected->getFileName(), 2);
+        /** @var string $fileName */
+        $fileName = $reflectionObject->getFileName();
+
+        return dirname($fileName, 2);
     }
 
     public function build(ContainerBuilder $container): void

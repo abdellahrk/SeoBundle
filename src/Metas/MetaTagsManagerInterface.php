@@ -1,23 +1,34 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rami\SeoBundle\Metas;
 
 use Rami\SeoBundle\Metas\Model\SeoMeta;
 
 interface MetaTagsManagerInterface
 {
+    /**
+     * @return array<string, mixed>
+     */
     public function getMetaTags(): array;
 
     public function setTitle(string $title): static;
 
     public function setDescription(string $description): static;
 
+    /**
+     * @param array<string> $keywords
+     */
     public function setKeywords(array $keywords): static;
 
     public function setSubject(string $keyword): static;
 
     public function setCopyright(string $copyright): static;
 
+    /**
+     * @param array<string> $robots
+     */
     public function setRobots(array $robots): static;
 
     public function setCharacterEncoding(string $charset): static;

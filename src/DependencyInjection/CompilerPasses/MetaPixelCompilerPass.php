@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -14,12 +17,11 @@ namespace Rami\SeoBundle\DependencyInjection\CompilerPasses;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
+use function assert;
+use function is_array;
+
 class MetaPixelCompilerPass implements CompilerPassInterface
 {
-
-    /**
-     * @inheritDoc
-     */
     public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition('seo.meta_pixel')) {
@@ -32,9 +34,12 @@ class MetaPixelCompilerPass implements CompilerPassInterface
             return;
         }
 
-        foreach ($container->findTaggedServiceIds('seo.meta_pixel') as $id => $tags) {
+        foreach ($container->findTaggedServiceIds('seo.meta_pixel') as $tags) {
+            $config = $container->getParameter('seo.meta_pixel');
+            assert(is_array($config));
+
             $definition->addMethodCall('enableMetaPixel', [
-                $container->getParameter('seo.meta_pixel')['pixel_id'],
+                $config['pixel_id'],
             ]);
         }
     }

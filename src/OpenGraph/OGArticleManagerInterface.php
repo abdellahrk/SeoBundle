@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -11,22 +14,36 @@
 
 namespace Rami\SeoBundle\OpenGraph;
 
+use DateTime;
 use Rami\SeoBundle\OpenGraph\Model\Article;
 
 interface OGArticleManagerInterface
 {
     public function getArticle(): Article;
-    public function getPublishedTime(): \DateTime;
-    public function setPublishedTime(\DateTime $publishedTime): static;
 
-    public function getModifiedTime(): \DateTime;
+    public function getPublishedTime(): ?DateTime;
 
-    public function setModifiedTime(\DateTime $modifiedTime): static;
+    public function setPublishedTime(DateTime $publishedTime): static;
+
+    public function getModifiedTime(): ?DateTime;
+
+    public function setModifiedTime(DateTime $modifiedTime): static;
 
     public function getAuthor(): string;
+
     public function setAuthor(string $author): static;
+
     public function getSection(): string;
+
     public function setSection(string $section): static;
+
+    /**
+     * @return array<int, string>
+     */
     public function getTags(): array;
+
+    /**
+     * @param array<int, string> $tags
+     */
     public function setTags(array $tags): static;
 }

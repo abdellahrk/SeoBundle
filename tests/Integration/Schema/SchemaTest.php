@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -35,8 +38,15 @@ use Rami\SeoBundle\Schema\Thing\CreativeWork\MediaObject\TextObject;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\Thesis;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\AboutPage;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\CheckoutPage;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\CollectionPage;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\CollectionPage\MediaGallery;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\CollectionPage\MediaGallery\ImageGallery;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\ContactPage;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\FAQPage;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\ItemPage;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\ProfilePage;
+use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPage\SearchResultsPage;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebPageElement;
 use Rami\SeoBundle\Schema\Thing\CreativeWork\WebSite;
 use Rami\SeoBundle\Schema\Thing\Event;
@@ -58,7 +68,7 @@ use Rami\SeoBundle\Schema\Thing\Person;
 use Rami\SeoBundle\Schema\Thing\Place;
 use Rami\SeoBundle\Schema\Thing\Place\AdministrativeArea\Country;
 
-class SchemaTest extends TestCase
+final class SchemaTest extends TestCase
 {
     private Schema $schema;
 
@@ -122,14 +132,14 @@ class SchemaTest extends TestCase
 
     public function testAdministrativeAreaMethodReturnsAdministrativeAreaInstance(): void
     {
-        $area = $this->schema->administrativeArea();
-        $this->assertInstanceOf(AdministrativeArea::class, $area);
+        $administrativeArea = $this->schema->administrativeArea();
+        $this->assertInstanceOf(AdministrativeArea::class, $administrativeArea);
     }
 
     public function testPostalAddressMethodReturnsPostalAddressInstance(): void
     {
-        $address = $this->schema->postalAddress();
-        $this->assertInstanceOf(PostalAddress::class, $address);
+        $postalAddress = $this->schema->postalAddress();
+        $this->assertInstanceOf(PostalAddress::class, $postalAddress);
     }
 
     public function testAudienceMethodReturnsAudienceInstance(): void
@@ -164,14 +174,14 @@ class SchemaTest extends TestCase
 
     public function testEducationOccupationalCredentialMethodReturnsInstance(): void
     {
-        $credential = $this->schema->educationOccupationalCredential();
-        $this->assertInstanceOf(EducationalOccupationalCredential::class, $credential);
+        $educationalOccupationalCredential = $this->schema->educationOccupationalCredential();
+        $this->assertInstanceOf(EducationalOccupationalCredential::class, $educationalOccupationalCredential);
     }
 
     public function testDefinedTermMethodReturnsDefinedTermInstance(): void
     {
-        $term = $this->schema->definedTerm();
-        $this->assertInstanceOf(DefinedTerm::class, $term);
+        $definedTerm = $this->schema->definedTerm();
+        $this->assertInstanceOf(DefinedTerm::class, $definedTerm);
     }
 
     public function testCountryMethodReturnsCountryInstance(): void
@@ -188,8 +198,8 @@ class SchemaTest extends TestCase
 
     public function testLocalBusinessMethodReturnsLocalBusinessInstance(): void
     {
-        $business = $this->schema->localBusiness();
-        $this->assertInstanceOf(LocalBusiness::class, $business);
+        $localBusiness = $this->schema->localBusiness();
+        $this->assertInstanceOf(LocalBusiness::class, $localBusiness);
     }
 
     public function testLibraryMethodReturnsLibraryInstance(): void
@@ -255,13 +265,13 @@ class SchemaTest extends TestCase
     public function testMediaGalleryMethodReturnsMediaGalleryInstance(): void
     {
         $mediaGallery = $this->schema->mediaGallery();
-        $this->assertInstanceOf(CollectionPage\MediaGallery::class, $mediaGallery);
+        $this->assertInstanceOf(MediaGallery::class, $mediaGallery);
     }
 
     public function testImageGalleryMethodReturnsImageGalleryInstance(): void
     {
         $imageGallery = $this->schema->imageGallery();
-        $this->assertInstanceOf(CollectionPage\MediaGallery\ImageGallery::class, $imageGallery);
+        $this->assertInstanceOf(ImageGallery::class, $imageGallery);
     }
 
     public function testAboutPageMethodReturnsAboutPageInstance(): void
@@ -273,31 +283,31 @@ class SchemaTest extends TestCase
     public function testFaqPageMethodReturnsFAQPageInstance(): void
     {
         $faqPage = $this->schema->faqPage();
-        $this->assertInstanceOf(WebPage\FAQPage::class, $faqPage);
+        $this->assertInstanceOf(FAQPage::class, $faqPage);
     }
 
     public function testItemPageMethodReturnsItemPageInstance(): void
     {
         $itemPage = $this->schema->itemPage();
-        $this->assertInstanceOf(WebPage\ItemPage::class, $itemPage);
+        $this->assertInstanceOf(ItemPage::class, $itemPage);
     }
 
     public function testCheckoutPageMethodReturnsCheckoutPageInstance(): void
     {
         $checkoutPage = $this->schema->checkoutPage();
-        $this->assertInstanceOf(WebPage\CheckoutPage::class, $checkoutPage);
+        $this->assertInstanceOf(CheckoutPage::class, $checkoutPage);
     }
 
     public function testProfilePageMethodReturnsProfilePageInstance(): void
     {
         $profilePage = $this->schema->profilePage();
-        $this->assertInstanceOf(WebPage\ProfilePage::class, $profilePage);
+        $this->assertInstanceOf(ProfilePage::class, $profilePage);
     }
 
     public function testSearchResultPageMethodReturnsSearchResultsPageInstance(): void
     {
-        $searchPage = $this->schema->searchResultPage();
-        $this->assertInstanceOf(WebPage\SearchResultsPage::class, $searchPage);
+        $searchResultsPage = $this->schema->searchResultPage();
+        $this->assertInstanceOf(SearchResultsPage::class, $searchResultsPage);
     }
 
     public function testMediaObjectMethodReturnsMediaObjectInstance(): void
@@ -320,8 +330,8 @@ class SchemaTest extends TestCase
 
     public function testWebPageElementMethodReturnsWebPageElementInstance(): void
     {
-        $element = $this->schema->webPageElement();
-        $this->assertInstanceOf(WebPageElement::class, $element);
+        $webPageElement = $this->schema->webPageElement();
+        $this->assertInstanceOf(WebPageElement::class, $webPageElement);
     }
 
     public function testBreadcrumbListMethodReturnsBreadcrumbListInstance(): void
@@ -338,8 +348,8 @@ class SchemaTest extends TestCase
 
     public function testSpeakableSpecificationMethodReturnsSpeakableSpecificationInstance(): void
     {
-        $speakable = $this->schema->speakableSpecification();
-        $this->assertInstanceOf(SpeakableSpecification::class, $speakable);
+        $speakableSpecification = $this->schema->speakableSpecification();
+        $this->assertInstanceOf(SpeakableSpecification::class, $speakableSpecification);
     }
 
     public function testSpecialtyMethodReturnsSpecialtyInstance(): void
@@ -362,8 +372,8 @@ class SchemaTest extends TestCase
 
     public function testSocialMediaPostingMethodReturnsSocialMediaPostingInstance(): void
     {
-        $socialMedia = $this->schema->socialMediaPosting();
-        $this->assertInstanceOf(SocialMediaPosting::class, $socialMedia);
+        $socialMediaPosting = $this->schema->socialMediaPosting();
+        $this->assertInstanceOf(SocialMediaPosting::class, $socialMediaPosting);
     }
 
     public function testBlogPostingMethodReturnsBlogPostingInstance(): void
@@ -396,19 +406,13 @@ class SchemaTest extends TestCase
         $this->assertInstanceOf(BaseType::class, $type);
     }
 
-    public function testGetTypeReturnsNullableBaseType(): void
-    {
-        $type = $this->schema->getType();
-        $this->assertTrue($type instanceof BaseType || $type === null);
-    }
-
     public function testMultipleFactoryMethodCalls(): void
     {
         $person1 = $this->schema->person();
         $person2 = $this->schema->person();
 
         $this->assertNotSame($person1, $person2);
-        $this->assertEquals(get_class($person1), get_class($person2));
+        $this->assertInstanceOf($person1::class, $person2);
     }
 
     public function testRenderChangesBaseType(): void

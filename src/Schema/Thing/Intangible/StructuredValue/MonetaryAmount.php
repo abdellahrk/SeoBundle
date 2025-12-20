@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rami\SeoBundle\Schema\Thing\Intangible\StructuredValue;
 
 use Rami\SeoBundle\Schema\BaseType;
@@ -12,6 +14,7 @@ class MonetaryAmount extends BaseType
     public function value(string|int $value): static
     {
         $this->setProperty('value', $value);
+
         return $this;
     }
 }

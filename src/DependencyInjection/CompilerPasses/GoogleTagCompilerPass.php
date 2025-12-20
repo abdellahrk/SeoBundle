@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2025.
  *
@@ -13,8 +14,11 @@ declare(strict_types=1);
 
 namespace Rami\SeoBundle\DependencyInjection\CompilerPasses;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+
+use function assert;
+use function is_array;
 
 class GoogleTagCompilerPass implements CompilerPassInterface
 {
@@ -30,9 +34,12 @@ class GoogleTagCompilerPass implements CompilerPassInterface
             return;
         }
 
-        foreach ($container->findTaggedServiceIds('seo.google_tag_manager') as $id => $tags) {
-            $definition->addMethodCall('enableGoogleTagManager',[
-                $container->getParameter('seo.google_tag_manager')['tag_manager_id'],
+        foreach ($container->findTaggedServiceIds('seo.google_tag_manager') as $tags) {
+            $config = $container->getParameter('seo.google_tag_manager');
+            assert(is_array($config));
+
+            $definition->addMethodCall('enableGoogleTagManager', [
+                $config['tag_manager_id'],
             ]);
         }
     }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -16,17 +19,15 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class MetaPixelInjectorSubscriber implements EventSubscriberInterface
+readonly class MetaPixelInjectorSubscriber implements EventSubscriberInterface
 {
+    use HtmlResponseValidationTrait;
+
     public function __construct(
         private MetaPixelInterface $metaPixel
-    )
-    {
+    ) {
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -34,25 +35,19 @@ class MetaPixelInjectorSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onKernelResponse(ResponseEvent $event): void
+    public function onKernelResponse(ResponseEvent $responseEvent): void
     {
-        $response = $event->getResponse();
-        $request = $event->getRequest();
-
-        if (!str_contains($request->headers->get('accept', ''), 'text/html' )) return;
-
-        $body = $response->getContent();
-
-        if (!$event->isMainRequest() || $request->isXmlHttpRequest()) {
+        $body = $this->getProcessableHtmlBody($responseEvent);
+        if (null === $body) {
             return;
         }
 
         $headerContent = $this->metaPixel->renderPixel();
 
-        if ($headerContent) {
-            $body = str_replace('</head>', $headerContent . PHP_EOL . '</head>', $body);
+        if ('' !== $headerContent && '0' !== $headerContent) {
+            $body = str_replace('</head>', $headerContent.\PHP_EOL.'</head>', $body);
         }
 
-        $response->setContent($body);
+        $responseEvent->getResponse()->setContent($body);
     }
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -14,61 +17,44 @@ namespace Rami\SeoBundle\OpenGraph\Model;
 class Audio
 {
     protected string $url = '';
+
     protected string $secureUrl = '';
+
     protected string $type = '';
 
-    /**
-     * @return string
-     */
     public function getUrl(): string
     {
         return $this->url;
     }
 
-    /**
-     * @param string $url
-     * @return Audio
-     */
-    public function setUrl(string $url): Audio
+    public function setUrl(string $url): self
     {
         $this->url = $url;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSecureUrl(): string
     {
         return $this->secureUrl;
     }
 
-    /**
-     * @param string $secureUrl
-     * @return Audio
-     */
-    public function setSecureUrl(string $secureUrl): Audio
+    public function setSecureUrl(string $secureUrl): self
     {
         $this->secureUrl = $secureUrl;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @param string $type
-     * @return Audio
-     */
-    public function setType(string $type): Audio
+    public function setType(string $type): self
     {
         $this->type = $type;
+
         return $this;
     }
-
 }

@@ -11,26 +11,26 @@
     ],
     "require": {
         "php": "^8.2",
-        "symfony/dependency-injection": "^6.0 || ^7.0 || ^8.0",
-        "symfony/config": "^6.0 || ^7.0 || ^8.0" ,
+        "symfony/dependency-injection": "^6.4 || ^7.0 || ^8.0",
+        "symfony/config": "^6.4 || ^7.0 || ^8.0" ,
         "twig/twig": "^2.0 || ^3.0",
-        "symfony/cache": "^6.0 || ^7.0 || ^8.0",
-        "symfony/http-kernel": "^6.0 | ^7.0 || ^8.0",
-        "symfony/routing": "^6.0 || ^7.0 || ^8.0",
+        "symfony/cache": "^6.4 || ^7.0 || ^8.0",
+        "symfony/http-kernel": "^6.4 | ^7.0 || ^8.0",
+        "symfony/routing": "^6.4 || ^7.0 || ^8.0",
         "doctrine/persistence": "^3.4 || ^4.0",
-        "symfony/messenger": "^6.0 || ^7.0 || ^8.0",
+        "symfony/messenger": "^6.4 || ^7.0 || ^8.0",
         "ext-dom": "*",
-        "symfony/console": "^6.0 || ^7.0 || ^8.0",
-        "symfony/event-dispatcher": "^6.0 || ^7.0 || ^8.0"
+        "symfony/console": "^6.4 || ^7.0 || ^8.0",
+        "symfony/event-dispatcher": "^6.4 || ^7.0 || ^8.0"
     },
     "require-dev": {
         "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": "^11 || ^12.1",
         "symfony/test-pack": "^1.0",
-        "symfony/framework-bundle": "^6.0 || ^7.0 || ^8.0",
-        "symfony/yaml": "^6.0 || ^7.0 || ^8.0",
+        "symfony/framework-bundle": "^6.4 || ^7.0 || ^8.0",
+        "symfony/yaml": "^6.4 || ^7.0 || ^8.0",
         "symfony/profiler-pack": "^1.0",
-        "symfony/serializer": "^6.0 || ^7.0 || ^8.0"
+        "symfony/serializer": "^6.4 || ^7.0 || ^8.0"
     },
     "license": "MIT",
     "autoload": {

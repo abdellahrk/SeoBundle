@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rami\SeoBundle\Schema\Intangible;
 
 use Rami\SeoBundle\Schema\Thing;
 
 class ItemList extends Thing
 {
+    /**
+     * @param array<int, mixed> $listitems
+     */
     public function itemListElement(array $listitems): static
     {
         $this->setProperty('itemListElement', $this->parseArray($listitems));

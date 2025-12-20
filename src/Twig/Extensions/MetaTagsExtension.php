@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * Copyright (c) 2025.
  *
@@ -12,49 +15,31 @@
 namespace Rami\SeoBundle\Twig\Extensions;
 
 use Rami\SeoBundle\Metas\MetaTagsManagerInterface;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
+use Twig\Attribute\AsTwigFunction;
 
-class MetaTagsExtension extends AbstractExtension
+use function is_array;
+use function is_string;
+use function sprintf;
+
+readonly class MetaTagsExtension
 {
     public function __construct(
-        private readonly MetaTagsManagerInterface $metaTags
-    ){}
-
-    public function getFunctions(): array
-    {
-        return [
-            new TwigFunction('meta_tags', [$this, 'renderMetaTags'], ['is_safe' => ['html']]),
-            new TwigFunction('lang_head_value', [$this, 'renderHeadLang'], ['is_safe' => ['html']]),
-        ];
+        private MetaTagsManagerInterface $metaTagsManager
+    ) {
     }
 
-    /**
-     * @param string $lang
-     * @return string
-     */
+    #[AsTwigFunction('lang_head_value', isSafe: ['html'])]
     public function renderHeadLang(string $lang): string
     {
         return 'lang="'.$lang.'"';
     }
 
-
     /**
-     * @param string|null $title
-     * @param string|null $description
-     * @param array|null $keywords
-     * @param string|null $subject
-     * @param string|null $charset
-     * @param array|null $robots
-     * @param string|null $canonical
-     * @param string|null $copyright
-     * @param string|null $viewport
-     * @param string|null $author
-     * @param string|null $contentType
-     * @param bool $xuaCompatible
-     * @param array|null $customMetaTags
-     * @return string
+     * @param array<int, string>|null   $keywords
+     * @param array<int, string>|null   $robots
+     * @param array<string, mixed>|null $customMetaTags
      */
+    #[AsTwigFunction('meta_tags', isSafe: ['html'])]
     public function renderMetaTags(
         ?string $title = '',
         ?string $description = '',
@@ -64,103 +49,111 @@ class MetaTagsExtension extends AbstractExtension
         ?array $robots = [],
         ?string $canonical = '',
         ?string $copyright = '',
-        ?string $viewport = "",
+        ?string $viewport = '',
         ?string $author = '',
         ?string $contentType = '',
         bool $xuaCompatible = false,
         ?array $customMetaTags = []
-    ): string
-    {
-        $seo = $this->metaTags->getSeoMeta();
-        $this->metaTags->setTitle($title ?: $seo->getTitle())
-            ->setDescription($description ?: $seo->getDescription())
-            ->setKeywords($keywords ?: $seo->getKeywords())
-            ->setSubject($subject ?: $seo->getSubject())
-            ->setCharacterEncoding($charset ?: $seo->getCharset())
-            ->setRobots($robots ?: $seo->getRobots())
-            ->setCanonical($canonical ?: $seo->getCanonical())
-            ->setCopyright($copyright ?: $seo->getCopyright())
-            ->setViewport($viewport ?: $seo->getViewport())
-            ->setAuthor($author ?: $seo->getAuthor())
-            ->setContentType($contentType ?: $seo->getContentType());
+    ): string {
+        $seoMeta = $this->metaTagsManager->getSeoMeta();
+        $this->metaTagsManager->setTitle($title ?: $seoMeta->getTitle())
+            ->setDescription($description ?: $seoMeta->getDescription())
+            ->setKeywords($keywords ?: $seoMeta->getKeywords())
+            ->setSubject($subject ?: $seoMeta->getSubject())
+            ->setCharacterEncoding($charset ?: $seoMeta->getCharset())
+            ->setRobots($robots ?: $seoMeta->getRobots())
+            ->setCanonical($canonical ?: $seoMeta->getCanonical())
+            ->setCopyright($copyright ?: $seoMeta->getCopyright())
+            ->setViewport($viewport ?: $seoMeta->getViewport())
+            ->setAuthor($author ?: $seoMeta->getAuthor())
+            ->setContentType($contentType ?: $seoMeta->getContentType());
 
         if ($xuaCompatible) {
-            $this->metaTags->setXUACompatible();
+            $this->metaTagsManager->setXUACompatible();
         }
 
         if (null !== $customMetaTags && [] !== $customMetaTags) {
             foreach ($customMetaTags as $name => $content) {
-                $this->metaTags->setCustomMetaTag($name, $content);
+                if (is_string($content)) {
+                    $this->metaTagsManager->setCustomMetaTag($name, $content);
+                }
             }
         }
 
         return $this->renderTags();
     }
 
-    /**
-     * @return string
-     */
     private function renderTags(): string
     {
         $metaTags = '';
 
-        $seoMeta = $this->metaTags->seoMeta;
+        $seoMeta = $this->metaTagsManager->getSeoMeta();
 
-        if (null !== $seoMeta->getCharset() && '' !== $seoMeta->getCharset()) {
-            $metaTags .= sprintf('<meta charset="%s" />', $seoMeta->getCharset());
+        $charset = $seoMeta->getCharset();
+        if ('' !== $charset) {
+            $metaTags .= sprintf('<meta charset="%s" />', $charset);
         }
 
-        if (null !== $seoMeta->getTitle() && '' !== $seoMeta->getTitle()) {
-            $metaTags .= sprintf('<title>%s</title>', $seoMeta->getTitle());
+        $title = $seoMeta->getTitle();
+        if ('' !== $title) {
+            $metaTags .= sprintf('<title>%s</title>', $title);
         }
 
-        if (null !== $seoMeta->getDescription() && '' !== $seoMeta->getDescription()) {
-            $metaTags .= sprintf('<meta name="description" content="%s" />', $seoMeta->getDescription());
+        $description = $seoMeta->getDescription();
+        if ('' !== $description) {
+            $metaTags .= sprintf('<meta name="description" content="%s" />', $description);
         }
 
-        if (null !== $seoMeta->getKeywords() && [] !== $seoMeta->getKeywords()) {
-            $metaTags .= sprintf('<meta name="keywords" content="%s" />', implode(', ', $seoMeta->getKeywords()));
+        $keywords = $seoMeta->getKeywords();
+        if ([] !== $keywords) {
+            $metaTags .= sprintf('<meta name="keywords" content="%s" />', implode(', ', $keywords));
         }
 
-        if (null !== $seoMeta->getCanonical() && '' !== $seoMeta->getCanonical()) {
-            $metaTags .= sprintf('<link rel="canonical" href="%s" />', $seoMeta->getCanonical());
+        $canonical = $seoMeta->getCanonical();
+        if ('' !== $canonical) {
+            $metaTags .= sprintf('<link rel="canonical" href="%s" />', $canonical);
         }
 
-        if (null !== $seoMeta->getAuthor() && '' !== $seoMeta->getAuthor()) {
-            $metaTags .= sprintf('<meta name="author" content="%s" />', $seoMeta->getAuthor());
+        $author = $seoMeta->getAuthor();
+        if ('' !== $author) {
+            $metaTags .= sprintf('<meta name="author" content="%s" />', $author);
         }
 
-        if (null !== $seoMeta->getRobots() && [] !== $seoMeta->getRobots()) {
-            $metaTags .= sprintf('<meta name="robots" content="%s" />', implode(', ', $seoMeta->getRobots()));
+        $robots = $seoMeta->getRobots();
+        if ([] !== $robots) {
+            $metaTags .= sprintf('<meta name="robots" content="%s" />', implode(', ', $robots));
         }
 
-        if (null !== $seoMeta->getViewport() && '' !== $seoMeta->getViewport()) {
-            $metaTags .= sprintf('<meta name="viewport" content="%s" />', $seoMeta->getViewport());
+        $viewport = $seoMeta->getViewport();
+        if ('' !== $viewport) {
+            $metaTags .= sprintf('<meta name="viewport" content="%s" />', $viewport);
         }
 
-        if (null !== $seoMeta->getContentSecurityPolicy() && '' !== $seoMeta->getContentSecurityPolicy()) {
-            $metaTags .= sprintf('<meta name="Content-Security-Policy" content="%s" />', $seoMeta->getContentSecurityPolicy());
+        $contentSecurityPolicy = $seoMeta->getContentSecurityPolicy();
+        if ('' !== $contentSecurityPolicy) {
+            $metaTags .= sprintf('<meta name="Content-Security-Policy" content="%s" />', $contentSecurityPolicy);
         }
 
-        if (null !== $seoMeta->getContentType() && '' !== $seoMeta->getContentType()) {
-            $metaTags .= sprintf('<meta name="Content-Type" content="%s" />', $seoMeta->getContentType());
+        $contentType = $seoMeta->getContentType();
+        if ('' !== $contentType) {
+            $metaTags .= sprintf('<meta name="Content-Type" content="%s" />', $contentType);
         }
 
         // Render additional custom meta tags
-        $tags = $this->metaTags->getMetaTags();
+        $tags = $this->metaTagsManager->getMetaTags();
         foreach ($tags as $name => $value) {
             if (is_array($value)) {
                 // Handle structured tags like default-style, x-ua-compatible, rel
-                if (isset($value['http-equiv'], $value['value']) && '' !== $value['http-equiv'] && '' !== $value['value']) {
+                if (isset($value['http-equiv'], $value['value']) && is_string($value['http-equiv']) && is_string($value['value']) && '' !== $value['http-equiv'] && '' !== $value['value']) {
                     $metaTags .= sprintf('<meta http-equiv="%s" content="%s" />', $value['http-equiv'], $value['value']);
-                } elseif (isset($value['rel'], $value['href']) && '' !== $value['rel'] && '' !== $value['href']) {
-                    if (isset($value['media']) && '' !== $value['media']) {
+                } elseif (isset($value['rel'], $value['href']) && is_string($value['rel']) && is_string($value['href']) && '' !== $value['rel'] && '' !== $value['href']) {
+                    if (isset($value['media']) && is_string($value['media']) && '' !== $value['media']) {
                         $metaTags .= sprintf('<link rel="%s" href="%s" media="%s" />', $value['rel'], $value['href'], $value['media']);
                     } else {
                         $metaTags .= sprintf('<link rel="%s" href="%s" />', $value['rel'], $value['href']);
                     }
                 }
-            } elseif ('charset' !== $name) {
+            } elseif ('charset' !== $name && is_string($value)) {
                 // Handle custom meta tags (skip charset as it's already handled above)
                 $metaTags .= sprintf('<meta name="%s" content="%s" />', $name, $value);
             }
