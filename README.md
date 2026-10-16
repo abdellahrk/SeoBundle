@@ -31,7 +31,7 @@ in the `config/bundles.php` file of your project:
 
 return [
     // ...
-    Abdellahramadan\SeoBundle\SeoBundle::class => ['all' => true],
+    Rami\SeoBundle\SeoBundle::class => ['all' => true],
 ];
 ```
 ![Profiler](docs/Profiler.png)
@@ -45,7 +45,7 @@ Define Meta Tags in Two ways:
 1.  Type hint the `MetaTagsInterface` into a controller
 
 ```php
-use Abdellahramadan\SeoBundle\Metas\MetaTagsManagerInterface;
+use Rami\SeoBundle\Metas\MetaTagsManagerInterface;
 
 
 public function myController(MetaTagsManagerInterface $metaTags): Response 
@@ -89,13 +89,13 @@ Open Graph
 ### Add to template file
 Add ```{{ open_graph() }}``` to the base template or any page where the meta information will be injected
 
-### Add meta inforation
+### Add meta information
 In your controller, type-hint `OpenGraphInterface`
 
 ### Example
 ```php
 
-use Abdellahramadan\OpenGraphBundle\OpenGraph\OpenGraphManagerInterface;
+use Rami\OpenGraphBundle\OpenGraph\OpenGraphManagerInterface;
 
 class HomeController extends AbstractController
 {
@@ -107,7 +107,7 @@ class HomeController extends AbstractController
             ->setSiteName('My Blog')
         ;
             ...
-        return $this-render('index.html.twig');
+        return $this->render('index.html.twig');
     }
 }
 ```
@@ -117,7 +117,7 @@ This will render
 <meta property="og:description" content="Some descriptions ...">
 <meta property="og:site_name" content="My Blog">
 ```
-You can also leave out setting the properties in the controller and set directly in Twi
+You can also leave out setting the properties in the controller and set directly in Twig
 ```php
 {{ meta_tags(title: 'My website', siteName: 'My Blog') }}
 ```

@@ -80,7 +80,7 @@ class MetaTagsExtension extends AbstractExtension
             ->setRobots($robots ?: $seo->getRobots())
             ->setCanonical($canonical ?: $seo->getCanonical())
             ->setCopyright($copyright ?: $seo->getCopyright())
-            ->setViewport($viewport ?: $seo->getViewport())
+            ->setViewPort($viewport ?: $seo->getViewport())
             ->setAuthor($author ?: $seo->getAuthor())
             ->setContentType($contentType ?: $seo->getContentType());
 
@@ -146,11 +146,9 @@ class MetaTagsExtension extends AbstractExtension
             $metaTags .= sprintf('<meta name="Content-Type" content="%s" />', $seoMeta->getContentType());
         }
 
-        // Render additional custom meta tags
         $tags = $this->metaTags->getMetaTags();
         foreach ($tags as $name => $value) {
             if (is_array($value)) {
-                // Handle structured tags like default-style, x-ua-compatible, rel
                 if (isset($value['http-equiv'], $value['value']) && '' !== $value['http-equiv'] && '' !== $value['value']) {
                     $metaTags .= sprintf('<meta http-equiv="%s" content="%s" />', $value['http-equiv'], $value['value']);
                 } elseif (isset($value['rel'], $value['href']) && '' !== $value['rel'] && '' !== $value['href']) {
@@ -161,7 +159,6 @@ class MetaTagsExtension extends AbstractExtension
                     }
                 }
             } elseif ('charset' !== $name) {
-                // Handle custom meta tags (skip charset as it's already handled above)
                 $metaTags .= sprintf('<meta name="%s" content="%s" />', $name, $value);
             }
         }
